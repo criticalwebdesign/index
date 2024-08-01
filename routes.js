@@ -7,6 +7,9 @@ const routes = async (server, options) => {
   server.get("/api/data", async function (request, reply) {
     reply.send(await getData());
   });
+  server.get("/api/save", async function (request, reply) {
+    reply.send(await saveData());
+  });
   // server.get("/api/custom", async function (request, reply) {
   //   console.log(request.query.params);
   //   reply.send({ message: returnPassword(request.query.params) });
@@ -47,3 +50,12 @@ async function cleanData(data) {
   return arr;
   // return functions.shuffleArray(arr);
 }
+
+const fs = require('fs').promises;
+const path = require('path');
+async function saveData(){
+  let data = await getData();
+  await fs.writeFile(path.resolve(__dirname, './data.json'), JSON.stringify(data));
+  return {message: "success"}
+}
+// saveData();
