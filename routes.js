@@ -19,7 +19,7 @@ export default routes;
 
 import { functions } from "./functions.js";
 import fetch from "node-fetch";
-import d3 from "d3";
+import * as d3 from 'd3';
 let url =
     "https://docs.google.com/spreadsheets/d/1mQ0doWT6tGXm2W-hB5zuz3I8mijGhLSkAe_XrcfMdok/gviz/tq?tqx=out:csv&sheet=sites&range=A2:BV500";
 
