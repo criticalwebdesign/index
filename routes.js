@@ -26,10 +26,12 @@ export default routes;
 import { functions } from "./functions.js";
 import fetch from "node-fetch";
 import * as d3 from "d3";
-let url =
-	"https://docs.google.com/spreadsheets/d/1mQ0doWT6tGXm2W-hB5zuz3I8mijGhLSkAe_XrcfMdok/gviz/tq?tqx=out:csv&sheet=sites&range=A1:CA500";
+let headerUrl =
+	"https://docs.google.com/spreadsheets/d/1mQ0doWT6tGXm2W-hB5zuz3I8mijGhLSkAe_XrcfMdok/gviz/tq?tqx=out:csv&sheet=sites&range=A1:BZ2";
+let dataUrl =
+	"https://docs.google.com/spreadsheets/d/1mQ0doWT6tGXm2W-hB5zuz3I8mijGhLSkAe_XrcfMdok/gviz/tq?tqx=out:csv&sheet=sites&range=A2:BZ500";
 
-async function getData() {
+async function getData(url) {
 	return fetch(url)
 		.then((d) => d.text())
 		.then((rows) => {
@@ -37,16 +39,28 @@ async function getData() {
 		});
 }
 async function getCleanData() {
-	let rows = await getData();
+	let headerRows = await getData(headerUrl);
+	let dataRows = await getData(dataUrl);
 
-	// move the heading notes to the 2nd row
+	// // move the heading notes to the 2nd row
+	// // split the rows on line break
+	// let rowsSplit = rows.split("\n");
+	// console.log(rowsSplit[0])
+	// // remove first index
+	// let notes = rowsSplit.shift();
+	// // insert them into 2nd index
+	// rowsSplit.splice(1, 0, notes);
+	// let rowsParsed = d3.csvParse(rowsSplit.join("\n"));
 
-	// split the rows on line break
-	let rowsSplit = rows.split("\n");
-	// remove first index
-	let notes = rowsSplit.shift();
-	// insert them into 2nd index 
-	rowsSplit.splice(1, 0, notes);
+	// as usual, google sheets export is a mystery, in this case
+	// randomly omitting two column headers....
+	let headerRowsSplit = headerRows.split("\n");
+	// console.log(headerRowsSplit[0])
+	let headerRowsSplitArr = []
+	headerRowsSplitArr.push(headerRowsSplit[1]);
+	headerRowsSplitArr.push(headerRowsSplit[0]);
+	// console.log(headerRowsSplitArr[0])
+	let headerRowsParsed = d3.csvParse(headerRowsSplitArr.join("\n"));
 
 	// TESTS
 	// test the header row
@@ -54,18 +68,19 @@ async function getCleanData() {
 	// returns multi-dimensional array, instead of object
 	// console.log(d3.csvParseRows(rows));
 
-	let rowsParsed = d3.csvParse(rowsSplit.join("\n"));
-	// console.log("rowsParsed", rowsParsed[1]);
-	let data = await cleanData(rowsParsed);
-	return data;
+	let dataRowsParsed = d3.csvParse(dataRows);
+	// console.log("dataRowsParsed", dataRowsParsed[1]);
+	let data = await cleanData(dataRowsParsed);
+	return {notes:headerRowsParsed[0], data: data};
 }
 async function cleanData(data) {
 	let arr = [];
 	for (let i = 0; i < data.length; i++) {
 		// console.log(data[i]);
+		if (data[i].name == "") continue;
 		if (data[i].name == "To evaluate") break;
 		if (data[i].status == "✅") data[i].status = "";
-		if (data[i].start == "") data[i].start = 0;
+		if (!data[i].start || data[i].start == "") data[i].start = 0;
 		// console.log(data[i]);
 		arr.push(data[i]);
 	}

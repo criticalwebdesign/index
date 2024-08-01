@@ -12,10 +12,10 @@ let sortMethod = "byName";
 	fetch(OPTIONS.data)
 		.then((resp) => resp.json())
 		.then(async (json) => {
-			countEle.innerHTML = json.length;
 			// console.log("json", json);
-			notes = json.shift(); // save notes
-			data = json;
+			notes = json.notes; // save notes
+			data = json.data;
+			countEle.innerHTML =data.length;
 			displayEntries(data, sortMethod);
 		});
 })();
@@ -30,7 +30,7 @@ async function displayEntries(data, sort) {
 	// console.log("displayEntries()", sort);
 
 	// sort data 
-	data = sortBy(data, sort);
+	data = await sortBy(data, sort);
 	// then reorder tags and display
 	await getTags(data);
 	await storeTagReferences(data);
@@ -41,7 +41,8 @@ async function displayEntries(data, sort) {
 	// console.log("html", html);
 }
 
-function sortBy(d, sort) {
+async function sortBy(d, sort) {
+	// console.log("sortBy()", d, sort)
 	sortMethod = sort;
 	selectSortMethodInMenu(sortMethod);
 	return d.sort(sortMethods[sortMethod]);
@@ -165,6 +166,7 @@ function updateUrlFromTag(tag) {
 	window.history.replaceState(historyState, historyState.tag, historyState.url);
 }
 function selectTagInMenu(tag) {
+	console.log("selectTagInMenu()",tag,notes, notes[tag]);
 	// remove current
 	document
 		.querySelectorAll(".tag.active")
