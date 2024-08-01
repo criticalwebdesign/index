@@ -33,7 +33,7 @@ server.register(routes);
 
 // run the server and report out to the logs
 server.listen(
-  { port: process.env.PORT, host: "0.0.0.0" },
+  { port: process.env.PORT ?? 3000, host: "0.0.0.0" },
   function (err, address) {
     if (err) {
       console.error(err);
