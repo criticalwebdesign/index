@@ -4,6 +4,11 @@
 
 // server.js - Create fastify server instance, import routes
 
+// Make an .env work w/nodemon: nodemon --env-file=.env server.js
+// console.log("process.env.PORT", process.env.PORT);
+// console.log("process.env.DATA", process.env.DATA);
+// console.log("process.env.SERVER", process.env.SERVER);
+
 // import fastify
 import Fastify from "fastify";
 // create fastify server 
@@ -24,7 +29,8 @@ import { URL } from "url";
 const __filename = new URL("", import.meta.url).pathname;
 const __dirname = new URL(".", import.meta.url).pathname;
 server.register(fastifyStatic, {
-  root: path.join(__dirname, "public"),
+	root: path.join(__dirname, "assets"),
+	prefix: '/assets/'
 });
 
 // add a separate file for routes

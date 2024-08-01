@@ -1,0 +1,139 @@
+@import "https://unpkg.com/open-props";
+@import "https://unpkg.com/open-props/normalize.min.css";
+
+
+:root {}
+
+html {
+	block-size: 100%;
+	background: var(--grape-0);
+	font: 16px / 22px var(--font-sans);
+}
+
+body {
+	padding: var(--size-3);
+}
+
+h1 {
+	font-weight: 300;
+	font-size: var(--font-size-6);
+}
+
+
+
+section {
+	margin: 1rem 0;
+}
+
+a {
+	color: var(--indigo-3);
+}
+
+a:hover,
+a:active {
+	text-decoration: underline;
+}
+
+a:visited {
+	color: var(--violet-8);
+}
+
+button {
+	font-size: var(--font-size-1);
+	padding-inline: var(--size-1);
+	padding-block: var(--size-1);
+	margin-block: var(--size-1);
+	border-radius: var(--radius-2);
+	box-shadow: var(--shadow-2);
+}
+
+h1 button {
+	vertical-align: 1rem;
+	padding: .3rem;
+	font-size: small;
+	background: var(--violet-12);
+}
+
+h1 a {
+	text-decoration: none;
+}
+
+.tag,
+.sort {
+	background: var(--violet-12);
+	color: var(--indigo-5);
+	min-width: 2rem;
+}
+
+.tag:hover,
+.sort:hover {
+	background: var(--violet-10);
+	color: var(--indigo-3);
+}
+
+.tag.active,
+.sort.active {
+	background: var(--violet-8);
+	color: var(--indigo-1);
+}
+
+.tag.active:hover,
+.sort.active:hover {
+	background: var(--violet-9);
+	color: var(--indigo-1);
+}
+
+
+
+@media (min-width: 65rem) {
+	.columns {
+		column-gap: 2rem;
+		column-count: 2;
+	}
+}
+
+@media (min-width: 100rem) {
+	.columns {
+		column-gap: 2rem;
+		column-count: 3;
+	}
+}
+
+
+.notes {
+	color: var(--gray-7);
+	margin: 1rem 0;
+}
+
+.list {
+	color: var(--gray-7);
+}
+
+.list .item {
+	display: block;
+	padding: 0;
+}
+
+.list .item .name {
+	color: var(--gray-4);
+}
+
+.list .item .date {
+	color: var(--gray-6);
+}
+
+.list .item .author {
+	color: var(--gray-5);
+}
+
+.sortMethods {
+	margin-left:.5rem;
+	color: var(--gray-5);
+}
+
+.about {
+	background-color: var(--gray-9);
+	border-radius: var(--radius-2);
+	padding: var(--size-3);
+	color: var(--gray-6);
+}

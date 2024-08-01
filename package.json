@@ -1,7 +1,7 @@
 {
   "name": "critical-web-design-index",
   "version": "0.1.0",
-  "description": "A simple Node App",
+  "description": "Critical Web Design Index",
   "main": "server.js",
   "type": "module",
   "scripts": {
