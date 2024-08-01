@@ -5,7 +5,7 @@ let list = [];
 let tags = {};
 
 (async () => {
-  fetch("/api/data")
+  fetch(options.data)
     .then((resp) => resp.json())
     .then(async (json) => {
       countEle.innerHTML = json.length;
