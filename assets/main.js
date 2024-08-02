@@ -31,7 +31,7 @@
 		// sort data
 		data = await sortBy(data, sort);
 		// then reorder tags and display
-		await getTags(data);
+		await saveTagsFromHeaderRow(data);
 		await storeTagReferences(data);
 		await createListHtml(data);
 		createTagMenu();
@@ -63,18 +63,26 @@
 		for (let i = 0; i < data.length; i++) {
 			if (!data[i].name) continue;
 			// console.log(i, data[i]);
-			let d = { name: "", start: "", end: "", status: "", author: "", description: "" };
+			let d = {
+				name: "",
+				start: "",
+				end: "",
+				status: "",
+				author: "",
+				description: "",
+			};
 			let strikeClass = "";
 			let ele = "span";
 			if (data[i].status.includes("❌")) strikeClass = " strike";
-			
+
 			if (data[i].name) {
 				d.name = `<${ele} class="name${strikeClass}">`;
 				if (data[i].url && data[i].url != "#REF!")
 					d.name += `<a href="${data[i].url}" target="_blank">${data[i].name}</a></${ele}>`;
 				else d.name += `${data[i].name}</${ele}>`;
 			}
-			if (data[i].start) d.start = `<${ele} class="start">(${data[i].start})</${ele}>`;
+			if (data[i].start)
+				d.start = `<${ele} class="start">(${data[i].start})</${ele}>`;
 			if (data[i].end) d.end = `<${ele} class="end">(${data[i].end})</${ele}>`;
 			if (data[i].status)
 				d.status = `<${ele} class="status">${data[i].status}</${ele}>`;
@@ -86,21 +94,42 @@
 			}
 			html.push(
 				`<div class="item" data-item='${stringifyEscape(d)}'>
-				${d.name} ${d.start} ${d.status} ${d.author}</div>`
+				${d.name} ${d.start} ${d.status} ${d.author}
+				<span class="content">${getTagsFromRow(data[i]).join(", ")}</span></div>`
 			);
 		}
 	}
 
+
 	function stringifyEscape(d) {
-		return JSON.stringify(d)
-			// escape single quote https://stackoverflow.com/a/59642842/441878
-			.replace(/[\/\(\)\']/g, "&apos;")
+		return (
+			JSON.stringify(d)
+				// escape single quote https://stackoverflow.com/a/59642842/441878
+				.replace(/[\/\(\)\']/g, "&apos;")
+		);
 	}
 
-	async function getTags(data) {
+	async function saveTagsFromHeaderRow(data) {
 		tags = {
 			all: [],
 		};
+		for (const prop in data[0]) {
+			if (!isLegitTagName(prop)) continue;
+			tags[prop] = [];
+		}
+		// console.log("tags", tags);
+	}
+	async function storeTagReferences(data) {
+		// console.log("storeTagReferences()", data)
+		for (const tag in tags) {
+			for (let i = 0; i < data.length; i++) {
+				// console.log(data[i].name, data[i][tag]);
+				if (data[i][tag] == "x") tags[tag].push(i);
+				if (tag == "all") tags["all"].push(i); // all
+			}
+		}
+	}
+	function isLegitTagName(key) {
 		let skip = [
 			"name",
 			"author",
@@ -116,25 +145,28 @@
 			"authorUrl2",
 			"total",
 		];
-		for (const prop in data[0]) {
-			if (skip.findIndex((p) => p.includes(prop)) > -1) continue;
-			tags[prop] = [];
-		}
-		// console.log("tags", tags);
+		return !(skip.findIndex((p) => p.includes(key)) > -1)
 	}
-	async function storeTagReferences(data) {
-		for (const tag in tags) {
-			for (let i = 0; i < data.length; i++) {
-				// console.log(data[i].name, data[i][tag]);
-				if (data[i][tag] == "x") tags[tag].push(i);
-				if (tag == "all") tags["all"].push(i); // all
-			}
+	function getTagsFromRow(row) {
+		let tags = [];
+		for (const prop in row) {
+
+			if (!isLegitTagName(prop)) continue;
+			if (row[prop] == "x") 
+			// console.log("prop", prop)
+			tags.push(prop)
+			// for (let i = 0; i < row.length; i++) {
+			// 	console.log(data[i].name, data[i][tag]);
+			// 	// if (data[i][tag] == "x") tags[tag].push(i);
+			// 	// if (tag == "all") tags["all"].push(i); // all
+			// }
 		}
+		return tags;
 	}
 	async function createTagMenu() {
 		let str = "";
 		for (const tag in tags) {
-			str += `<button class="tag" data-tag="${tag}">${tag}</button> `;
+			str += `<button class="tag tooltip" title="${tags[tag].length}" data-tag="${tag}">${tag}</button> `;
 		}
 		tagsEle.innerHTML = str;
 		let tagEles = document.querySelectorAll(".tag");
@@ -192,7 +224,9 @@
 		// double check and then display active
 		if (window.location.hash.includes(tag))
 			document.querySelector(`[data-tag="${tag}"]`).classList.add("active");
-		if (notes[tag]) notesEle.innerHTML = notes[tag];
+		let notesHtml = `→ <span>${tag}</span>`;
+		if (notes[tag]) notesHtml += ` → ${notes[tag]}`;
+		notesEle.innerHTML = notesHtml;
 	}
 	function selectSortMethodInMenu(sortMethod) {
 		// remove current
