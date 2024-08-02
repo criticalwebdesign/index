@@ -39,11 +39,12 @@ a:visited {
 
 button {
 	font-size: var(--font-size-1);
-	padding-inline: var(--size-1);
-	padding-block: var(--size-1);
+	padding-inline: .35rem;
+	padding-block: .12rem;
 	margin-block: var(--size-1);
 	border-radius: var(--radius-2);
 	box-shadow: var(--shadow-2);
+	padding-bottom: .2rem;
 }
 
 h1 button {
@@ -75,13 +76,13 @@ h1 a {
 .tag.active,
 .sort.active {
 	background: var(--violet-8);
-	color: var(--indigo-1);
+	color: var(--indigo-2);
 }
 
 .tag.active:hover,
 .sort.active:hover {
 	background: var(--violet-9);
-	color: var(--indigo-1);
+	color: var(--indigo-2);
 }
 
 
@@ -116,8 +117,7 @@ h1 a {
 
 .list .item span {
 	display: inline-block;
-	padding: 0 .2rem;
-
+	padding: 0 .08rem;
 }
 
 .list .item .name {

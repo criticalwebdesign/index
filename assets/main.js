@@ -63,29 +63,38 @@
 		for (let i = 0; i < data.length; i++) {
 			if (!data[i].name) continue;
 			// console.log(i, data[i]);
-			let item = "";
-			let strike = "";
-			if (data[i].status.includes("❌")) strike = "strike";
+			let d = { name: "", start: "", end: "", status: "", author: "", description: "" };
+			let strikeClass = "";
+			let ele = "span";
+			if (data[i].status.includes("❌")) strikeClass = " strike";
+			
 			if (data[i].name) {
-				item += `<span class="name ${strike}">`;
+				d.name = `<${ele} class="name${strikeClass}">`;
 				if (data[i].url && data[i].url != "#REF!")
-					item += `<a href="${data[i].url}" target="_blank">${data[i].name}</a></span>`;
-				else item += `${data[i].name}</span>`;
+					d.name += `<a href="${data[i].url}" target="_blank">${data[i].name}</a></${ele}>`;
+				else d.name += `${data[i].name}</${ele}>`;
 			}
-			if (data[i].start) {
-				item += `<span class="start">(${data[i].start})</span>`;
-			}
-			if (data[i].status) {
-				item += `<span class="status">${data[i].status}</span>`;
-			}
+			if (data[i].start) d.start = `<${ele} class="start">(${data[i].start})</${ele}>`;
+			if (data[i].end) d.end = `<${ele} class="end">(${data[i].end})</${ele}>`;
+			if (data[i].status)
+				d.status = `<${ele} class="status">${data[i].status}</${ele}>`;
 			if (data[i].author) {
-				item += `<span class="author">`;
+				d.author = `<${ele} class="author">`;
 				if (data[i].authorUrl && data[i].authorUrl != "#REF!")
-					item += `<a href="${data[i].authorUrl}" target="_blank">${data[i].author}</a></span>`;
-				else item += `${data[i].author}</span>`;
+					d.author += `<a href="${data[i].authorUrl}" target="_blank">${data[i].author}</a></${ele}>`;
+				else d.author += `${data[i].author}</${ele}>`;
 			}
-			html.push(`<div class="item">${item}</div>`);
+			html.push(
+				`<div class="item" data-item='${stringifyEscape(d)}'>
+				${d.name} ${d.start} ${d.status} ${d.author}</div>`
+			);
 		}
+	}
+
+	function stringifyEscape(d) {
+		return JSON.stringify(d)
+			// escape single quote https://stackoverflow.com/a/59642842/441878
+			.replace(/[\/\(\)\']/g, "&apos;")
 	}
 
 	async function getTags(data) {
