@@ -8,36 +8,47 @@ html {
 	block-size: 100%;
 	background: var(--grape-0);
 	color: var(--gray-5);
-	font: 16px / 22px var(--font-sans);
+	font: 1rem / 1.5rem var(--font-sans);
 	/* makes scrollbar visible so menu doesn't shift */
-	min-height:101%;
+	min-height: 101%;
 }
 
 body {
 	padding: var(--size-3);
 }
 
+
 h1 {
+	margin-top: .5rem;
 	font-weight: 300;
 	font-size: var(--font-size-6);
 	max-inline-size: 100%;
+	color: var(--indigo-3);
+}
+
+h1 a:visited {
+	color: var(--indigo-3);
 }
 
 section {
 	margin: var(--size-4) 0;
 }
 
-a {
+a:link {
 	color: var(--indigo-3);
+	text-decoration: none;
 }
 
+a:focus,
 a:hover,
 a:active {
 	text-decoration: underline;
 }
 
-a:visited {
-	color: var(--violet-8);
+a:visited,
+.list .item a:visited {
+	color: var(--gray-5);
+	text-decoration: underline;
 }
 
 button {
@@ -88,7 +99,10 @@ h1 a {
 	color: var(--indigo-2);
 }
 
-
+.columns {
+	page-break-inside: avoid;
+	break-inside: avoid-column;
+}
 
 @media (min-width: 65rem) {
 	.columns {
@@ -105,10 +119,48 @@ h1 a {
 }
 
 
-.notes {
-	color: var(--gray-7);
-	margin: 1rem 0;
+/* Tooltip container 
+https://www.w3schools.com/css/css_tooltip.asp
+*/
+.tooltip {
+	position: relative;
+	display: inline-block;
 }
+
+/* Tooltip text */
+.tooltip .tooltiptext {
+	visibility: hidden;
+	width: 100%;
+	background-color: var(--violet-10);
+	color: var(--gray-4);
+	text-align: center;
+	border-radius: var(--radius-2);
+	padding: 1rem 0;
+	position: absolute;
+	z-index: 1;
+	bottom: 150%;
+	left: 25%;
+	margin-left: -60px;
+}
+
+/* Show the tooltip text when you mouse over the tooltip container */
+.tooltip:hover .tooltiptext {
+	visibility: visible;
+}
+
+.tooltip .tooltiptext::after {
+	content: "";
+	position: absolute;
+	top: 100%;
+	left: 50%;
+	margin-left: -5px;
+	border-width: 5px;
+	border-style: solid;
+	border-color: black transparent transparent transparent;
+}
+
+
+
 
 .list {
 	color: var(--gray-7);
@@ -117,7 +169,7 @@ h1 a {
 .list .item {
 	display: block;
 	padding: .3rem 0;
-	border-bottom: 1px dotted var(--violet-12);
+	border-bottom: 1px dotted var(--violet-11);
 }
 
 .list .item span {
@@ -135,6 +187,7 @@ h1 a {
 
 .list .item .author {
 	color: var(--gray-5);
+	display: inline;
 }
 
 .sortMethods {
@@ -144,11 +197,11 @@ h1 a {
 
 .list .item .strike {
 	text-decoration: line-through;
-	color: var(--gray-8);
+	color: var(--gray-6);
 }
 
 .list .item .content {
-	display:none;
+	display: none;
 }
 
 .notes {
@@ -159,8 +212,9 @@ h1 a {
 	padding: var(--size-2);
 	/* border-bottom: 2px solid var(--gray-9); */
 }
-.notes span{
-	color: var(--gray-5); 
+
+.notes span {
+	color: var(--gray-5);
 }
 
 .about {

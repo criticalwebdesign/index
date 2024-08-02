@@ -100,7 +100,6 @@
 		}
 	}
 
-
 	function stringifyEscape(d) {
 		return (
 			JSON.stringify(d)
@@ -145,16 +144,15 @@
 			"authorUrl2",
 			"total",
 		];
-		return !(skip.findIndex((p) => p.includes(key)) > -1)
+		return !(skip.findIndex((p) => p.includes(key)) > -1);
 	}
 	function getTagsFromRow(row) {
 		let tags = [];
 		for (const prop in row) {
-
 			if (!isLegitTagName(prop)) continue;
-			if (row[prop] == "x") 
-			// console.log("prop", prop)
-			tags.push(prop)
+			if (row[prop] == "x")
+				// console.log("prop", prop)
+				tags.push(prop);
 			// for (let i = 0; i < row.length; i++) {
 			// 	console.log(data[i].name, data[i][tag]);
 			// 	// if (data[i][tag] == "x") tags[tag].push(i);
@@ -235,4 +233,8 @@
 			.forEach((item) => item.classList.remove("active"));
 		document.querySelector(`[id="${sortMethod}"]`).classList.add("active");
 	}
+
+	// const fontStacks = ["head", "para", "mono", "fant", "curs", "hand"];
+	// document.querySelector("h1").classList =
+	// 	fontStacks[Math.floor(Math.random() * fontStacks.length)];
 })();
