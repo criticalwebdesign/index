@@ -10,5 +10,3 @@ desktop.ini
 ._*
 
 node_modules
-.env
-assets/env.js
