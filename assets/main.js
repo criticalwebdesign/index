@@ -73,7 +73,18 @@
 			};
 			let strikeClass = "";
 			let ele = "span";
-			if (data[i].status.includes("❌")) strikeClass = " strike";
+			let emojiAlt = "";
+			if (data[i].status.includes("❌")) {
+				emojiAlt = "Project URL is not safe to visit";
+				data[i].url = "";
+				strikeClass = " strike";
+			} else if (data[i].status.includes("😿")) {
+				emojiAlt = "Project is broken";
+			} else if (data[i].status.includes("🗄")) {
+				emojiAlt = "Project archived";
+			} else { // ✅
+				emojiAlt = "Project is live";
+			}
 
 			if (data[i].name) {
 				d.name = `<${ele} class="name${strikeClass}">`;
@@ -85,7 +96,7 @@
 				d.start = `<${ele} class="start">(${data[i].start})</${ele}>`;
 			if (data[i].end) d.end = `<${ele} class="end">(${data[i].end})</${ele}>`;
 			if (data[i].status)
-				d.status = `<${ele} class="status">${data[i].status}</${ele}>`;
+				d.status = `<${ele} class="status" title="${emojiAlt}">${data[i].status}</${ele}>`;
 			if (data[i].author) {
 				d.author = `<${ele} class="author">`;
 				if (data[i].authorUrl && data[i].authorUrl != "#REF!")
@@ -99,6 +110,7 @@
 			);
 		}
 	}
+	
 
 	function stringifyEscape(d) {
 		return (

@@ -16,8 +16,7 @@ const routes = async (server, options) => {
 		reply.send(data);
 	});
 	server.get("/api/save", async (request, reply) => {
-		let data = await getCleanData();
-		let result = await saveFile(data, FILENAME);
+		let result = await saveData();
 		reply.send(result);
 	});
 };
@@ -27,10 +26,14 @@ import { functions } from "./functions.js";
 import fetch from "node-fetch";
 import * as d3 from "d3";
 let headerUrl =
-	"https://docs.google.com/spreadsheets/d/1mQ0doWT6tGXm2W-hB5zuz3I8mijGhLSkAe_XrcfMdok/gviz/tq?tqx=out:csv&sheet=sites&range=A1:BZ2";
+	"https://docs.google.com/spreadsheets/d/1mQ0doWT6tGXm2W-hB5zuz3I8mijGhLSkAe_XrcfMdok/gviz/tq?tqx=out:csv&sheet=sites&range=A1:CE2";
 let dataUrl =
-	"https://docs.google.com/spreadsheets/d/1mQ0doWT6tGXm2W-hB5zuz3I8mijGhLSkAe_XrcfMdok/gviz/tq?tqx=out:csv&sheet=sites&range=A2:BZ500";
+	"https://docs.google.com/spreadsheets/d/1mQ0doWT6tGXm2W-hB5zuz3I8mijGhLSkAe_XrcfMdok/gviz/tq?tqx=out:csv&sheet=sites&range=A2:CE500";
 
+async function saveData() {
+	let data = await getCleanData();
+	return await saveFile(data, FILENAME);
+}	
 async function getData(url) {
 	return fetch(url)
 		.then((d) => d.text())
