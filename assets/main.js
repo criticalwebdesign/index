@@ -9,6 +9,13 @@
 	let tags = {};
 	let sortMethod = "byName";
 
+	document.querySelector("#showMediaBtn").addEventListener("click", function () {
+		document.querySelector("body").classList.toggle("showMedia");
+	});
+	document.querySelector("#showDescriptionsBtn").addEventListener("click", function () {
+		document.querySelector("body").classList.toggle("showDescriptions");
+	});
+
 	fetch(OPTIONS.data)
 		.then((resp) => resp.json())
 		.then(async (json) => {
@@ -69,6 +76,7 @@
 				end: "",
 				status: "",
 				author: "",
+				media: "",
 				description: "",
 			};
 			let strikeClass = "";
@@ -82,7 +90,8 @@
 				emojiAlt = "Project is broken";
 			} else if (data[i].status.includes("🗄")) {
 				emojiAlt = "Project archived";
-			} else { // ✅
+			} else {
+				// ✅
 				emojiAlt = "Project is live";
 			}
 
@@ -92,6 +101,13 @@
 					d.name += `<a href="${data[i].url}" target="_blank">${data[i].name}</a></${ele}>`;
 				else d.name += `${data[i].name}</${ele}>`;
 			}
+			if (data[i].media) {
+				let media = data[i].media.split(",");
+				media.forEach((ele) => {
+					d.media += `<a href="assets/img/${ele}.png" target="_blank"><img src="assets/img/${ele}.png"></a> `;
+				});
+			}
+			if (data[i].description) d.description = data[i].description;
 			if (data[i].start)
 				d.start = `<${ele} class="start">(${data[i].start})</${ele}>`;
 			if (data[i].end) d.end = `<${ele} class="end">(${data[i].end})</${ele}>`;
@@ -103,14 +119,17 @@
 					d.author += `<a href="${data[i].authorUrl}" target="_blank">${data[i].author}</a></${ele}>`;
 				else d.author += `${data[i].author}</${ele}>`;
 			}
+			//  data-item='${stringifyEscape(d)}'
 			html.push(
-				`<div class="item" data-item='${stringifyEscape(d)}'>
-				${d.name} ${d.start} ${d.status} ${d.author}
-				<span class="content">${getTagsFromRow(data[i]).join(", ")}</span></div>`
+				`<div class="item">
+					${d.name} ${d.start} ${d.status} ${d.author}
+					<span class="content">${getTagsFromRow(data[i]).join(", ")}</span>
+					<span class="media">${d.media}</span>
+					<span class="description">${d.description}</span>
+				</div>`
 			);
 		}
 	}
-	
 
 	function stringifyEscape(d) {
 		return (
@@ -177,7 +196,9 @@
 	async function createTagMenu() {
 		let str = "";
 		for (const tag in tags) {
-			str += `<button class="tag tooltip" title="${tags[tag].length}" data-tag="${tag}">${tag.replace("-", " ")}</button> `;
+			str += `<button class="tag" title="${tags[tag].length}" data-tag="${tag}">
+						${tag.replace("-", " ")}
+					</button> `;
 		}
 		tagsEle.innerHTML = str;
 		let tagEles = document.querySelectorAll(".tag");

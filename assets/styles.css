@@ -30,6 +30,7 @@ h1 a:visited {
 	color: var(--indigo-3);
 }
 
+
 section {
 	margin: var(--size-4) 0;
 }
@@ -119,47 +120,6 @@ h1 a {
 }
 
 
-/* Tooltip container 
-https://www.w3schools.com/css/css_tooltip.asp
-*/
-.tooltip {
-	position: relative;
-	display: inline-block;
-}
-
-/* Tooltip text */
-.tooltip .tooltiptext {
-	visibility: hidden;
-	width: 100%;
-	background-color: var(--violet-10);
-	color: var(--gray-4);
-	text-align: center;
-	border-radius: var(--radius-2);
-	padding: 1rem 0;
-	position: absolute;
-	z-index: 1;
-	bottom: 150%;
-	left: 25%;
-	margin-left: -60px;
-}
-
-/* Show the tooltip text when you mouse over the tooltip container */
-.tooltip:hover .tooltiptext {
-	visibility: visible;
-}
-
-.tooltip .tooltiptext::after {
-	content: "";
-	position: absolute;
-	top: 100%;
-	left: 50%;
-	margin-left: -5px;
-	border-width: 5px;
-	border-style: solid;
-	border-color: black transparent transparent transparent;
-}
-
-
 
 
 .list {
@@ -194,10 +154,21 @@ https://www.w3schools.com/css/css_tooltip.asp
 	display: inline;
 }
 
-.sortMethods {
+.sortMethods,
+.show {
 	margin-left: .5rem;
 	color: var(--gray-5);
 }
+
+/* 
+.show {
+	position: fixed;
+	top: 0;
+	right: 0;
+	text-align: right;
+	width: 10rem;
+	padding: .5rem;
+} */
 
 .list .item .strike {
 	text-decoration: line-through;
@@ -207,6 +178,46 @@ https://www.w3schools.com/css/css_tooltip.asp
 .list .item .content {
 	display: none;
 }
+
+.list .item .description {
+	display: none;
+}
+
+.list .item .media {
+	display: none;
+}
+
+body.showMedia .list .item .media {
+	margin: .5rem 0;
+	display: block;
+}
+
+body.showDescriptions .list .item .description {
+	margin: .5rem 0;
+	display: block;
+}
+
+
+#showMediaBtn,
+#showDescriptionsBtn {
+	background: yellow;
+	height: 0;
+	overflow: hidden;
+	transition: height 300ms linear;
+}
+
+label {
+	cursor: pointer;
+}
+
+#showMediaBtn,
+#showDescriptionsBtn {
+	display: none;
+}
+
+
+
+
 
 .notes {
 	color: var(--gray-6);
