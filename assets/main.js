@@ -154,6 +154,7 @@
 			"url",
 			"authorUrl",
 			"authorUrl2",
+			"authorUrl3",
 			"total",
 		];
 		return !(skip.findIndex((p) => p.includes(key)) > -1);
