@@ -11,11 +11,11 @@
 
 // import fastify
 import Fastify from "fastify";
-// create fastify server 
+// create fastify server
 const server = Fastify({
-  logger: false, // set true to see all requests
-  ignoreTrailingSlash: true, // clean urls
-  ignoreDuplicateSlashes: true,
+	logger: false, // set true to see all requests
+	ignoreTrailingSlash: true, // clean urls
+	ignoreDuplicateSlashes: true,
 });
 
 // enable CORS for fastify, will only accept requests from glitch.com
@@ -30,7 +30,7 @@ const __filename = new URL("", import.meta.url).pathname;
 const __dirname = new URL(".", import.meta.url).pathname;
 server.register(fastifyStatic, {
 	root: path.join(__dirname, "assets"),
-	prefix: '/assets/'
+	prefix: "/assets/",
 });
 
 // add a separate file for routes
@@ -39,12 +39,12 @@ server.register(routes);
 
 // run the server and report out to the logs
 server.listen(
-  { port: process.env.PORT ?? 3000, host: "0.0.0.0" },
-  function (err, address) {
-    if (err) {
-      console.error(err);
-      process.exit(1);
-    }
-    console.log(`Your app is listening on ${address}`);
-  }
+	{ port: process.env.PORT ?? 3000, host: "0.0.0.0" },
+	function (err, address) {
+		if (err) {
+			console.error(err);
+			process.exit(1);
+		}
+		console.log(`Your app is listening on ${address}`);
+	}
 );

@@ -177,7 +177,7 @@
 	async function createTagMenu() {
 		let str = "";
 		for (const tag in tags) {
-			str += `<button class="tag tooltip" title="${tags[tag].length}" data-tag="${tag}">${tag}</button> `;
+			str += `<button class="tag tooltip" title="${tags[tag].length}" data-tag="${tag}">${tag.replace("-", " ")}</button> `;
 		}
 		tagsEle.innerHTML = str;
 		let tagEles = document.querySelectorAll(".tag");
@@ -235,7 +235,8 @@
 		// double check and then display active
 		if (window.location.hash.includes(tag))
 			document.querySelector(`[data-tag="${tag}"]`).classList.add("active");
-		let notesHtml = `→ <span>${tag}</span>`;
+		// breadcrumb
+		let notesHtml = `→ <span>${tag.replace("-", " ")}</span>`;
 		if (notes[tag]) notesHtml += ` → ${notes[tag]}`;
 		notesEle.innerHTML = notesHtml;
 	}

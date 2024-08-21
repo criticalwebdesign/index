@@ -45,28 +45,24 @@ async function getCleanData() {
 	let headerRows = await getData(headerUrl);
 	let dataRows = await getData(dataUrl);
 
-	// // move the heading notes to the 2nd row
-	// // split the rows on line break
-	// let rowsSplit = rows.split("\n");
-	// console.log(rowsSplit[0])
-	// // remove first index
-	// let notes = rowsSplit.shift();
-	// // insert them into 2nd index
-	// rowsSplit.splice(1, 0, notes);
-	// let rowsParsed = d3.csvParse(rowsSplit.join("\n"));
+	// As usual, google sheets export is a mystery, in this case randomly omitting two column headers. The fix...
 
-	// as usual, google sheets export is a mystery, in this case
-	// randomly omitting two column headers....
+	// 3. get header row separately and split
 	let headerRowsSplit = headerRows.split("\n");
 	// console.log(headerRowsSplit[0])
+
+	// 2. swap positions between header and header notes
 	let headerRowsSplitArr = []
 	headerRowsSplitArr.push(headerRowsSplit[1]);
 	headerRowsSplitArr.push(headerRowsSplit[0]);
 	// console.log(headerRowsSplitArr[0])
+
+	// 3. then parse
 	let headerRowsParsed = d3.csvParse(headerRowsSplitArr.join("\n"));
 
+
 	// TESTS
-	// test the header row
+	// parse the header row
 	// console.log(d3.csvParse(rows)[0]);
 	// returns multi-dimensional array, instead of object
 	// console.log(d3.csvParseRows(rows));
