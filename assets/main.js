@@ -169,6 +169,7 @@
 			"code",
 			"100examples",
 			"description",
+			"media",
 			"more info",
 			"url",
 			"authorUrl",
