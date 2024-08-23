@@ -26,14 +26,15 @@ import { functions } from "./functions.js";
 import fetch from "node-fetch";
 import * as d3 from "d3";
 let headerUrl =
-	"https://docs.google.com/spreadsheets/d/1mQ0doWT6tGXm2W-hB5zuz3I8mijGhLSkAe_XrcfMdok/gviz/tq?tqx=out:csv&sheet=sites&range=A1:CE2";
+	"https://docs.google.com/spreadsheets/d/1mQ0doWT6tGXm2W-hB5zuz3I8mijGhLSkAe_XrcfMdok/gviz/tq?tqx=out:csv&sheet=sites&range=A1:CN2";
 let dataUrl =
-	"https://docs.google.com/spreadsheets/d/1mQ0doWT6tGXm2W-hB5zuz3I8mijGhLSkAe_XrcfMdok/gviz/tq?tqx=out:csv&sheet=sites&range=A2:CE500";
+	"https://docs.google.com/spreadsheets/d/1mQ0doWT6tGXm2W-hB5zuz3I8mijGhLSkAe_XrcfMdok/gviz/tq?tqx=out:csv&sheet=sites&range=A2:CN500";
 
 async function saveData() {
 	let data = await getCleanData();
 	return await saveFile(data, FILENAME);
-}	
+}
+saveData();
 async function getData(url) {
 	return fetch(url)
 		.then((d) => d.text())
@@ -52,14 +53,13 @@ async function getCleanData() {
 	// console.log(headerRowsSplit[0])
 
 	// 2. swap positions between header and header notes
-	let headerRowsSplitArr = []
+	let headerRowsSplitArr = [];
 	headerRowsSplitArr.push(headerRowsSplit[1]);
 	headerRowsSplitArr.push(headerRowsSplit[0]);
 	// console.log(headerRowsSplitArr[0])
 
 	// 3. then parse
 	let headerRowsParsed = d3.csvParse(headerRowsSplitArr.join("\n"));
-
 
 	// TESTS
 	// parse the header row
@@ -68,9 +68,10 @@ async function getCleanData() {
 	// console.log(d3.csvParseRows(rows));
 
 	let dataRowsParsed = d3.csvParse(dataRows);
-	// console.log("dataRowsParsed", dataRowsParsed[1]);
+	console.log("dataRowsParsed", dataRowsParsed[1]);
 	let data = await cleanData(dataRowsParsed);
-	return {notes:headerRowsParsed[0], data: data};
+	console.log("data", data[2]);
+	return { notes: headerRowsParsed[0], data: data };
 }
 async function cleanData(data) {
 	let arr = [];
@@ -80,6 +81,20 @@ async function cleanData(data) {
 		if (data[i].name == "To evaluate") break;
 		if (data[i].status == "✅") data[i].status = "";
 		if (!data[i].start || data[i].start == "") data[i].start = 0;
+		if (data[i].url == "#REF!") data[i].url = "";
+		if (data[i].author1Url == "#REF!") data[i].author1Url = "";
+		if (data[i].author2Url == "#REF!") data[i].author2Url = "";
+		if (data[i].author3Url == "#REF!") data[i].author3Url = "";
+		if (data[i].author4Url == "#REF!") data[i].author4Url = "";
+		if (data[i].publisherUrl == "#REF!") data[i].publisherUrl = "";
+
+		// for (const prop in data[i]) {
+		// 	if (Object.hasOwn(data[i], prop)) {
+		// 		//   console.log(`data[i].${prop} = ${data[i][prop]}`);
+		// 		if (!data[i][prop]) delete data[i][prop];
+		// 	}
+		// }
+
 		// console.log(data[i]);
 		arr.push(data[i]);
 	}

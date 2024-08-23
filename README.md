@@ -12,5 +12,7 @@ https://omundy.github.io/critical-web-design-index
 
 ## Notes
 
+- `npm install` then `npm run dev` to start server then updated data @ http://0.0.0.0:3000/api/save
+- Open HTML with Live Server to auto refresh
 - CSS uses [open-props.style](https://open-props.style/)
 
