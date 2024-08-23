@@ -98,6 +98,12 @@
 				}
 			}
 
+			if (data[i].media) {
+				let media = data[i].media.split(",");
+				media.forEach((ele) => {
+					d.media += `<a href="assets/img/${ele}.png" target="_blank"><img src="assets/img/${ele}.png"></a> `;
+				});
+			}
 			if (data[i].name) {
 				d.name = `<span class="name${strikeClass}">`;
 				// console.log(data[i].url);
@@ -105,13 +111,12 @@
 					d.name += `<a href="${data[i].url}" target="_blank">${data[i].name}</a></span>`;
 				else d.name += `${data[i].name}</span>`;
 			}
-			if (data[i].media) {
-				let media = data[i].media.split(",");
-				media.forEach((ele) => {
-					d.media += `<a href="assets/img/${ele}.png" target="_blank"><img src="assets/img/${ele}.png"></a> `;
-				});
+			if (data[i].description) {
+				d.description = data[i].description;
+				// d.description += `<small class="tags">${getTagsFromProject(
+				// 	data[i]
+				// )}</small>`;
 			}
-			if (data[i].description) d.description = data[i].description;
 			if (data[i].start) d.start = `<span class="start">(${data[i].start})</span>`;
 			if (data[i].end) d.end = `<span class="end">(${data[i].end})</span>`;
 			if (data[i].status)
@@ -125,7 +130,9 @@
 					if (j > 1) d.authors += ", ";
 					d.authors += `<span class="author">`;
 					if (data[i][`author${j}Url`] && data[i][`author${j}Url`] != "#REF!")
-						d.authors += `<a href="${data[i][`author${j}Url`]}" target="_blank">${data[i][`author${j}`]}</a>`;
+						d.authors += `<a href="${
+							data[i][`author${j}Url`]
+						}" target="_blank">${data[i][`author${j}`]}</a>`;
 					else d.authors += `${data[i][`author${j}`]}`;
 					d.authors += `</span>`;
 				}
@@ -141,9 +148,8 @@
 
 			html.push(
 				`<div class="item">
-					${d.name} ${d.start} ${d.status} ${d.authors} ${d.publisher}
-					<span class="content">${getTagsFromRow(data[i]).join(", ")}</span>
 					<span class="media">${d.media}</span>
+					${d.name} ${d.start} ${d.status} ${d.authors} ${d.publisher}
 					<span class="description">${d.description}</span>
 				</div>`
 			);
@@ -203,6 +209,17 @@
 			"total",
 		];
 		return !(skip.findIndex((p) => p.includes(key)) > -1);
+	}
+	function getTagsFromProject(row) {
+		let tags = getTagsFromRow(row);
+		let str = "";
+		for (let i = 0; i < tags.length; i++) {
+			str += `#${tags[i]} `
+			// str += `<button class="tag" data-tag="${tags[i]}" onClick="onSelectTag(\'scroll\')">
+			// 			${tags[i].replace("-", " ")}
+			// 		</button> `;
+		}
+		return str;
 	}
 	function getTagsFromRow(row) {
 		let tags = [];
