@@ -101,7 +101,7 @@
 			if (data[i].media) {
 				let media = data[i].media.split(",");
 				media.forEach((ele) => {
-					d.media += `<a href="assets/img/${ele}.png" target="_blank"><img src="assets/img/${ele}.png"></a> `;
+					d.media += `<a href="assets/img/${ele}.png" target="_blank"><img src="assets/img_t/${ele}.png"></a> `;
 				});
 			}
 			if (data[i].name) {

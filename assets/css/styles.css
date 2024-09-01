@@ -1,12 +1,24 @@
-@import "https://unpkg.com/open-props";
-@import "https://unpkg.com/open-props/normalize.min.css";
+/* test */
+/* @import "https://unpkg.com/open-props";
+@import "https://unpkg.com/open-props/normalize.min.css"; */
+
+
+@import "../open-props/borders.min.css";
+@import "../open-props/fonts.min.css";
+@import "../open-props/gray.min.css";
+@import "../open-props/indigo.min.css";
+@import "../open-props/normalize.min.css";
+@import "../open-props/purple.min.css";
+@import "../open-props/shadows.min.css";
+@import "../open-props/sizes.min.css";
+@import "../open-props/violet.min.css";
 
 
 :root {}
 
 html {
 	block-size: 100%;
-	background: var(--grape-0);
+	background: var(--gray-11);
 	color: var(--gray-5);
 	font: 1rem / 1.5rem var(--font-sans);
 	/* makes scrollbar visible so menu doesn't shift */
