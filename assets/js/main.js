@@ -1,241 +1,163 @@
+import { json, tags, getData, isLegitTagName, sortBy, convertToSlug } from "./data.js";
+
 (async () => {
-	let listEle = document.querySelector(".list");
+	// references
+	let contentEle = document.querySelector(".content");
 	let tagsEle = document.querySelector(".tags");
 	let countEle = document.querySelector(".count");
 	let notesEle = document.querySelector(".notes");
-	let notes = {}; // saved from server
-	let data = []; // saved from server
-	let html = [];
-	let tags = {};
-	let sortMethod = "byName";
 
+	let params = {
+		project: "",
+		sortMethod: "",
+		tag: "",
+	};
+
+	let html = [];
+
+	// listeners
 	document.querySelector("#showMediaBtn").addEventListener("click", function () {
 		document.querySelector("body").classList.toggle("showMedia");
 	});
 	document.querySelector("#showDescriptionsBtn").addEventListener("click", function () {
 		document.querySelector("body").classList.toggle("showDescriptions");
 	});
-
-	fetch(OPTIONS.data)
-		.then((resp) => resp.json())
-		.then(async (json) => {
-			// console.log("json", json);
-			notes = json.notes; // save notes
-			data = json.data;
-			countEle.innerHTML = data.length;
-			displayEntries(data, sortMethod);
-		});
-
 	document.querySelectorAll(".sort").forEach((item) =>
 		item.addEventListener("click", function (e) {
-			displayEntries(data, e.target.id.trim());
+			displayEntries("", e.target.id.trim(), "");
 		})
 	);
 
-	async function displayEntries(data, sort) {
-		// console.log("displayEntries()", sort);
+	// load data
+	await getData();
+	console.log("json", json);
+	countEle.innerHTML = json.projects.length;
+	displayEntries();
+
+	// 2 - display entries
+	async function displayEntries(_project = "", _sortMethod = "", _tag = "") {
+		console.log("displayEntries() [1]", _project, _sortMethod, _tag, params);
+
+		let _data;
+
+		// select data
+		if (_project) {
+			params.project = _project;
+		}
+
+		// handle tag
+		params.tag = _tag || "all";
 
 		// sort data
-		data = await sortBy(data, sort);
+		params.sortMethod = _sortMethod || "byName";
+		_data = await sortBy(json.projects, params.sortMethod);
+
+		displaySortMethodInMenu();
 		// then reorder tags and display
-		await saveTagsFromHeaderRow(data);
-		await storeTagReferences(data);
-		await createListHtml(data);
+
+		await getProjectsHTML(_data);
 		createTagMenu();
-		// console.log("data", data);
+		// console.log("displayEntries() [2]", "_data", _data);
 		onSelectTag();
-		// console.log("html", html);
+		// console.log("displayEntries() [3]", "html", html);
 	}
 
-	async function sortBy(d, sort) {
-		// console.log("sortBy()", d, sort)
-		sortMethod = sort;
-		selectSortMethodInMenu(sortMethod);
-		return d.sort(sortMethods[sortMethod]);
-	}
-	let sortMethods = {
-		byStartDate: (a, b) => s(a.start, b.start),
-		byName: (a, b) => s(a.name, b.name),
-	};
-	function s(a, b) {
-		if (!a || a === "" || a === null) return 1;
-		if (!b || b === "" || b === null) return -1;
-		if (a === b) return 0;
-		return a < b ? -1 : 1;
-	}
+	async function getProjectHTML(project) {
+		let d = {
+			name: "",
+			slug: "",
+			start: "",
+			end: "",
+			status: "",
+			authors: "",
+			publisher: "",
+			media: "",
+			description: "",
+		};
 
-	async function createListHtml(data) {
-		// console.log("data", data);
-		html = [];
-		for (let i = 0; i < data.length; i++) {
-			if (!data[i].name) continue;
-			// console.log(i, data[i]);
-			let d = {
-				name: "",
-				start: "",
-				end: "",
-				status: "",
-				authors: "",
-				publisher: "",
-				media: "",
-				description: "",
-			};
+		// PROJECT STATUS
+		let strikeClass = "";
+		let emojiAlt = "";
+		if (project.status) {
+			if (project.status.includes("❌")) {
+				emojiAlt = "Project URL is not safe to visit";
+				project.url = "";
+				strikeClass = " strike";
+			} else if (project.status.includes("😿")) {
+				emojiAlt = "Project is broken";
+			} else if (project.status.includes("🗄")) {
+				emojiAlt = "Project archived";
+			} else {
+				emojiAlt = "Project is live"; // ✅
+			}
+		}
 
-			// PROJECT STATUS
-			let strikeClass = "";
-			let emojiAlt = "";
-			if (data[i].status) {
-				if (data[i].status.includes("❌")) {
-					emojiAlt = "Project URL is not safe to visit";
-					data[i].url = "";
-					strikeClass = " strike";
-				} else if (data[i].status.includes("😿")) {
-					emojiAlt = "Project is broken";
-				} else if (data[i].status.includes("🗄")) {
-					emojiAlt = "Project archived";
-				} else {
-					emojiAlt = "Project is live"; // ✅
-				}
-			}
+		if (project.media) {
+			let media = project.media.split(",");
+			media.forEach((ele) => {
+				d.media += `<a href="assets/img/${ele}.png" target="_blank"><img src="assets/img_t/${ele}.png"></a> `;
+			});
+		}
+		if (project.name) {
+			d.name = `<span class="name${strikeClass}">`;
+			d.slug = convertToSlug(project.name);
+			// console.log(project.url);
+			if (project.url && project.url != "#REF!")
+				d.name += `<a href="${project.url}" target="_blank">${project.name}</a></span>`;
+			else d.name += `${project.name}</span>`;
+		}
+		if (project.description) {
+			d.description = project.description;
+			// d.description += `<small class="tags">${getTagsFromProject(
+			// 	project
+			// )}</small>`;
+		}
+		if (project.start) d.start = `<span class="start">(${project.start})</span>`;
+		if (project.end) d.end = `<span class="end">(${project.end})</span>`;
+		if (project.status)
+			d.status = `<span class="status" title="${emojiAlt}">${project.status}</span>`;
 
-			if (data[i].media) {
-				let media = data[i].media.split(",");
-				media.forEach((ele) => {
-					d.media += `<a href="assets/img/${ele}.png" target="_blank"><img src="assets/img_t/${ele}.png"></a> `;
-				});
+		// PROJECT AUTHORS
+		if (project.author1) {
+			for (let j = 1; j <= 4; j++) {
+				// console.log(`author${j}`, project[`author${j}`], project.author1);
+				if (!project[`author${j}`]) break;
+				if (j > 1) d.authors += ", ";
+				d.authors += `<span class="author">`;
+				if (project[`author${j}Url`] && project[`author${j}Url`] != "#REF!")
+					d.authors += `<a href="${project[`author${j}Url`]}" target="_blank">${
+						project[`author${j}`]
+					}</a>`;
+				else d.authors += `${project[`author${j}`]}`;
+				d.authors += `</span>`;
 			}
-			if (data[i].name) {
-				d.name = `<span class="name${strikeClass}">`;
-				// console.log(data[i].url);
-				if (data[i].url && data[i].url != "#REF!")
-					d.name += `<a href="${data[i].url}" target="_blank">${data[i].name}</a></span>`;
-				else d.name += `${data[i].name}</span>`;
-			}
-			if (data[i].description) {
-				d.description = data[i].description;
-				// d.description += `<small class="tags">${getTagsFromProject(
-				// 	data[i]
-				// )}</small>`;
-			}
-			if (data[i].start) d.start = `<span class="start">(${data[i].start})</span>`;
-			if (data[i].end) d.end = `<span class="end">(${data[i].end})</span>`;
-			if (data[i].status)
-				d.status = `<span class="status" title="${emojiAlt}">${data[i].status}</span>`;
-
-			// PROJECT AUTHORS
-			if (data[i].author1) {
-				for (let j = 1; j <= 4; j++) {
-					// console.log(`author${j}`, data[i][`author${j}`], data[i].author1);
-					if (!data[i][`author${j}`]) break;
-					if (j > 1) d.authors += ", ";
-					d.authors += `<span class="author">`;
-					if (data[i][`author${j}Url`] && data[i][`author${j}Url`] != "#REF!")
-						d.authors += `<a href="${
-							data[i][`author${j}Url`]
-						}" target="_blank">${data[i][`author${j}`]}</a>`;
-					else d.authors += `${data[i][`author${j}`]}`;
-					d.authors += `</span>`;
-				}
-			}
-			if (data[i].publisher) {
-				d.publisher = `<span class="publisher">(`;
-				if (data[i].publisherUrl && data[i].publisherUrl != "#REF!")
-					d.publisher += `<a href="${data[i].publisherUrl}" 
-										target="_blank">${data[i].publisher}</a>`;
-				else d.publisher += `${data[i].publisher}`;
-				d.publisher += `)</span>`;
-			}
-
-			html.push(
-				`<div class="item">
+		}
+		if (project.publisher) {
+			d.publisher = `<span class="publisher">(`;
+			if (project.publisherUrl && project.publisherUrl != "#REF!")
+				d.publisher += `<a href="${project.publisherUrl}" 
+									target="_blank">${project.publisher}</a>`;
+			else d.publisher += `${project.publisher}`;
+			d.publisher += `)</span>`;
+		}
+		return `<div class="item">
 					<span class="media">${d.media}</span>
 					${d.name} ${d.start} ${d.status} ${d.authors} ${d.publisher}
+					<span><a class="link" data-link=${d.slug}" href="#${d.slug}">#</a></span>
 					<span class="description">${d.description}</span>
-				</div>`
-			);
+				</div>`;
+	}
+
+	async function getProjectsHTML(_data) {
+		// console.log("_data", _data);
+		html = [];
+		for (let i = 0; i < _data.length; i++) {
+			if (!_data[i].name) continue;
+			// console.log(i, _data[i]);
+			html.push(await getProjectHTML(_data[i]));
 		}
 	}
 
-	function stringifyEscape(d) {
-		return (
-			JSON.stringify(d)
-				// escape single quote https://stackoverflow.com/a/59642842/441878
-				.replace(/[\/\(\)\']/g, "&apos;")
-		);
-	}
-
-	async function saveTagsFromHeaderRow(data) {
-		tags = {
-			all: [],
-		};
-		for (const prop in data[0]) {
-			if (!isLegitTagName(prop)) continue;
-			tags[prop] = [];
-		}
-		// console.log("tags", tags);
-	}
-	async function storeTagReferences(data) {
-		// console.log("storeTagReferences()", data)
-		for (const tag in tags) {
-			for (let i = 0; i < data.length; i++) {
-				// console.log(data[i].name, data[i][tag]);
-				if (data[i][tag] == "x") tags[tag].push(i);
-				if (tag == "all") tags["all"].push(i); // all
-			}
-		}
-	}
-	function isLegitTagName(key) {
-		let skip = [
-			"name",
-			"author1",
-			"author2",
-			"author3",
-			"author4",
-			"publisher",
-			"start",
-			"end",
-			"status",
-			"code",
-			"100examples",
-			"description",
-			"media",
-			"more info",
-			"url",
-			"author1Url",
-			"author2Url",
-			"author3Url",
-			"author4Url",
-			"publisherUrl",
-			"total",
-		];
-		return !(skip.findIndex((p) => p.includes(key)) > -1);
-	}
-	function getTagsFromProject(row) {
-		let tags = getTagsFromRow(row);
-		let str = "";
-		for (let i = 0; i < tags.length; i++) {
-			str += `#${tags[i]} `
-			// str += `<button class="tag" data-tag="${tags[i]}" onClick="onSelectTag(\'scroll\')">
-			// 			${tags[i].replace("-", " ")}
-			// 		</button> `;
-		}
-		return str;
-	}
-	function getTagsFromRow(row) {
-		let tags = [];
-		for (const prop in row) {
-			if (!isLegitTagName(prop)) continue;
-			if (row[prop] == "x")
-				// console.log("prop", prop)
-				tags.push(prop);
-			// for (let i = 0; i < row.length; i++) {
-			// 	console.log(data[i].name, data[i][tag]);
-			// 	// if (data[i][tag] == "x") tags[tag].push(i);
-			// 	// if (tag == "all") tags["all"].push(i); // all
-			// }
-		}
-		return tags;
-	}
 	async function createTagMenu() {
 		let str = "";
 		for (const tag in tags) {
@@ -252,19 +174,40 @@
 		}
 	}
 
+	function onSelectTag(_new = "") {
+		console.log("onSelectTag() [1]", _new, params);
+		compareTagToExisting(_new);
+
+		updateDisplay();
+	}
+	function updateDisplay() {}
+
 	/**
 	 * Update list by
 	 */
-	function onSelectTag(tag = "") {
-		updateUrlFromTag(tag);
-		selectTagInMenu(historyState.tag);
+	function compareTagToExisting(_tag) {
+		// if (!tags[_tag]) return;
+		compareToTagInUrl(_tag);
+		//params.tag = _new;
+		displayTagInMenu(historyState.tag);
 		// update list using the tag ids
 		let ids = tags[historyState.tag];
-		let newList = [];
+		let content = [];
 		for (let i = 0; i < ids.length; i++) {
-			newList.push(html[ids[i]]);
+			content.push(html[ids[i]]);
 		}
-		listEle.innerHTML = newList.join(" ");
+		// console.log(content);
+		contentEle.innerHTML = content.join(" ");
+		let projectLinks = document.querySelectorAll(".link");
+		for (let i = 0; i < projectLinks.length; i++) {
+			projectLinks[i].addEventListener("click", function (e) {
+				onSelectProject(e.target.dataset.link);
+			});
+		}
+	}
+
+	function onSelectProject(project = "") {
+		console.log(project, params);
 	}
 
 	/**
@@ -274,42 +217,63 @@
 		tag: "",
 		url: "",
 	};
-	function updateUrlFromTag(tag) {
+	function compareToTagInUrl(_tag) {
+		// if (!_tag || _tag == "") _tag = "all";
 		// !tag but hash found
-		if (tag == "" && window.location.hash)
-			historyState.tag = window.location.hash.replace("#", "").trim();
+		if (_tag == "" && window.location.hash)
+			historyState.tag = getUrlSegment();
 		// tag is the same as current state
-		else if (tag == historyState.tag) historyState.tag = "all";
+		else if (_tag == historyState.tag)
+			historyState.tag = "all";
 		// use tag
-		else if (tag != "") historyState.tag = tag.replace("#", "").trim();
+		else if (_tag != "")
+			historyState.tag = removePrefix(_tag);
 		// default if none found
-		if (historyState.tag == "") historyState.tag = "all";
+		if (historyState.tag == "")
+			historyState.tag = "all";
+		
 		historyState.url = "#" + historyState.tag;
-		// console.log(window.location.hash, historyState);
+		console.log(window.location.hash, historyState);
 		// update URL
 		window.history.replaceState(historyState, historyState.tag, historyState.url);
 	}
-	function selectTagInMenu(tag) {
-		// console.log("selectTagInMenu()", tag, notes, notes[tag]);
-		// remove current
-		document
-			.querySelectorAll(".tag.active")
-			.forEach((item) => item.classList.remove("active"));
-		notesEle.innerHTML = "";
-		// double check and then display active
-		if (window.location.hash.includes(tag))
-			document.querySelector(`[data-tag="${tag}"]`).classList.add("active");
-		// breadcrumb
-		let notesHtml = `→ <span>${tag.replace("-", " ")}</span>`;
-		if (notes[tag]) notesHtml += ` → ${notes[tag]}`;
-		notesEle.innerHTML = notesHtml;
+	function getUrlSegment(prefix = "#") {
+		return removePrefix(window.location.hash, prefix);
 	}
-	function selectSortMethodInMenu(sortMethod) {
+	function removePrefix(str, prefix) {
+		return str.replace(prefix, "").trim();
+	}
+
+	////////////////////////////////////////////////////////
+	//////////////////////// UI ////////////////////////////
+	////////////////////////////////////////////////////////
+
+	function displaySortMethodInMenu() {
 		// remove current
 		document
 			.querySelectorAll(".sort.active")
 			.forEach((item) => item.classList.remove("active"));
-		document.querySelector(`[id="${sortMethod}"]`).classList.add("active");
+		document.querySelector(`[id="${params.sortMethod}"]`).classList.add("active");
+	}
+	function displayTagInMenu(_tag) {
+		// console.log("displayTagInMenu()", _tag, json.notes, json.notes[_tag]);
+		// remove current
+		document
+			.querySelectorAll(".tag.active")
+			.forEach((item) => item.classList.remove("active"));
+
+		// double check and then display active
+		if (window.location.hash.includes(_tag))
+			document.querySelector(`[data-tag="${_tag}"]`).classList.add("active");
+
+		displayNotes(_tag);
+	}
+	function displayNotes(_tag) {
+		notesEle.innerHTML = "";
+		// breadcrumb
+		let notesHtml = `→ <span>${_tag.replace("-", " ")}</span>`;
+		if (json.notes[_tag]) notesHtml += ` → ${json.notes[_tag]}`;
+		notesEle.innerHTML = notesHtml;
 	}
 
 	// const fontStacks = ["head", "para", "mono", "fant", "curs", "hand"];

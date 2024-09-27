@@ -34,7 +34,7 @@ async function saveData() {
 	let data = await getCleanData();
 	return await saveFile(data, FILENAME);
 }
-saveData();
+// saveData();
 async function getData(url) {
 	return fetch(url)
 		.then((d) => d.text())
@@ -71,7 +71,7 @@ async function getCleanData() {
 	console.log("dataRowsParsed", dataRowsParsed[1]);
 	let data = await cleanData(dataRowsParsed);
 	console.log("data", data[2]);
-	return { notes: headerRowsParsed[0], data: data };
+	return { notes: headerRowsParsed[0], projects: data };
 }
 async function cleanData(data) {
 	let arr = [];

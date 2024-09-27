@@ -59,7 +59,7 @@ a:active {
 }
 
 a:visited,
-.list .item a:visited {
+.content .item a:visited {
 	color: var(--gray-7);
 	color: var(--indigo-5);
 	text-decoration: underline;
@@ -134,34 +134,34 @@ h1 a {
 
 
 
-.list {
+.content {
 	color: var(--gray-6);
 }
 
-.list .item {
+.content .item {
 	display: block;
 	padding: .3rem 0;
 	border-top: 1px dotted var(--violet-11);
 }
 
-.list .item span {
+.content .item span {
 	display: inline-block;
 	padding: 0 .08rem;
 }
 
-.list .item .name {
+.content .item .name {
 	color: var(--gray-5);
 }
 
-.list .item .status {
+.content .item .status {
 	cursor: pointer;
 }
 
-.list .item .date {
+.content .item .date {
 	color: var(--gray-6);
 }
 
-.list .item .author {
+.content .item .author {
 	color: var(--gray-5);
 	display: inline;
 }
@@ -182,29 +182,29 @@ h1 a {
 	padding: .5rem;
 } */
 
-.list .item .strike {
+.content .item .strike {
 	text-decoration: line-through;
 	color: var(--gray-6);
 }
 
-.list .item .tags {
+.content .item .tags {
 	color: var(--gray-7);
 }
 
-.list .item .description {
+.content .item .description {
 	display: none;
 }
 
-.list .item .media {
+.content .item .media {
 	display: none;
 }
 
-body.showMedia .list .item .media {
+body.showMedia .content .item .media {
 	margin: .5rem 0;
 	display: block;
 }
 
-body.showDescriptions .list .item .description {
+body.showDescriptions .content .item .description {
 	margin: .5rem 0;
 	display: block;
 }
