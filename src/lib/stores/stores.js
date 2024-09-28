@@ -15,6 +15,7 @@ import json from '$lib/stores/data.json';
 let projects = json.projects;
 // console.log(projects);
 
+export const showProject = writable({});
 export const tag = writable('all');
 export const sortField = writable('name');
 export const sortOrder = writable(1);

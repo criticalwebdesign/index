@@ -30,6 +30,14 @@
 		if (!url) return name.trim();
 		else return `<a href="${url.trim()}" ${blank ? 'target="_blank"' : ''}>${name.trim()}</a>`;
 	}
+
+	/// "shallow routing" for project views
+	// https://kit.svelte.dev/docs/shallow-routing
+	import { pushState } from '$app/navigation';
+	import { page } from '$app/stores';
+	import { get } from 'svelte/store';
+	import { showProject } from '$lib/stores/stores.js';
+
 </script>
 
 <div class="item">
@@ -70,6 +78,16 @@
 	{/if}
 
 	<span><a href="{base}/{convertToSlug(item.name)}" class="link">#</a></span>
+	<span>
+		<button
+			on:click={() => {
+				let href = `${base}/${item.slug}`;
+				showProject.set(item);
+				pushState(href, { selected: item.slug });
+			}}
+			href="{base}/{convertToSlug(item.name)}"
+			class="link">#</button
+		></span>
 
 	{#if item.description}
 		<span class="description">{item.description}</span>

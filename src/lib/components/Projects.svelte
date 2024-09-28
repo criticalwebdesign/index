@@ -1,7 +1,7 @@
 <script>
 	// @ts-nocheck
 
-	import { tag, sortField, sortOrder, p2, p2Sorted, projectStore, count } from '$lib/stores/stores.js';
+	import { showProject, tag, sortField, sortOrder, p2, p2Sorted, projectStore, count } from '$lib/stores/stores.js';
 	import { get } from 'svelte/store';
 	// reactive
 	$: projects = $projectStore;
@@ -63,6 +63,10 @@
 	<!-- <div>
 		<p>{JSON.stringify($projectStore[0])}</p>
 	</div> -->
+	
+	{#if $showProject.name}
+		{$showProject.name}
+	{/if}
 
 	<div class="content columns">
 		{#each $p2Sorted as item}
