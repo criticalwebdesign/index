@@ -16,20 +16,13 @@
 	}
 </script>
 
-<!-- {JSON.stringify(projects)} -->
-
-<!-- <p>The count is {$count}</p>
-<button on:click={count.increment}>+</button>
-<button on:click={count.decrement}>-</button>
-<button on:click={count.reset}>reset</button> -->
-
 <section>
-	<div>
+	<!-- <div>
 		{$tag}
 		{$sortField}
 		{$sortOrder}
-	</div>
-	<div>
+	</div> -->
+	<!-- <div>
 		Sort by:
 		<button
 			on:click={() => {
@@ -38,7 +31,7 @@
 			}}>
 			Name
 			{#if $sortField == 'name'}
-				{$sortOrder > 0 ? '↑' : '↓'}
+				{$sortOrder > 0 ? '↓' : '↑'}
 			{/if}
 		</button>
 		<button
@@ -48,10 +41,10 @@
 			}}>
 			Date
 			{#if $sortField == 'start'}
-				{$sortOrder > 0 ? '↑' : '↓'}
+				{$sortOrder > 0 ? '↓' : '↑'}
 			{/if}
 		</button>
-	</div>
+	</div> -->
 	<!-- <div>
 		<button
 			on:click={() => {

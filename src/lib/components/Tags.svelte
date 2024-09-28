@@ -25,13 +25,13 @@
 			{/if}
 		{/each}
 	</span>
-	<span class="sortMethods">
+	<!-- <span class="sortMethods">
 		Sort by:
 		<button class="sort" id="byName">name</button>
 		<button class="sort" id="byStartDate">date</button>
-	</span>
+	</span> -->
 	<span class="show">
-		Show:
+		<!-- Show: -->
 		<label for="showDescriptionsBtn">📄</label>
 		<input type="checkbox" id="showDescriptionsBtn" on:click={toggleDescriptions} />
 		<label for="showMediaBtn">🖼️</label>

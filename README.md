@@ -43,3 +43,11 @@ You can preview the production build with `npm run preview`.
 ## Notes
 
 https://kit.svelte.dev/docs/single-page-apps
+
+
+## TODO
+
+- Fix history state (back button)
+- Loading URL should load tag
+- Fix design of project
+- Move project above list

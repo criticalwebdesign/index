@@ -3,6 +3,8 @@
 /**
  * Import JSON data and make it accessible everywhere
  * See
+ * - https://dev.to/jdgamble555/the-unwritten-svelte-stores-guide-47la
+ * - https://learn.svelte.dev/tutorial/writable-stores
  * - https://learn.svelte.dev/tutorial/custom-stores
  * - https://betterprogramming.pub/what-are-svelte-stores-and-how-to-use-them-a4963968ee89
  * - https://developer.mozilla.org/en-US/docs/Learn/Tools_and_testing/Client-side_JavaScript_frameworks/Svelte_stores
@@ -57,7 +59,8 @@ export const projectStore = createProjectsStore();
 
 function dynamicSort(sortField, sortOrder = 1) {
 	return function (a, b) {
-		var result = a[sortField] < b[sortField] ? -1 : a[sortField] > b[sortField] ? 1 : 0;
+		// var result = a[sortField] < b[sortField] ? -1 : a[sortField] > b[sortField] ? 1 : 0;
+		var result = a[sortField].toLowerCase().localeCompare(b[sortField].toLowerCase())
 		// var result =  a[sortField].localeCompare(b[sortField])
 		return result * sortOrder;
 	};

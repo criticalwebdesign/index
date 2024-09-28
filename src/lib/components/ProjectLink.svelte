@@ -33,7 +33,7 @@
 </script>
 
 <div class="item">
-	{#if item.media !=""}
+	{#if item.media != ''}
 		<span class="media">
 			{#each item.media.split(',') as m (m)}
 				<a href="{base}/assets/img/{m}.png" target="_blank"
