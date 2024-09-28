@@ -41,7 +41,7 @@ function createProjectsStore() {
 			// sort
 			projects = projects.sort(dynamicSort(_sortField));
 			console.log(
-				'✅2 t:',
+				'✅ t:',
 				get(tag),
 				'sortField:',
 				get(sortField),
