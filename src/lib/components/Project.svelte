@@ -33,23 +33,25 @@
 
 	/// "shallow routing" for project views
 	// https://kit.svelte.dev/docs/shallow-routing
-	import { pushState } from '$app/navigation';
+	import { replaceState } from '$app/navigation';
 	import { page } from '$app/stores';
 	import { get } from 'svelte/store';
 	import { showProject } from '$lib/stores/stores.js';
-
+	$: showProjectDetails = '';
+	function toggleProject(item) {
+		if (showProjectDetails) {
+			showProject.set({});
+			showProjectDetails = '';
+			replaceState(`${base}/`, { showProjectOnLoad: false });
+		} else {
+			showProject.set(item);
+			showProjectDetails = 'showMedia showDescriptions';
+			replaceState(`${base}/${item.slug}`, { showProjectOnLoad: true });
+		}
+	}
 </script>
 
-<div class="item">
-	{#if item.media != ''}
-		<span class="media">
-			{#each item.media.split(',') as m (m)}
-				<a href="{base}/assets/img/{m}.png" target="_blank"
-					><img src="{base}/assets/img_t/{m}.png" alt="{item.name} media" /></a>
-			{/each}
-		</span>
-	{/if}
-
+<div class="item {showProjectDetails}">
 	<span class="name{getStrikeStatus(item.status)}">
 		{@html getLink(item.name, getUrlStatus(item.status, item.url))}
 	</span>
@@ -69,7 +71,10 @@
 			{@html getLink(item.author1, item.author1Url)}{#if item.author2}, {@html getLink(
 					item.author2,
 					item.author2Url
-				)}{/if}{#if item.author3}, {@html getLink(item.author3, item.author3Url)}{/if}
+				)}{/if}{#if item.author3}, {@html getLink(item.author3, item.author3Url)}{/if}{#if item.author4}, {@html getLink(
+					item.author4,
+					item.author4Url
+				)}{/if}
 		</span>
 	{/if}
 
@@ -77,18 +82,24 @@
 		<span class="publisher">({@html getLink(item.publisher, item.publisherUrl)})</span>
 	{/if}
 
-	<span><a href="{base}/{convertToSlug(item.name)}" class="link">#</a></span>
+	<!-- <span><a href="{base}/{convertToSlug(item.name)}" class="link">#</a></span> -->
 	<span>
 		<button
 			on:click={() => {
-				let href = `${base}/${item.slug}`;
-				showProject.set(item);
-				pushState(href, { selected: item.slug });
+				toggleProject(item);
 			}}
-			href="{base}/{convertToSlug(item.name)}"
 			class="link">#</button
 		></span>
+	<!-- href="{base}/{convertToSlug(item.name)}" -->
 
+	{#if item.media != ''}
+		<span class="media">
+			{#each item.media.split(',') as m (m)}
+				<a href="{base}/assets/img/{m}.png" target="_blank"
+					><img src="{base}/assets/img_t/{m}.png" alt="{item.name} media" /></a>
+			{/each}
+		</span>
+	{/if}
 	{#if item.description}
 		<span class="description">{item.description}</span>
 	{/if}

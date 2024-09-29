@@ -8,12 +8,14 @@
 	import Tag from '$lib/components/Tag.svelte';
 
 	function toggleMedia() {
-		console.log('toggleMedia()');
 		document.querySelector('.content').classList.toggle('showMedia');
+		let items = document.querySelector('.item.showMedia')
+		if (items) items.classList.toggle('showMedia');
 	}
 	function toggleDescriptions() {
-		console.log('toggleDescriptions()');
 		document.querySelector('.content').classList.toggle('showDescriptions');
+		let items = document.querySelector('.item.showDescriptions')
+		if (items) items.classList.toggle('showDescriptions');
 	}
 </script>
 

@@ -201,20 +201,20 @@ h1 a {
 	display: none;
 }
 
-.content.showMedia .item .media {
+.content.showMedia .item .media,
+.content .item.showMedia .media {
 	margin: .5rem 0;
 	display: block;
 }
 
-.content.showDescriptions .item .description {
+.content.showDescriptions .item .description,
+.content .item.showDescriptions .description {
 	margin: .5rem 0;
 	display: block;
 }
-
 
 #showMediaBtn,
 #showDescriptionsBtn {
-	background: yellow;
 	height: 0;
 	overflow: hidden;
 	transition: height 300ms linear;

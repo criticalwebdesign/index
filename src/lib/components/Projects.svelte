@@ -1,11 +1,11 @@
 <script>
 	// @ts-nocheck
 
-	import { showProject, tag, sortField, sortOrder, p2, p2Sorted, projectStore, count } from '$lib/stores/stores.js';
+	import { tag, sortField, sortOrder, p2, p2Sorted, projectStore, count } from '$lib/stores/stores.js';
 	import { get } from 'svelte/store';
 	// reactive
 	$: projects = $projectStore;
-	import ProjectLink from '$lib/components/ProjectLink.svelte';
+	import Project from '$lib/components/Project.svelte';
 
 	$: projects, console.log('projects has changed');
 
@@ -14,9 +14,17 @@
 		projects = projects;
 		console.log('👉', projects[0].name);
 	}
+
+	/// "shallow routing" for project views
+	// https://kit.svelte.dev/docs/shallow-routing
+	import { page } from '$app/stores';
+	import { showProject } from '$lib/stores/stores.js';
 </script>
 
 <section>
+	<!-- {#if $page.state.showProjectOnLoad}
+		{$page.state.showProjectOnLoad}
+	{/if} -->
 	<!-- <div>
 		{$tag}
 		{$sortField}
@@ -63,20 +71,20 @@
 	<!-- <div>
 		<p>{JSON.stringify($projectStore[0])}</p>
 	</div> -->
-	
-	{#if $showProject.name}
+
+	<!-- {#if $showProject.name}
 		{$showProject.name}
-	{/if}
+	{/if} -->
 
 	<div class="content columns">
 		{#each $p2Sorted as item}
-			<ProjectLink {item} />
+			<Project {item} />
 		{/each}
 		<!-- {#each projects as item}
-			<ProjectLink {item} />
+			<Project {item} />
 		{/each} -->
 		<!-- {#each $projectStore as item, index}
-			<ProjectLink {item} />
+			<Project {item} />
 		{/each} -->
 	</div>
 </section>

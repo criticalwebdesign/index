@@ -15,11 +15,13 @@ import json from '$lib/stores/data.json';
 let projects = json.projects;
 // console.log(projects);
 
+// writable stores
 export const showProject = writable({});
 export const tag = writable('all');
 export const sortField = writable('name');
 export const sortOrder = writable(1);
-
+export const notesStore = writable(json.notes);
+// derived stores
 export const p2 = writable(json.projects);
 export const p2Sorted = derived(p2, ($p2) => $p2.sort(dynamicSort('name', get(sortOrder))));
 
@@ -74,14 +76,13 @@ function filterProjects(tag = '') {
 	});
 }
 
-function createNotesStore() {
-	const { subscribe, set, update } = writable(json.notes);
-	return {
-		subscribe
-	};
-}
-// export let n = writable(json.notes);
-export const notesStore = createNotesStore();
+// function createNotesStore() {
+// 	const { subscribe, set, update } = writable(json.notes);
+// 	return {
+// 		subscribe
+// 	};
+// }
+// export const notesStore = createNotesStore();
 
 ////////////////////////////////////////////////////
 ///////////////////// EXAMPLES /////////////////////

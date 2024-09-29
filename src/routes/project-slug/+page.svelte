@@ -1,4 +1,4 @@
-<script>
+<!-- <script>
 	// @ts-nocheck
 	import { readable } from 'svelte/store';
 	// export const date = readable('today is: ' + new Date());
@@ -13,10 +13,10 @@
 		}
 	}
 	import ProjectLink from '$lib/components/ProjectLink.svelte';
-</script>
+</script> -->
 
 <!-- <h1>{JSON.stringify($page.params.slug)}</h1> -->
 
-<div class="content showMedia showDescriptions">
+<!-- <div class="content showMedia showDescriptions">
 	<ProjectLink {item} />
-</div>
+</div> -->
