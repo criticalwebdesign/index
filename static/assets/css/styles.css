@@ -2,7 +2,6 @@
 /* @import "https://unpkg.com/open-props";
 @import "https://unpkg.com/open-props/normalize.min.css"; */
 
-
 @import "../open-props/borders.min.css";
 @import "../open-props/fonts.min.css";
 @import "../open-props/gray.min.css";
@@ -13,38 +12,16 @@
 @import "../open-props/sizes.min.css";
 @import "../open-props/violet.min.css";
 
-
-
-
 html {
 	block-size: 100%;
 	background: var(--gray-11);
 	color: var(--gray-5);
 	font: 1rem / 1.5rem var(--font-sans);
-	/* makes scrollbar visible so menu doesn't shift */
 	min-height: 101%;
 }
 
 body {
-	padding: var(--size-3);
-}
-
-
-h1 {
-	margin-top: .5rem;
-	font-weight: 300;
-	font-size: var(--font-size-6);
-	max-inline-size: 100%;
-	color: var(--indigo-3);
-}
-
-h1 a:visited {
-	color: var(--indigo-3);
-}
-
-
-section {
-	margin: var(--size-4) 0;
+	padding: 0;
 }
 
 a:link {
@@ -59,7 +36,7 @@ a:active {
 }
 
 a:visited,
-.content .item a:visited {
+.links .item a:visited {
 	color: var(--gray-7);
 	color: var(--indigo-5);
 	text-decoration: underline;
@@ -75,11 +52,15 @@ button {
 	padding-bottom: .2rem;
 }
 
-h1 button {
-	vertical-align: 1rem;
-	padding: .3rem;
-	font-size: small;
-	background: var(--violet-12);
+h1 {
+	font-weight: 300;
+	font-size: var(--font-size-3);
+	max-inline-size: 100%;
+	color: var(--indigo-3);
+}
+
+h1 a:visited {
+	color: var(--indigo-3);
 }
 
 h1 a {
@@ -88,202 +69,153 @@ h1 a {
 
 
 
-.tag,
-.sort {
-	background: var(--violet-12);
-	color: var(--indigo-5);
-	min-width: 2rem;
-	margin-right: 0.3rem;
+
+
+
+.strike {
+	text-decoration: line-through;
+	color: var(--gray-6);
+}
+.title {
+	color: var(--gray-5);
+}
+.date {
+	color: var(--gray-6);
+}
+.status {
+	cursor: pointer;
+}
+.author {
+	color: var(--gray-5);
+	display: inline;
 }
 
-.tag:hover,
-.sort:hover {
-	background: var(--violet-10);
-	color: var(--indigo-3);
+
+
+
+
+
+header,
+section,
+footer {
+	/* grid / flex margins don't collapse! */
+	margin: .5rem 0;
+	padding: 0 1rem;
 }
 
-.tag.active,
-.sort.active {
-	background: var(--violet-8);
-	color: var(--indigo-2);
+header {
+	margin-top: 1rem;
+	grid-area: header;
 }
 
-.tag.active:hover,
-.sort.active:hover {
-	background: var(--violet-9);
-	color: var(--indigo-2);
+.tags {
+	grid-area: tags;
+}
+
+.links {
+	grid-area: links;
+}
+
+.project {
+	/* background-color: #4f2b67; */
+	grid-area: project;
+}
+
+footer {
+	/* background-color: #0d0f12; */
+	grid-area: footer;
+}
+
+.sticky {
+	position: sticky;
+	top: 0;
+}
+
+/* test https://codepen.io/owenmundy/pen/JjgEMGV?editors=1100 */
+.container {
+	height: 100%;
+	display: grid;
+	grid-template-areas:
+		"header"
+		"project"
+		"tags"
+		"links"
+		"footer";
 }
 
 .columns {
 	page-break-inside: avoid;
 	break-inside: avoid-column;
 	column-gap: 2rem;
+	column-count: 1;
 }
 
-@media (min-width: 65rem) {
-	.columns {
+@media (min-width: 1100px) {
+	.container {
+		grid-template-columns: 50% auto;
+		grid-template-areas:
+			"header header"
+			"tags tags"
+			"links links"
+			"links links"
+			"footer footer";
+	}
+
+	.container.projectVisible {
+		/* background-color: red; */
+		grid-template-areas:
+			"header header"
+			"tags tags"
+			"links project"
+			"links project"
+			"footer footer";
+	}
+
+	.container .columns {
+		column-count: 2;
+	}
+
+	.container.projectVisible .columns {
+		column-count: 1;
+	}
+}
+
+@media (min-width: 1500px) {
+
+	.container {
+		grid-template-columns: 33% 33% 33%;
+		grid-template-areas:
+			"header header header"
+			"tags tags tags"
+			"links links links"
+			"links links links"
+			"footer footer footer";
+	}
+
+	.container.projectVisible {
+		grid-template-areas:
+			"header header header"
+			"tags tags tags"
+			"links links project"
+			"links links project"
+			"footer footer footer";
+	}
+
+	.container .columns {
+		column-count: 3;
+	}
+
+	.container.projectVisible .columns {
 		column-count: 2;
 	}
 }
 
-@media (min-width: 100rem) {
-	.columns {
+@media (min-width: 2100px) {
+	.container .columns {
+		column-count: 4;
+	}
+
+	.container.projectVisible .columns {
 		column-count: 3;
-	}
-}
-
-
-
-
-.content {
-	color: var(--gray-6);
-}
-
-.content .item {
-	display: block;
-	padding: .3rem 0;
-	border-top: 1px dotted var(--violet-11);
-	break-inside: avoid-column;
-}
-
-.content .item span {
-	display: inline-block;
-	padding: 0 .08rem;
-}
-
-.content .item .name {
-	color: var(--gray-5);
-}
-
-.content .item .status {
-	cursor: pointer;
-}
-
-.content .item .date {
-	color: var(--gray-6);
-}
-
-.content .item .author {
-	color: var(--gray-5);
-	display: inline;
-}
-
-.sortMethods,
-.show {
-	margin-left: .5rem;
-	color: var(--gray-5);
-}
-
-/* 
-.show {
-	position: fixed;
-	top: 0;
-	right: 0;
-	text-align: right;
-	width: 10rem;
-	padding: .5rem;
-} */
-
-.content .item .strike {
-	text-decoration: line-through;
-	color: var(--gray-6);
-}
-
-.content .item .tags {
-	color: var(--gray-7);
-}
-
-.content .item .description {
-	display: none;
-}
-
-.content .item .media {
-	display: none;
-}
-
-.content.showMedia .item .media,
-.content .item.showMedia .media {
-	margin: .5rem 0;
-	display: block;
-}
-
-.content.showDescriptions .item .description,
-.content .item.showDescriptions .description {
-	margin: .5rem 0;
-	display: block;
-}
-
-#showMediaBtn,
-#showDescriptionsBtn {
-	height: 0;
-	overflow: hidden;
-	transition: height 300ms linear;
-}
-
-label {
-	cursor: pointer;
-}
-
-#showMediaBtn,
-#showDescriptionsBtn {
-	display: none;
-}
-
-/* about info icon */
-.menu {
-	position: absolute;
-	top: .5rem;
-	right: .5rem;
-	width: 1.2rem;
-	height: 1.2rem;
-	text-align: right;
-}
-
-.menu img {
-	width: 1.2rem;
-}
-
-
-.notes {
-	color: var(--gray-6);
-	margin: 1rem 0;
-	/* text-align: center; */
-	/* border-top: 2px solid var(--gray-9); */
-	padding: var(--size-2);
-	/* border-bottom: 2px solid var(--gray-9); */
-}
-
-.notes span {
-	color: var(--gray-5);
-}
-
-.about {
-	margin: var(--size-6) 0;
-	border-bottom: 2px solid var(--gray-9);
-	padding: var(--size-4) 0;
-}
-
-
-footer {
-	margin: var(--size-6) 0;
-	border-top: 2px solid var(--gray-9);
-	padding: var(--size-4) 0;
-	display: grid;
-	grid-template-columns: 1fr;
-	gap: 2rem;
-}
-
-
-@media (min-width: 65rem) {
-	footer {
-		grid-template-columns: 1fr 1fr;
-		gap: 2rem;
-	}
-}
-
-@media (min-width: 100rem) {
-	footer {
-		grid-template-columns: 2fr 1fr;
-		gap: 4rem;
 	}
 }

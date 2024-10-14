@@ -1,51 +1,27 @@
 <script>
 	// @ts-nocheck
 
-	import { isLegitTagName } from '$lib/functions';
+	import { base } from '$app/paths';
 	import { notesStore, tag, projectStore, count } from '$lib/stores/stores.js';
 	import { get } from 'svelte/store';
+	import { isLegitTagName } from '$lib/functions';
+
 	$: notes = $notesStore;
 	import Tag from '$lib/components/Tag.svelte';
-
-	function toggleMedia() {
-		document.querySelector('.content').classList.toggle('showMedia');
-		let items = document.querySelector('.item.showMedia')
-		if (items) items.classList.toggle('showMedia');
-	}
-	function toggleDescriptions() {
-		document.querySelector('.content').classList.toggle('showDescriptions');
-		let items = document.querySelector('.item.showDescriptions')
-		if (items) items.classList.toggle('showDescriptions');
-	}
 </script>
 
-<section>
-	<span class="tags">
+<section class="tags sticky">
+	<span class="">
 		{#each Object.entries(notes) as [val, note]}
 			{#if isLegitTagName(val)}
 				<Tag {val} {note} />
 			{/if}
 		{/each}
 	</span>
-	<!-- <span class="sortMethods">
-		Sort by:
-		<button class="sort" id="byName">name</button>
-		<button class="sort" id="byStartDate">date</button>
-	</span> -->
-	<span class="show">
-		<!-- Show: -->
-		<label for="showDescriptionsBtn">📄</label>
-		<input type="checkbox" id="showDescriptionsBtn" on:click={toggleDescriptions} />
-		<label for="showMediaBtn">🖼️</label>
-		<input type="checkbox" id="showMediaBtn" on:click={toggleMedia} />
-	</span>
-	<div class="notes">
-		<!-- {$tag}
-		{$sortOrder} -->
-
-		→ <span>{$tag.replace('-', ' ')}</span>
-		{#if $tag}
-			→ {notes[$tag]}
-		{/if}
-	</div>
 </section>
+
+<style>
+	.tags {
+		color: var(--gray-7);
+	}
+</style>
