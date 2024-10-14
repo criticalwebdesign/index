@@ -33,7 +33,7 @@ let dataUrl =
 async function saveData() {
 	let data = await getCleanData();
 	await saveFile(data, '../src/lib/stores/' + FILENAME);
-	await saveFile(data, './assets/' + FILENAME);
+	// await saveFile(data, './assets/' + FILENAME);
 	return data.projects[2];
 }
 // saveData();
@@ -70,17 +70,22 @@ async function getCleanData() {
 	// console.log(d3.csvParseRows(rows));
 
 	let dataRowsParsed = d3.csvParse(dataRows);
-	// console.log('dataRowsParsed', dataRowsParsed[1]);
+	// console.log('dataRowsParsed', dataRowsParsed);
+	// console.log('dataRowsParsed', JSON.stringify(dataRowsParsed[186]));
 	let data = await cleanData(dataRowsParsed);
-	console.log('data', JSON.stringify(data[2]));
+	// console.log('data', JSON.stringify(data[2]));
+	// console.log('dataRowsParsed', JSON.stringify(dataRowsParsed[186]));
+	console.log('dataRowsParsed', JSON.stringify(dataRowsParsed[186]));
+	console.log('dataRowsParsed', JSON.stringify(dataRowsParsed[187]));
 	return { notes: headerRowsParsed[0], projects: data };
 }
 async function cleanData(data) {
 	let arr = [];
+	let slugs = [];
 	for (let i = 0; i < data.length; i++) {
 		// console.log(data[i]);
-		if (data[i].name == '') continue;
-		if (data[i].name == 'To evaluate') break;
+		if (data[i].title == '') continue;
+		if (data[i].title == 'To evaluate') break;
 		if (data[i].status == '✅') data[i].status = '';
 		if (!data[i].start || data[i].start == '') data[i].start = 0;
 		if (data[i].url == '#REF!') data[i].url = '';
@@ -95,13 +100,23 @@ async function cleanData(data) {
 		data[i].end = Number(data[i].end);
 		data[i].total = Number(data[i].total);
 
-		data[i]['slug'] = data[i].name
+		let slug = data[i].title
 			.toLowerCase()
 			.replace(/(?!.)[^\w ]+/g, '') // (?!.) leaves period in domain names
 			.replace(/\?/g,"")
 			.replace(/\//g,"")
 			.replace(/#/g,"")
 			.replace(/ +/g, '-');
+		
+		// make sure slug is unique
+		if (slugs.includes(slug)) {
+			if (data[i].start)
+				slug += "-" + data[i].start;
+			else if (data[i].author1)
+				slug += "-" + data[i].author1.split(" ")[0];
+		}		
+		data[i]['slug'] = slug;
+		slugs.push(slug);
 
 		// for (const prop in data[i]) {
 		// 	if (Object.hasOwn(data[i], prop)) {
