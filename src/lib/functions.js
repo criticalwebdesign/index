@@ -12,14 +12,12 @@ export function getObjectFromSlug(arr, slug) {
 	return obj;
 }
 
-
-
 export function getAuthors(p) {
-	let str = "";
-	for (let i = 1; i <= 4; i++){
-		if (!p["author" + i]) break;
-		if (str.length > 0) str += ", ";
-		str += getLink(p["author" + i], p["author" + i + "Url"]);
+	let str = '';
+	for (let i = 1; i <= 4; i++) {
+		if (!p['author' + i]) break;
+		if (str.length > 0) str += ', ';
+		str += getLink(p['author' + i], p['author' + i + 'Url']);
 	}
 	return str;
 }
@@ -38,9 +36,9 @@ export function convertToSlug(str) {
 	return str
 		.toLowerCase()
 		.replace(/(?!.)[^\w ]+/g, '') // (?!.) leaves period in domain names
-		.replace(/\?/g,"")
-		.replace(/\//g,"")
-		.replace(/#/g,"")
+		.replace(/\?/g, '')
+		.replace(/\//g, '')
+		.replace(/#/g, '')
 		.replace(/ +/g, '-');
 }
 export function unSlug(str) {
@@ -68,28 +66,32 @@ export function isLegitTagName(key) {
 	if (!key || key == '') return false;
 	let skip = [
 		'title',
-		'author1',
-		'author2',
-		'author3',
-		'author4',
-		'publisher',
+		'url',
+
 		'start',
 		'end',
 		'status',
+		'archived',
+
+		'author1',
+		'author1Url',
+		'author2',
+		'author2Url',
+		'author3',
+		'author3Url',
+		'author4',
+		'author4Url',
+		'publisher', 
+		'publisherUrl',
+
 		'code',
 		'100examples',
 		'description',
-		'media',
-		'more info',
 		'moreinfo',
 		'moreinfoUrl',
-		'url',
-		'author1Url',
-		'author2Url',
-		'author3Url',
-		'author4Url',
-		'publisherUrl',
-		'total'
+		'media',
+		'total',
+		'tags' // not in spreadsheet, added dynamically later
 	];
 	return !(skip.findIndex((p) => p.includes(key)) > -1);
 }

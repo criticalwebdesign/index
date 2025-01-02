@@ -94,7 +94,7 @@ function dynamicSort(sortField, sortOrder = 1) {
 function filterProjects(tag = '') {
 	// console.log('filterProjects()', tag);
 	return json.projects.filter((item) => {
-		return item[tag] == 'x';
+		return item.tags.includes(tag);
 	});
 }
 
