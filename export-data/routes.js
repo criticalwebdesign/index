@@ -101,13 +101,7 @@ async function cleanData(data) {
 		data[i].end = Number(data[i].end);
 		data[i].total = Number(data[i].total);
 
-		let slug = data[i].title
-			.toLowerCase()
-			.replace(/(?!.)[^\w ]+/g, '') // (?!.) leaves period in domain names
-			.replace(/\?/g, '')
-			.replace(/\//g, '')
-			.replace(/#/g, '')
-			.replace(/ +/g, '-');
+		let slug = getSlug(data[i].title);
 
 		// make sure slug is unique
 		if (slugs.includes(slug)) {
@@ -116,6 +110,7 @@ async function cleanData(data) {
 		}
 		data[i]['slug'] = slug;
 		slugs.push(slug);
+		console.log('slug', data[i].slug);
 
 		// move tags into object
 		data[i]['tags'] = ['all'];
@@ -152,4 +147,18 @@ async function saveFile(data, filename) {
 	// console.log(`saveFile(${data}, ${filename})`);
 	await writeFile(path.resolve(__dirname, filename), JSON.stringify(data));
 	return { message: 'success' };
+}
+
+function getSlug(str) {
+	return str
+		.toLowerCase()
+		.trim()
+		.replace(/(?!.)[^\w ]+/g, '') // (?!.) leaves period in domain names
+		.replace(/\?/g, '')
+		.replace(/\//g, '')
+		.replace(/#/g, '')
+		.replace(/,+/g, '-')
+		.replace(/ +/g, '-')
+		.replace(/[^a-z0-9.]+/g, '-')
+		.replace(/--+/g, '-'); // any doubles created above
 }

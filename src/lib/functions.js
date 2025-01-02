@@ -90,6 +90,7 @@ export function isLegitTagName(key) {
 		'moreinfo',
 		'moreinfoUrl',
 		'media',
+		'slug',
 		'total',
 		'tags' // not in spreadsheet, added dynamically later
 	];

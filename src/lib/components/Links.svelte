@@ -37,7 +37,7 @@
 
 <section class="links">
 	<Breadcrumbs {crumbs}></Breadcrumbs>
-	<div class=" columns">
+	<div class="columns">
 		{#each $p2Sorted as item}
 			<ProjectLink {item} />
 		{/each}
