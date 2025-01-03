@@ -18,12 +18,12 @@ let projects = json.projects;
 // writable stores
 export const showProject = writable({});
 export const tag = writable('all');
-export const sortField = writable('name');
+export const sortField = writable('title');
 export const sortOrder = writable(1);
 export const notesStore = writable(json.notes);
 // derived stores
 export const p2 = writable(json.projects);
-export const p2Sorted = derived(p2, ($p2) => $p2.sort(dynamicSort('name', get(sortOrder))));
+export const p2Sorted = derived(p2, ($p2) => $p2.sort(dynamicSort('title', get(sortOrder))));
 
 // custom store
 function createProjectsStore() {
@@ -41,6 +41,7 @@ function createProjectsStore() {
 			projects = filterProjects(_tag);
 			p2.set(filterProjects(_tag));
 			// sort
+			console.log(_sortField)
 			projects = projects.sort(dynamicSort(_sortField));
 			console.log(
 				'✅ t:',
@@ -59,8 +60,9 @@ function createProjectsStore() {
 }
 // export let p = writable(json.projects);
 export const projectStore = createProjectsStore();
-
 function dynamicSort(sortField, sortOrder = 1) {
+
+	console.log(sortField)
 	return function (a, b) {
 		// var result = a[sortField] < b[sortField] ? -1 : a[sortField] > b[sortField] ? 1 : 0;
 		var result = a[sortField].toLowerCase().localeCompare(b[sortField].toLowerCase())
@@ -72,7 +74,7 @@ function dynamicSort(sortField, sortOrder = 1) {
 function filterProjects(tag = '') {
 	// console.log('filterProjects()', tag);
 	return json.projects.filter((item) => {
-		return item[tag] == 'x';
+		return item.tags.includes(tag);
 	});
 }
 

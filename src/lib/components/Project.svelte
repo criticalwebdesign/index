@@ -27,6 +27,7 @@
 	}
 
 	function getLink(name, url, blank = true) {
+		if(!name) return "";
 		if (!url) return name.trim();
 		else return `<a href="${url.trim()}" ${blank ? 'target="_blank"' : ''}>${name.trim()}</a>`;
 	}
@@ -53,7 +54,7 @@
 
 <div class="item {showProjectDetails}">
 	<span class="name{getStrikeStatus(item.status)}">
-		{@html getLink(item.name, getUrlStatus(item.status, item.url))}
+		{@html getLink(item.title, getUrlStatus(item.status, item.url))}
 	</span>
 
 	{#if item.start > 0}
@@ -82,7 +83,7 @@
 		<span class="publisher">({@html getLink(item.publisher, item.publisherUrl)})</span>
 	{/if}
 
-	<!-- <span><a href="{base}/{convertToSlug(item.name)}" class="link">#</a></span> -->
+	<!-- <span><a href="{base}/{convertToSlug(item.title)}" class="link">#</a></span> -->
 	<span>
 		<button
 			on:click={() => {
@@ -90,13 +91,13 @@
 			}}
 			class="link">#</button
 		></span>
-	<!-- href="{base}/{convertToSlug(item.name)}" -->
+	<!-- href="{base}/{convertToSlug(item.title)}" -->
 
 	{#if item.media != ''}
 		<span class="media">
 			{#each item.media.split(',') as m (m)}
 				<a href="{base}/assets/img/{m}.png" target="_blank"
-					><img src="{base}/assets/img_t/{m}.png" alt="{item.name} media" /></a>
+					><img src="{base}/assets/img_t/{m}.png" alt="{item.title} media" /></a>
 			{/each}
 		</span>
 	{/if}

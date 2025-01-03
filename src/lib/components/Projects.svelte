@@ -12,7 +12,7 @@
 	function update(_tag, _sortField, _sortOrder) {
 		projects = projectStore.updateFilters(_tag, _sortField, _sortOrder);
 		projects = projects;
-		console.log('👉', projects[0].name);
+		console.log('👉', projects[0].title);
 	}
 
 	/// "shallow routing" for project views
@@ -72,8 +72,8 @@
 		<p>{JSON.stringify($projectStore[0])}</p>
 	</div> -->
 
-	<!-- {#if $showProject.name}
-		{$showProject.name}
+	<!-- {#if $showProject.title}
+		{$showProject.title}
 	{/if} -->
 
 	<div class="content columns">
