@@ -88,7 +88,13 @@ h1 a {
 
 
 
-.tag,
+
+
+
+
+
+/* MARKED FOR DELETE */
+
 .sort {
 	background: var(--violet-12);
 	color: var(--indigo-5);
@@ -96,23 +102,29 @@ h1 a {
 	margin-right: 0.3rem;
 }
 
-.tag:hover,
+
 .sort:hover {
 	background: var(--violet-10);
 	color: var(--indigo-3);
 }
 
-.tag.active,
+
 .sort.active {
 	background: var(--violet-8);
 	color: var(--indigo-2);
 }
 
-.tag.active:hover,
+
 .sort.active:hover {
 	background: var(--violet-9);
 	color: var(--indigo-2);
 }
+
+/* \MARKED FOR DELETE */
+
+
+
+
 
 .columns {
 	page-break-inside: avoid;
