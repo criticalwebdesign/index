@@ -1,0 +1,276 @@
+/* test */
+/* @import "https://unpkg.com/open-props";
+@import "https://unpkg.com/open-props/normalize.min.css"; */
+
+
+@import "../open-props/borders.min.css";
+@import "../open-props/fonts.min.css";
+@import "../open-props/gray.min.css";
+@import "../open-props/indigo.min.css";
+@import "../open-props/normalize.min.css";
+@import "../open-props/purple.min.css";
+@import "../open-props/shadows.min.css";
+@import "../open-props/sizes.min.css";
+@import "../open-props/violet.min.css";
+
+
+:root {}
+
+html {
+	block-size: 100%;
+	background: var(--gray-11);
+	color: var(--gray-5);
+	font: 1rem / 1.5rem var(--font-sans);
+	/* makes scrollbar visible so menu doesn't shift */
+	min-height: 101%;
+}
+
+body {
+	padding: var(--size-3);
+}
+
+
+h1 {
+	margin-top: .5rem;
+	font-weight: 300;
+	font-size: var(--font-size-6);
+	max-inline-size: 100%;
+	color: var(--indigo-3);
+}
+
+h1 a:visited {
+	color: var(--indigo-3);
+}
+
+
+section {
+	margin: var(--size-4) 0;
+}
+
+a:link {
+	color: var(--indigo-3);
+	text-decoration: none;
+}
+
+a:focus,
+a:hover,
+a:active {
+	text-decoration: underline;
+}
+
+a:visited,
+.content .item a:visited {
+	color: var(--gray-7);
+	color: var(--indigo-5);
+	text-decoration: underline;
+}
+
+button {
+	font-size: var(--font-size-1);
+	padding-inline: .35rem;
+	padding-block: .12rem;
+	margin-block: var(--size-1);
+	border-radius: var(--radius-2);
+	box-shadow: var(--shadow-2);
+	padding-bottom: .2rem;
+}
+
+h1 button {
+	vertical-align: 1rem;
+	padding: .3rem;
+	font-size: small;
+	background: var(--violet-12);
+}
+
+h1 a {
+	text-decoration: none;
+}
+
+
+
+.tag,
+.sort {
+	background: var(--violet-12);
+	color: var(--indigo-5);
+	min-width: 2rem;
+}
+
+.tag:hover,
+.sort:hover {
+	background: var(--violet-10);
+	color: var(--indigo-3);
+}
+
+.tag.active,
+.sort.active {
+	background: var(--violet-8);
+	color: var(--indigo-2);
+}
+
+.tag.active:hover,
+.sort.active:hover {
+	background: var(--violet-9);
+	color: var(--indigo-2);
+}
+
+.columns {
+	page-break-inside: avoid;
+	break-inside: avoid-column;
+	column-gap: 2rem;
+}
+
+@media (min-width: 65rem) {
+	.columns {
+		column-count: 2;
+	}
+}
+
+@media (min-width: 100rem) {
+	.columns {
+		column-count: 3;
+	}
+}
+
+
+
+
+.content {
+	color: var(--gray-6);
+}
+
+.content .item {
+	display: block;
+	padding: .3rem 0;
+	border-top: 1px dotted var(--violet-11);
+}
+
+.content .item span {
+	display: inline-block;
+	padding: 0 .08rem;
+}
+
+.content .item .name {
+	color: var(--gray-5);
+}
+
+.content .item .status {
+	cursor: pointer;
+}
+
+.content .item .date {
+	color: var(--gray-6);
+}
+
+.content .item .author {
+	color: var(--gray-5);
+	display: inline;
+}
+
+.sortMethods,
+.show {
+	margin-left: .5rem;
+	color: var(--gray-5);
+}
+
+/* 
+.show {
+	position: fixed;
+	top: 0;
+	right: 0;
+	text-align: right;
+	width: 10rem;
+	padding: .5rem;
+} */
+
+.content .item .strike {
+	text-decoration: line-through;
+	color: var(--gray-6);
+}
+
+.content .item .tags {
+	color: var(--gray-7);
+}
+
+.content .item .description {
+	display: none;
+}
+
+.content .item .media {
+	display: none;
+}
+
+body.showMedia .content .item .media {
+	margin: .5rem 0;
+	display: block;
+}
+
+body.showDescriptions .content .item .description {
+	margin: .5rem 0;
+	display: block;
+}
+
+
+#showMediaBtn,
+#showDescriptionsBtn {
+	background: yellow;
+	height: 0;
+	overflow: hidden;
+	transition: height 300ms linear;
+}
+
+label {
+	cursor: pointer;
+}
+
+#showMediaBtn,
+#showDescriptionsBtn {
+	display: none;
+}
+
+
+
+
+
+.notes {
+	color: var(--gray-6);
+	margin: 1rem 0;
+	/* text-align: center; */
+	/* border-top: 2px solid var(--gray-9); */
+	padding: var(--size-2);
+	/* border-bottom: 2px solid var(--gray-9); */
+}
+
+.notes span {
+	color: var(--gray-5);
+}
+
+.about {
+	margin: var(--size-6) 0;
+	border-bottom: 2px solid var(--gray-9);
+	padding: var(--size-4) 0;
+}
+
+
+footer {
+	margin: var(--size-6) 0;
+	border-top: 2px solid var(--gray-9);
+	padding: var(--size-4) 0;
+	display: grid;
+	grid-template-columns: 1fr;
+	gap: 2rem;
+}
+
+
+@media (min-width: 65rem) {
+	footer {
+		grid-template-columns: 1fr 1fr;
+		gap: 2rem;
+	}
+}
+
+@media (min-width: 100rem) {
+	footer {
+		grid-template-columns: 2fr 1fr;
+		gap: 4rem;
+	}
+}

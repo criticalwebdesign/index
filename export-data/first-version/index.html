@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<title>Critical Web Design Index</title>
+
+	<!-- 
+	Title: Critical Web Design Index
+	Author(s): Owen Mundy
+	Date: 2020-
+	License: MIT
+	NOTES: This is the static index file (so to work on Github Pages)
+	-->
+
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,300;0,400;1,300&display=swap" rel="stylesheet">
+
+	<link rel="stylesheet" href="./assets/css/styles.css" />
+</head>
+<body>
+
+
+
+
+
+	<header>
+		<h1>
+			<a href="./">Critical Web Design Index</a>
+			<small>v.1</small>
+			<button class="count"></button>
+		</h1>
+	</header>
+
+	<section>
+		<span class="tags"></span>
+		<span class="sortMethods">
+			Sort by:
+			<button class="sort" id="byName">name</button>
+			<button class="sort" id="byStartDate">date</button>
+		</span>
+		<span class="show">
+			Show:
+			<label for="showDescriptionsBtn">📄</label>
+			<input type="checkbox" id="showDescriptionsBtn" />
+			<label for="showMediaBtn">🖼️</label>
+			<input type="checkbox" id="showMediaBtn" />
+		</span>
+	</section>
+
+	<section>
+		<div class="notes"></div>
+		<div class="content columns"></div>
+	</section>
+
+
+
+
+
+	<footer>
+
+		<div class="col">
+			Critical Web Design is a broad category that includes internet art, creative activism, and cultural production. Works are coded, functional, and typically accessible via the internet or a web browser. The creators practiced design during production, combining text and graphics to engage visitors, implementing code for the sites' presentation and behavior, or in how they planned for intentional experiences, regardless how a visitor might categorize them as works of activism, humor, experimentation, art, or some combination thereof.
+
+			This website presents and contextualizes such works using various themes, categories, and technologies, acknowledging the diverse creative practices that have emerged online, both within and outside the narrow definition of "Art".
+
+			For more information see: <i>Critical Web Design</i> by xtine burrough and Owen Mundy (MIT Press, forthcoming)
+		</div>
+
+		<div class="col">
+			Code:
+			<a href="https://github.com/omundy/critical-web-design-index" target="_blank">Github</a> <br>
+			Curated by: <a href="https://owenmundy.com" target="_blank">Owen Mundy</a> <br>
+			Contribute: <a href="https://github.com/omundy/critical-web-design-index/issues" target="_blank">Click "new issue"</a>
+		</div>
+
+	</footer>
+
+	<script src="./assets/js/main.js" type="module"></script>
+</body>
+</html>
