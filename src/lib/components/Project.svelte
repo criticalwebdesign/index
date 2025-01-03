@@ -1,36 +1,8 @@
 <script>
 	// @ts-nocheck
 	export let item;
-	import { convertToSlug } from '$lib/functions';
+	import { convertToSlug, getLink, getStrikeStatus, getUrlStatus, getEmoji } from '$lib/functions';
 	import { base } from '$app/paths';
-
-	function getStrikeStatus(s) {
-		if (s.includes('❌')) return ' strike';
-	}
-	function getUrlStatus(s, url) {
-		if (s.includes('❌')) return '';
-		else return url;
-	}
-
-	function getEmoji(s) {
-		let emojiAlt = '';
-		if (s.includes('❌')) {
-			emojiAlt = 'Project URL is not safe to visit';
-		} else if (s.includes('😿')) {
-			emojiAlt = 'Project is broken';
-		} else if (s.includes('🗄')) {
-			emojiAlt = 'Project archived';
-		} else {
-			emojiAlt = 'Project is live'; // ✅
-		}
-		return emojiAlt;
-	}
-
-	function getLink(name, url, blank = true) {
-		if(!name) return "";
-		if (!url) return name.trim();
-		else return `<a href="${url.trim()}" ${blank ? 'target="_blank"' : ''}>${name.trim()}</a>`;
-	}
 
 	/// "shallow routing" for project views
 	// https://kit.svelte.dev/docs/shallow-routing
@@ -83,7 +55,7 @@
 		<span class="publisher">({@html getLink(item.publisher, item.publisherUrl)})</span>
 	{/if}
 
-	<!-- <span><a href="{base}/{convertToSlug(item.title)}" class="link">#</a></span> -->
+	<span><a href="{base}/{convertToSlug(item.title)}" class="link">#</a></span>
 	<span>
 		<button
 			on:click={() => {
