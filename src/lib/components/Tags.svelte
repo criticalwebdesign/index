@@ -9,14 +9,26 @@
 
 	function toggleMedia() {
 		document.querySelector('.content').classList.toggle('showMedia');
-		let items = document.querySelector('.item.showMedia')
+		let items = document.querySelector('.item.showMedia');
 		if (items) items.classList.toggle('showMedia');
 	}
 	function toggleDescriptions() {
 		document.querySelector('.content').classList.toggle('showDescriptions');
-		let items = document.querySelector('.item.showDescriptions')
+		let items = document.querySelector('.item.showDescriptions');
 		if (items) items.classList.toggle('showDescriptions');
 	}
+
+	import Breadcrumbs from '$lib/components/Breadcrumbs.svelte';
+	$: crumbs = [
+		{
+			url: '',
+			title: $tag
+		},
+		{
+			url: '',
+			title: $notesStore[$tag]
+		}
+	];
 </script>
 
 <section>
@@ -39,13 +51,7 @@
 		<label for="showMediaBtn">🖼️</label>
 		<input type="checkbox" id="showMediaBtn" on:click={toggleMedia} />
 	</span>
-	<div class="notes">
-		<!-- {$tag}
-		{$sortOrder} -->
 
-		→ <span>{$tag.replace('-', ' ')}</span>
-		{#if $tag}
-			→ {notes[$tag]}
-		{/if}
-	</div>
+	<Breadcrumbs {crumbs}></Breadcrumbs>
+
 </section>

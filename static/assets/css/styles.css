@@ -256,18 +256,7 @@ label {
 }
 
 
-.notes {
-	color: var(--gray-6);
-	margin: 1rem 0;
-	/* text-align: center; */
-	/* border-top: 2px solid var(--gray-9); */
-	padding: var(--size-2);
-	/* border-bottom: 2px solid var(--gray-9); */
-}
 
-.notes span {
-	color: var(--gray-5);
-}
 
 .about {
 	margin: var(--size-6) 0;
