@@ -37,6 +37,13 @@ server.register(fastifyStatic, {
 import routes from "./routes.js";
 server.register(routes);
 
+// TESTING A ROUTE ONLY!!!
+const response = await server.inject({
+	method: 'GET',
+	url: '/api/save'
+})
+
+
 // run the server and report out to the logs
 server.listen(
 	{ port: process.env.PORT ?? 3000, host: "0.0.0.0" },
