@@ -12,6 +12,10 @@ export function getObjectFromSlug(arr, slug) {
 	return obj;
 }
 
+/////////////////////////////////////////////////
+//////////////// PROJECT VIEW ///////////////////
+/////////////////////////////////////////////////
+
 export function getAuthors(p) {
 	let str = '';
 	for (let i = 1; i <= 4; i++) {
@@ -32,23 +36,6 @@ export function getLink(str, url, blank = true) {
 	if (!url) return str.trim();
 	else return `<a href="${url.trim()}" ${blank ? 'target="_blank"' : ''}>${str.trim()}</a>`;
 }
-export function convertToSlug(str) {
-	return str
-		.toLowerCase()
-		.replace(/(?!.)[^\w ]+/g, '') // (?!.) leaves period in domain names
-		.replace(/\?/g, '')
-		.replace(/\//g, '')
-		.replace(/#/g, '')
-		.replace(/ +/g, '-');
-}
-export function unSlug(str) {
-	str = str.replace(/-/g, ' ').trim();
-	if (str.split(' ').length > 1) str = convertToTitle(str);
-	return str;
-}
-export function convertToTitle(str) {
-	return str.replace(/\w\S*/g, (text) => text.charAt(0).toUpperCase() + text.substring(1).toLowerCase());
-}
 export function getEmoji(s) {
 	let emojiAlt = '';
 	if (s.includes('❌')) {
@@ -62,6 +49,15 @@ export function getEmoji(s) {
 	}
 	return emojiAlt;
 }
+export function unSlug(str) {
+	str = str.replace(/-/g, ' ').trim();
+	if (str.split(' ').length > 1) str = convertToTitle(str);
+	return str;
+}
+export function convertToTitle(str) {
+	return str.replace(/\w\S*/g, (text) => text.charAt(0).toUpperCase() + text.substring(1).toLowerCase());
+}
+
 export function isLegitTagName(key) {
 	if (!key || key == '') return false;
 	let skip = [
@@ -81,7 +77,7 @@ export function isLegitTagName(key) {
 		'author3Url',
 		'author4',
 		'author4Url',
-		'publisher', 
+		'publisher',
 		'publisherUrl',
 
 		'code',

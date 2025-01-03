@@ -1,7 +1,7 @@
 <script>
 	// @ts-nocheck
 	export let item;
-	import { convertToSlug, getLink, getStrikeStatus, getUrlStatus, getEmoji } from '$lib/functions';
+	import { getLink, getStrikeStatus, getUrlStatus, getEmoji } from '$lib/functions';
 	import { base } from '$app/paths';
 
 	/// "shallow routing" for project views
@@ -55,25 +55,43 @@
 		<span class="publisher">({@html getLink(item.publisher, item.publisherUrl)})</span>
 	{/if}
 
-	<span><a href="{base}/{convertToSlug(item.title)}" class="link">#</a></span>
-	<span>
-		<button
-			on:click={() => {
-				toggleProject(item);
-			}}
-			class="link">#</button
-		></span>
-	<!-- href="{base}/{convertToSlug(item.title)}" -->
+	{#if item.media || item.description}
+		<!-- <span><a href="{base}/{item.slug}" class="link">#</a></span> -->
+		<span>
+			<button
+				on:click={() => {
+					toggleProject(item);
+				}}
+				class="link">#</button
+			></span>
+		<!-- href="{base}/{item.slug}" -->
+	{/if}
 
 	{#if item.media != ''}
 		<span class="media">
 			{#each item.media.split(',') as m (m)}
-				<a href="{base}/assets/img/{m}.png" target="_blank"
-					><img src="{base}/assets/img_t/{m}.png" alt="{item.title} media" /></a>
+				{#if m.includes('.gif') || m.includes('.jpg')}
+					<a href="{base}/assets/img/{m}" target="_blank"
+						><img src="{base}/assets/img_t/{m}" alt="{item.title} media" /></a>
+				{:else if m.includes('.mp4')}
+					<!-- svelte-ignore a11y-media-has-caption -->
+					<video src="{base}/assets/img_t/{m}" alt="{item.title} media" controls></video>
+				{:else}
+					<a href="{base}/assets/img/{m}.png" target="_blank"
+						><img src="{base}/assets/img_t/{m}.png" alt="{item.title} media" /></a>
+				{/if}
 			{/each}
 		</span>
 	{/if}
+
 	{#if item.description}
 		<span class="description">{item.description}</span>
 	{/if}
 </div>
+
+<style>
+	.link {
+		padding: 0 0.25rem 0 0;
+		background-color: transparent;
+	}
+</style>
