@@ -16,7 +16,7 @@
 	on:click={(e) => {
 	console.log('current >', $tag, 'clicked > ', e.target.dataset.tag, val);
 		// console.log(e.target.dataset.tag);
-		window.location.hash = val;
+		// window.location.hash = val;
 		// console.log($page);
 		if ($tag == val) $sortOrder *= -1;
 		projectStore.updateFilters(val, $sortField, $sortOrder);

@@ -28,7 +28,7 @@
 <style>
 	.breadcrumbs {
 		color: var(--gray-6);
-		margin-top: 0.5rem;
+		margin-top: 0;
 		/* border-top: 1px dotted var(--gray-7); */
 		padding: 0.5rem 0;
 	}

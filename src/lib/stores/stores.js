@@ -90,14 +90,14 @@ function filterProjects(tag = '') {
 ///////////////////// EXAMPLES /////////////////////
 ////////////////////////////////////////////////////
 
-// https://svelte.dev/tutorial/custom-stores
-function createCount() {
-	const { subscribe, set, update } = writable(0);
-	return {
-		subscribe,
-		increment: () => update((n) => n + 1),
-		decrement: () => update((n) => n - 1),
-		reset: () => set(0)
-	};
-}
-export const count = createCount();
+// // https://svelte.dev/tutorial/custom-stores
+// function createCount() {
+// 	const { subscribe, set, update } = writable(0);
+// 	return {
+// 		subscribe,
+// 		increment: () => update((n) => n + 1),
+// 		decrement: () => update((n) => n - 1),
+// 		reset: () => set(0)
+// 	};
+// }
+// export const count = createCount();

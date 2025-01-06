@@ -78,6 +78,9 @@ async function getCleanData() {
 	// console.log('dataRowsParsed', JSON.stringify(dataRowsParsed[186]));
 	console.log('dataRowsParsed', JSON.stringify(dataRowsParsed[186]));
 	// console.log('dataRowsParsed', JSON.stringify(dataRowsParsed[187]));
+
+	headerRowsParsed[0]['all'] = 'all tags';
+	console.log('headerRowsParsed', headerRowsParsed[0]);
 	return { notes: headerRowsParsed[0], projects: data };
 }
 async function cleanData(data) {
@@ -110,7 +113,7 @@ async function cleanData(data) {
 		}
 		data[i]['slug'] = slug;
 		slugs.push(slug);
-		console.log('slug', data[i].slug);
+		// console.log('slug', data[i].slug);
 
 		// move tags into object
 		data[i]['tags'] = ['all'];
