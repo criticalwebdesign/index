@@ -69,15 +69,14 @@
 		color: var(--indigo-4);
 	}
 
-	h1 button {
-		/* vertical-align: 1rem; */
+	/* h1 button {
 		padding: 0.3rem;
 		font-size: small;
 		background: var(--indigo-12);
 		border-radius: 16px;
 		height: 32px;
 		display: inline-block;
-	}
+	} */
 
 	h1 a {
 		text-decoration: none;

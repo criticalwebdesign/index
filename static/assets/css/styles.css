@@ -107,19 +107,27 @@ button {
 
 
 
+/* 576px, 768px, 992px, 1200px, 1400px */
 .oneTwoColumns {
 	page-break-inside: avoid;
 	break-inside: avoid-column;
 	column-gap: 2rem;
+	column-count: 1;
 }
 
-@media (min-width: 65rem) {
+@media (min-width: 576px) {
+	.oneTwoColumns {
+		column-count: 1;
+	}
+}
+
+@media (min-width: 798px) {
 	.oneTwoColumns {
 		column-count: 2;
 	}
 }
 
-@media (min-width: 100rem) {
+@media (min-width: 1200px) {
 	.oneTwoColumns {
 		column-count: 3;
 	}
@@ -193,6 +201,9 @@ button {
 	display: block;
 }
 
+.media * {
+	width: 100%;
+}
 
 
 

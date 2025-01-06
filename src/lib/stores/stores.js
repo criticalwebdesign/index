@@ -41,18 +41,17 @@ function createProjectsStore() {
 			projects = filterProjects(_tag);
 			p2.set(filterProjects(_tag));
 			// sort
-			console.log(_sortField)
 			projects = projects.sort(dynamicSort(_sortField));
-			console.log(
-				'✅ t:',
-				get(tag),
-				'sortField:',
-				get(sortField),
-				'sortOrder:',
-				get(sortOrder),
-				'length',
-				projects.length
-			);
+			// console.log(
+			// 	'✅ t:',
+			// 	get(tag),
+			// 	'sortField:',
+			// 	get(sortField),
+			// 	'sortOrder:',
+			// 	get(sortOrder),
+			// 	'length',
+			// 	projects.length
+			// );
 			return projects;
 		}
 		// filter: filterProjects
@@ -61,11 +60,10 @@ function createProjectsStore() {
 // export let p = writable(json.projects);
 export const projectStore = createProjectsStore();
 function dynamicSort(sortField, sortOrder = 1) {
-
-	console.log(sortField)
+	// console.log('sortField:', sortField);
 	return function (a, b) {
 		// var result = a[sortField] < b[sortField] ? -1 : a[sortField] > b[sortField] ? 1 : 0;
-		var result = a[sortField].toLowerCase().localeCompare(b[sortField].toLowerCase())
+		var result = a[sortField].toLowerCase().localeCompare(b[sortField].toLowerCase());
 		// var result =  a[sortField].localeCompare(b[sortField])
 		return result * sortOrder;
 	};

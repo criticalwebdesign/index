@@ -12,11 +12,10 @@
 		// case-insensitive sort
 		.sort((a, b) => a.localeCompare(b, undefined, { sensitivity: 'base' }));
 
-		console.log('tagsArray', tagsArray);
 	// "all" to front
 	tagsArray.unshift(tagsArray.splice(tagsArray.indexOf('all'), 1)[0]);
 
-	console.log('tagsArray', tagsArray);
+	// console.log('tagsArray', tagsArray);
 	let selected = ['all'];
 </script>
 
