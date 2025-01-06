@@ -7,16 +7,21 @@ import adapter from '@sveltejs/adapter-static';
 /** @type {import('@sveltejs/kit').Config} */
 const config = {
 	kit: {
-        paths: {
-            // this did not work on github, internal routes returned 404
-            // base: process.env.NODE_ENV === 'production' ? '/givememydata' : ''
-            base: process.argv.includes('dev') ? '' : '/critical-web-design-index'
+		paths: {
+			// this did not work on github, internal routes returned 404
+			// base: process.env.NODE_ENV === 'production' ? '/givememydata' : ''
+			base: process.argv.includes('dev') ? '' : '/critical-web-design-index'
 		},
+
+		// make SvelteKit use #hash routing (still requires [slug]+page.svelte )
+		// router: {
+		// 	type: 'hash'
+		// },
 
 		adapter: adapter({
 			pages: 'build',
 			assets: 'build',
-            // this did not work on github, internal routes returned 404
+			// this did not work on github, internal routes returned 404
 			// fallback: null,
 			fallback: '404.html', // to specify a fallback page for SPA mode
 			precompress: false,
@@ -24,7 +29,6 @@ const config = {
 		})
 	},
 	preprocess: [vitePreprocess({})]
-
 };
 
 export default config;

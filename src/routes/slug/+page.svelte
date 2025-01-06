@@ -1,5 +1,6 @@
-<!-- <script>
+<script>
 	// @ts-nocheck
+
 	import { readable } from 'svelte/store';
 	// export const date = readable('today is: ' + new Date());
 	import { projectStore } from '$lib/stores/stores.js';
@@ -12,11 +13,14 @@
 			break;
 		}
 	}
-	import ProjectLink from '$lib/components/ProjectLink.svelte';
-</script> -->
+</script>
 
-<!-- <h1>{JSON.stringify($page.params.slug)}</h1> -->
+<h1>{JSON.stringify($page.params.slug)}</h1>
 
-<!-- <div class="content showMedia showDescriptions">
-	<ProjectLink {item} />
-</div> -->
+<div class="content showMedia showDescriptions">
+
+
+This is a test. If the containing folder "slug" was named "[slug]" then it would be a route.
+
+
+</div>
