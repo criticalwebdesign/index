@@ -8,9 +8,7 @@ declare global {
 		// interface PageState {}
 		// interface Platform {}
 
-		interface PageState {
-			showProjectOnload: boolean;
-		}
+		interface PageState {}
 	}
 }
 

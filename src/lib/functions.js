@@ -12,6 +12,7 @@ export function getObjectFromSlug(arr, slug) {
 	return obj;
 }
 
+
 /////////////////////////////////////////////////
 //////////////// PROJECT VIEW ///////////////////
 /////////////////////////////////////////////////
@@ -27,6 +28,7 @@ export function getAuthors(p) {
 }
 export function getStrikeStatus(s) {
 	if (s.includes('❌')) return 'strike';
+	else return '';
 }
 export function getUrlStatus(s, url) {
 	if (s.includes('❌')) return '';
@@ -39,7 +41,7 @@ export function getLink(str, url, blank = true) {
 export function getEmoji(s) {
 	let emojiAlt = '';
 	if (s.includes('❌')) {
-		emojiAlt = 'Project URL is not safe to visit';
+		emojiAlt = 'Project URL is not safe';
 	} else if (s.includes('😿')) {
 		emojiAlt = 'Project is broken';
 	} else if (s.includes('🗄')) {

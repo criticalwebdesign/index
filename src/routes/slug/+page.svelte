@@ -17,7 +17,7 @@
 
 <h1>{JSON.stringify($page.params.slug)}</h1>
 
-<div class="content showMedia showDescriptions">
+<div class="">
 
 
 This is a test. If the containing folder "slug" was named "[slug]" then it would be a route.

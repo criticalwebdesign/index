@@ -16,14 +16,27 @@ let projects = json.projects;
 // console.log(projects);
 
 // writable stores
+
+// store the project to show
 export const showProject = writable({});
+// store the tag to show
 export const tag = writable('all');
+
+// current field to sort by
 export const sortField = writable('title');
+// current order (1 or -1)
 export const sortOrder = writable(1);
 export const notesStore = writable(json.notes);
 // derived stores
 export const p2 = writable(json.projects);
 export const p2Sorted = derived(p2, ($p2) => $p2.sort(dynamicSort('title', get(sortOrder))));
+
+let projectsByKey = {};
+json.projects.forEach((item, i) => {
+	projectsByKey[item.slug] = item;
+});
+export const pByKey = writable(projectsByKey);
+// console.log(projectsByKey)
 
 // custom store
 function createProjectsStore() {
@@ -32,7 +45,7 @@ function createProjectsStore() {
 		subscribe,
 		set,
 		update,
-		updateFilters: (_tag, _sortField, _sortOrder) => {
+		updateFilters: (_tag, _sortField = 'title', _sortOrder = 1) => {
 			// set params
 			tag.set(_tag);
 			sortField.set(_sortField);
@@ -68,7 +81,6 @@ function dynamicSort(sortField, sortOrder = 1) {
 		return result * sortOrder;
 	};
 }
-
 function filterProjects(tag = '') {
 	// console.log('filterProjects()', tag);
 	return json.projects.filter((item) => {
@@ -76,6 +88,34 @@ function filterProjects(tag = '') {
 	});
 }
 
+/////////////////////////////////////////////////
+///////////// HASH-BASED ROUTING ////////////////
+/////////////////////////////////////////////////
+
+import { pushState } from '$app/navigation';
+function createHashStore() {
+	const { subscribe, set, update } = writable('all');
+	return {
+		set,
+		update,
+		subscribe,
+		// Store and update the hash in the URL
+		updateHash(_hash = 'all') {
+			_hash = _hash.replace('#', '');
+			hashStore.set(_hash);
+			console.log('hashStore.updateHash()', _hash);
+			if (window.location.hash != _hash) pushState(`#${_hash}`, { what: 'ever' });
+			return _hash;
+		}
+	};
+}
+export const hashStore = createHashStore();
+
+////////////////////////////////////////////////////
+///////////////////// EXAMPLES /////////////////////
+////////////////////////////////////////////////////
+
+// unused
 // function createNotesStore() {
 // 	const { subscribe, set, update } = writable(json.notes);
 // 	return {
@@ -83,10 +123,6 @@ function filterProjects(tag = '') {
 // 	};
 // }
 // export const notesStore = createNotesStore();
-
-////////////////////////////////////////////////////
-///////////////////// EXAMPLES /////////////////////
-////////////////////////////////////////////////////
 
 // // https://svelte.dev/tutorial/custom-stores
 // function createCount() {

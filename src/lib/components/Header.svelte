@@ -4,8 +4,9 @@
 
 	// update <title>
 	import { page } from '$app/stores';
-	import { projectStore } from '$lib/stores/stores.js';
+	import { hashStore, projectStore, showProject } from '$lib/stores/stores.js';
 	import { unSlug } from '$lib/functions';
+
 	const appName = 'Critical Web Design Index';
 	$: title = [unSlug(...$page.url.pathname.split('/').slice(1)), appName].filter(Boolean).join(' | ');
 
@@ -15,9 +16,10 @@
 	$: descriptions = false;
 
 	function toggleMedia() {
+		// toggle showMedia class on wrapper
 		document.querySelector('.content').classList.toggle('showMedia');
-		let items = document.querySelector('.item.showMedia');
-		if (items) items.classList.toggle('showMedia');
+		// let items = document.querySelector('.item.showMedia');
+		// if (items) items.classList.toggle('showMedia');
 		images = !images;
 	}
 	function toggleDescriptions() {
@@ -32,9 +34,15 @@
 	<title>{title}</title>
 </svelte:head>
 
-<header class="grid-outer">
+<header class="grid-outer sticky">
 	<h1 class="brand vcenter">
-		<a href="{base}/">Critical Web Design Index</a>
+		<a
+			on:click={() => {
+				hashStore.updateHash();
+				showProject.set({});
+				projectStore.updateFilters('all');
+			}}
+			href="{base}/">Critical Web Design Index</a>
 		<!-- <small>v.1</small> -->
 		<!-- <button class="count">{$projectStore.length}</button> -->
 	</h1>
@@ -45,13 +53,13 @@
 	<div class="menu vcenter">
 		<label for="showMediaBtn">
 			<img src="{base}/assets/icon-image{images ? '-on' : ''}.svg" alt="descriptions icon" />
-			<!-- 🖼️ -->
-			<input type="checkbox" id="showMediaBtn" on:click={toggleMedia} /></label>
+			<input type="checkbox" id="showMediaBtn" on:click={toggleMedia} />
+		</label>
 
 		<label for="showDescriptionsBtn">
 			<img src="{base}/assets/icon-document{descriptions ? '-on' : ''}.svg" alt="images icon" />
-			<!-- 📄 -->
-			<input type="checkbox" id="showDescriptionsBtn" on:click={toggleDescriptions} /></label>
+			<input type="checkbox" id="showDescriptionsBtn" on:click={toggleDescriptions} />
+		</label>
 
 		<a href="{base}/about">
 			<img src="{base}/assets/icon-info.svg" alt="about" />
@@ -62,7 +70,8 @@
 <slot></slot>
 
 <style>
-	h1 , h1 a:visited {
+	h1,
+	h1 a:visited {
 		margin: 0.25rem 0;
 		font-weight: 500;
 		font-size: var(--font-size-3);

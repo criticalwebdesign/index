@@ -30,7 +30,15 @@ body {
 }
 
 
+.sticky {
+	position: sticky;
+	top: 0;
+}
 
+header {
+	background: var(--gray-11);
+	padding-bottom: .3rem;
+}
 
 header,
 section {
@@ -141,68 +149,6 @@ button {
 
 .content {
 	color: var(--gray-6);
-}
-
-.content .item {
-	display: block;
-	padding: .3rem 0;
-	border-top: 1px dotted var(--violet-11);
-	break-inside: avoid-column;
-}
-
-.content .item span {
-	display: inline-block;
-	padding: 0 .08rem;
-}
-
-.content .item .title {
-	color: var(--gray-5);
-}
-
-.content .item .status {
-	cursor: pointer;
-}
-
-.content .item .date {
-	color: var(--gray-6);
-}
-
-.content .item .author {
-	color: var(--gray-5);
-	display: inline;
-}
-
-.content .item .strike {
-	text-decoration: line-through;
-	color: var(--gray-6);
-}
-
-.content .item .tags {
-	color: var(--gray-7);
-}
-
-.content .item .description {
-	display: none;
-}
-
-.content .item .media {
-	display: none;
-}
-
-.content.showMedia .item .media,
-.content .item.showMedia .media {
-	margin: .5rem 0;
-	display: block;
-}
-
-.content.showDescriptions .item .description,
-.content .item.showDescriptions .description {
-	margin: .5rem 0;
-	display: block;
-}
-
-.media * {
-	width: 100%;
 }
 
 

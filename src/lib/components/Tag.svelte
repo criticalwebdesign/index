@@ -3,7 +3,7 @@
 	export let val, note;
 	// console.log(tag, note);
 	import { page } from '$app/stores';
-	import { tag, sortField, sortOrder, projectStore } from '$lib/stores/stores.js';
+	import { tag, sortField, sortOrder, projectStore, showProject, hashStore } from '$lib/stores/stores.js';
 	// show button active https://learn.svelte.dev/tutorial/classes
 	let active = false;
 </script>
@@ -14,12 +14,16 @@
 	title={note}
 	data-tag={val}
 	on:click={(e) => {
-		// console.log('current >', $tag, 'clicked > ', e.target.dataset.tag, val);
-		// console.log(e.target.dataset.tag);
-		// window.location.hash = val;
-		// console.log($page);
+		// console.log('current >', $tag, 'clicked > ', val);
+		
+		// change order
 		if ($tag == val) $sortOrder *= -1;
+		// display tag
 		projectStore.updateFilters(val, $sortField, $sortOrder);
+		// update hash in url
+		hashStore.updateHash($tag);
+		// remove project
+		showProject.set({});
 	}}>
 	{val.replace('-', ' ')}
 	{#if $tag == val}
