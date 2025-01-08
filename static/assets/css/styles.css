@@ -3,11 +3,11 @@
 @import "https://unpkg.com/open-props/normalize.min.css"; */
 
 
+@import "../open-props/normalize.min.css";
 @import "../open-props/borders.min.css";
 @import "../open-props/fonts.min.css";
 @import "../open-props/gray.min.css";
 @import "../open-props/indigo.min.css";
-@import "../open-props/normalize.min.css";
 @import "../open-props/purple.min.css";
 @import "../open-props/shadows.min.css";
 @import "../open-props/sizes.min.css";
@@ -15,12 +15,15 @@
 
 
 
+/************************************************/
+/******************* GLOBAL *********************/
+/************************************************/
 
 html {
 	block-size: 100%;
 	background: var(--gray-11);
 	color: var(--gray-5);
-	font: 1rem / 1.5rem var(--font-sans);
+	font: 1rem / 1.5rem var(--font-sans) !important;
 	/* makes scrollbar visible so menu doesn't shift */
 	min-height: 101%;
 }
@@ -29,21 +32,34 @@ body {
 	padding: 0;
 }
 
+h1,
+h1 a:visited, 
+h2 {
+	margin: 0.25rem 0;
+	font-weight: 500;
+	font-size: var(--font-size-3);
+	color: var(--indigo-4);
+}
+
+/* h1 button {
+	padding: 0.3rem;
+	font-size: small;
+	background: var(--indigo-12);
+	border-radius: 16px;
+	height: 32px;
+	display: inline-block;
+} */
+
+h1 a {
+	text-decoration: none;
+}
 
 .sticky {
 	position: sticky;
 	top: 0;
 }
 
-header {
-	background: var(--gray-11);
-	padding-bottom: .3rem;
-}
 
-header,
-section {
-	margin: var(--size-2) var(--size-3);
-}
 
 a:link {
 	color: var(--indigo-3);
@@ -57,13 +73,13 @@ a:active {
 }
 
 a:visited,
-.content .item a:visited {
+.project a:visited {
 	color: var(--gray-7);
 	color: var(--indigo-5);
 	text-decoration: underline;
 }
 
-button {
+button.tag {
 	font-size: var(--font-size-1);
 	padding-inline: .35rem;
 	padding-block: .12rem;
@@ -76,6 +92,19 @@ button {
 
 
 
+/************************************************/
+/****************** SECTIONS ********************/
+/************************************************/
+
+header {
+	background: var(--gray-11);
+	padding-bottom: .3rem;
+}
+
+header,
+section {
+	margin: var(--size-2) var(--size-3);
+}
 
 
 
@@ -147,20 +176,11 @@ button {
 
 
 
-.content {
-	color: var(--gray-6);
-}
 
 
 
 
 
-
-.about {
-	margin: var(--size-6) 0;
-	border-bottom: 2px solid var(--gray-9);
-	padding: var(--size-4) 0;
-}
 
 
 footer {

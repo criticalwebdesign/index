@@ -17,11 +17,15 @@ let projects = json.projects;
 
 // writable stores
 
+export const mediaVisible = writable(false);
+export const descriptionsVisible = writable(false);
+
 // store the project to show
-export const showProject = writable({});
+export const projectToShow = writable({});
 // store the tag to show
 export const tag = writable('all');
-
+// about page visible
+export const about = writable(false);
 // current field to sort by
 export const sortField = writable('title');
 // current order (1 or -1)
@@ -94,17 +98,22 @@ function filterProjects(tag = '') {
 
 import { pushState } from '$app/navigation';
 function createHashStore() {
-	const { subscribe, set, update } = writable('all');
+	const { subscribe, set, update } = writable('#all');
 	return {
 		set,
 		update,
 		subscribe,
 		// Store and update the hash in the URL
-		updateHash(_hash = 'all') {
-			_hash = _hash.replace('#', '');
-			hashStore.set(_hash);
+		updateHash(_hash = '#all') {
+			_hash = _hash.replace('##', '#');
 			console.log('hashStore.updateHash()', _hash);
-			if (window.location.hash != _hash) pushState(`#${_hash}`, { what: 'ever' });
+			if (window.location.hash != _hash) {
+				pushState(_hash, { hash: _hash });
+				hashStore.set(_hash);
+			} else {
+				pushState(``, {});
+				hashStore.set('');
+			}
 			return _hash;
 		}
 	};

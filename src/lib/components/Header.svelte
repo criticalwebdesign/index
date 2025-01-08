@@ -4,29 +4,36 @@
 
 	// update <title>
 	import { page } from '$app/stores';
-	import { hashStore, projectStore, showProject } from '$lib/stores/stores.js';
+	import {
+		about,
+		hashStore,
+		projectStore,
+		projectToShow,
+		mediaVisible,
+		descriptionsVisible
+	} from '$lib/stores/stores.js';
 	import { unSlug } from '$lib/functions';
-
 	const appName = 'Critical Web Design Index';
 	$: title = [unSlug(...$page.url.pathname.split('/').slice(1)), appName].filter(Boolean).join(' | ');
 
 	import TagsMultiSelect from '$lib/components/TagsMultiSelect.svelte';
 
-	$: images = false;
-	$: descriptions = false;
-
+	// buttons to enable media and/or descriptions inside list
 	function toggleMedia() {
-		// toggle showMedia class on wrapper
-		document.querySelector('.content').classList.toggle('showMedia');
-		// let items = document.querySelector('.item.showMedia');
+		// toggle class on wrapper
+		// document.querySelector('.listOfLinks').classList.toggle('showMedia');
+		// let items = document.querySelector('.project.showMedia');
+		// console.log(items)
 		// if (items) items.classList.toggle('showMedia');
-		images = !images;
+		mediaVisible.set(!$mediaVisible);
 	}
 	function toggleDescriptions() {
-		document.querySelector('.content').classList.toggle('showDescriptions');
-		let items = document.querySelector('.item.showDescriptions');
-		if (items) items.classList.toggle('showDescriptions');
-		descriptions = !descriptions;
+		// document.querySelector('.listOfLinks').classList.toggle('showDescriptions');
+		// let items = document.querySelector('.project.showDescriptions');
+		// if (items) items.classList.toggle('showDescriptions');
+		// descriptionsVisible = !descriptionsVisible;
+		console.log($descriptionsVisible);
+		descriptionsVisible.set(!$descriptionsVisible);
 	}
 </script>
 
@@ -39,7 +46,7 @@
 		<a
 			on:click={() => {
 				hashStore.updateHash();
-				showProject.set({});
+				projectToShow.set({});
 				projectStore.updateFilters('all');
 			}}
 			href="{base}/">Critical Web Design Index</a>
@@ -52,59 +59,48 @@
 	</div>
 	<div class="menu vcenter">
 		<label for="showMediaBtn">
-			<img src="{base}/assets/icon-image{images ? '-on' : ''}.svg" alt="descriptions icon" />
+			<img src="{base}/assets/icons/icon-image{$mediaVisible ? '-on' : ''}.svg" alt="enable media icon" />
 			<input type="checkbox" id="showMediaBtn" on:click={toggleMedia} />
 		</label>
 
 		<label for="showDescriptionsBtn">
-			<img src="{base}/assets/icon-document{descriptions ? '-on' : ''}.svg" alt="images icon" />
+			<img
+				src="{base}/assets/icons/icon-document{$descriptionsVisible ? '-on' : ''}.svg"
+				alt="enable descriptions icon" />
 			<input type="checkbox" id="showDescriptionsBtn" on:click={toggleDescriptions} />
 		</label>
 
-		<a href="{base}/about">
-			<img src="{base}/assets/icon-info.svg" alt="about" />
-		</a>
+		<a
+			on:click={(e) => {
+				if (!$about) {
+					hashStore.updateHash('#about');
+					about.set(true);
+				} else {
+					hashStore.updateHash('');
+					about.set(false);
+				}
+				projectToShow.set({});
+				projectStore.updateFilters('all');
+				e.preventDefault();
+			}}
+			href="{base}/"><img src="{base}/assets/icons/icon-info.svg" alt="about" /></a>
 	</div>
 </header>
 
 <slot></slot>
 
 <style>
-	h1,
-	h1 a:visited {
-		margin: 0.25rem 0;
-		font-weight: 500;
-		font-size: var(--font-size-3);
-		color: var(--indigo-4);
-	}
-
-	/* h1 button {
-		padding: 0.3rem;
-		font-size: small;
-		background: var(--indigo-12);
-		border-radius: 16px;
-		height: 32px;
-		display: inline-block;
-	} */
-
-	h1 a {
-		text-decoration: none;
-	}
-
 	#showMediaBtn,
 	#showDescriptionsBtn {
+		/* hide the checkbox that stores boolean */
 		height: 0;
 		overflow: hidden;
 		transition: height 300ms linear;
+		display: none;
 	}
 
 	label {
 		cursor: pointer;
-	}
-
-	#showMediaBtn,
-	#showDescriptionsBtn {
-		display: none;
 	}
 
 	.vcenter {

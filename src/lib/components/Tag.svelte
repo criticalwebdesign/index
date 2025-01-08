@@ -3,7 +3,7 @@
 	export let val, note;
 	// console.log(tag, note);
 	import { page } from '$app/stores';
-	import { tag, sortField, sortOrder, projectStore, showProject, hashStore } from '$lib/stores/stores.js';
+	import { tag, sortField, sortOrder, projectStore, projectToShow, hashStore } from '$lib/stores/stores.js';
 	// show button active https://learn.svelte.dev/tutorial/classes
 	let active = false;
 </script>
@@ -21,9 +21,9 @@
 		// display tag
 		projectStore.updateFilters(val, $sortField, $sortOrder);
 		// update hash in url
-		hashStore.updateHash($tag);
+		hashStore.updateHash(`#${$tag}`);
 		// remove project
-		showProject.set({});
+		projectToShow.set({});
 	}}>
 	{val.replace('-', ' ')}
 	{#if $tag == val}

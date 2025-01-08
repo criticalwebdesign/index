@@ -12,6 +12,9 @@ export function getObjectFromSlug(arr, slug) {
 	return obj;
 }
 
+export function isEmpty(obj) {
+	return Object.keys(obj).length === 0;
+}
 
 /////////////////////////////////////////////////
 //////////////// PROJECT VIEW ///////////////////
@@ -33,6 +36,14 @@ export function getStrikeStatus(s) {
 export function getUrlStatus(s, url) {
 	if (s.includes('❌')) return '';
 	else return url;
+}
+export function getDate(start, end, parentheses) {
+	let str = '';
+	if (parentheses) str += '(';
+	str += start;
+	if (end) str += '–' + end;
+	if (parentheses) str += ')';
+	return str;
 }
 export function getLink(str, url, blank = true) {
 	if (!url) return str.trim();
