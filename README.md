@@ -7,7 +7,7 @@ This website presents and contextualizes such works using various themes, catego
 For more information see: <i>Critical Web Design</i> by xtine burrough and Owen Mundy (MIT Press, forthcoming)
 
 
-https://omundy.github.io/critical-web-design-index
+https://criticalwebdesign.github.io/index/
 
 
 ## Notes
