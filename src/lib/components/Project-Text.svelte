@@ -60,10 +60,18 @@
 			<!-- to add #project-hash to URL and show project details (image+text) at top of the page (e.g. a linkable project )-->
 
 			<button
-				on:click={() => {
-					hashStore.updateHash(`#${item.slug}`);
-					projectToShow.set(item);
-					projectStore.updateFilters($tag);
+				on:click={(e) => {
+					if ($hashStore != `#${item.slug}`) {
+						hashStore.updateHash(`#${item.slug}`);
+						projectToShow.set(item);
+						projectStore.updateFilters($tag);
+					} else {
+						hashStore.updateHash('');
+						projectToShow.set({});
+						projectStore.updateFilters($tag);
+					}
+					e.preventDefault();
+					window.scrollTo({ top: 0, behavior: 'smooth' });
 				}}
 				class:hide={projectView}
 				class="link">#</button>

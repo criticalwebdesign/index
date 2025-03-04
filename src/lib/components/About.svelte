@@ -17,8 +17,11 @@
 			presentation and behavior, or in how they planned for intentional experiences, regardless how a visitor might
 			categorize them as works of activism, humor, experimentation, art, or some combination thereof. This website
 			presents and contextualizes such works using various themes, categories, and technologies, acknowledging the
-			diverse creative practices that have emerged online, both within and outside the narrow definition of "Art". For
-			more information see: <i>Critical Web Design</i> by xtine burrough and Owen Mundy (MIT Press, forthcoming)
+			diverse creative practices that have emerged online, both within and outside the narrow definition of "Art".
+
+			<br /><br />
+
+			For more information see: <i>Critical Web Design</i> by xtine burrough and Owen Mundy (MIT Press, forthcoming)
 		</div>
 
 		<div>
@@ -28,7 +31,7 @@
 			Curated by: <a href="https://owenmundy.com" target="_blank">Owen Mundy</a> <br />
 
 			Contribute:
-			<a href="https://github.com/omundy/critical-web-design-index/issues" target="_blank">Click "new issue"</a> <br />
+			<a href="https://github.com/omundy/critical-web-design-index/issues" target="_blank">Click "new issue"</a> <br /><br />
 
 			Key: ✅ live 😿 broken 🗄 archived ❌ 404/spammed
 		</div>

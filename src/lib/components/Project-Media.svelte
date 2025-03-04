@@ -9,8 +9,8 @@
 
 {#if item && item.media}
 	<!-- hide by default in list only -->
-	{#if projectView || (!projectView && $mediaVisible)}
-		<div class="projectMedia" class:projectViewOnly={projectView}>
+	<!-- {#if projectView || (!projectView && $mediaVisible)} -->
+		<div class="projectMedia" class:projectViewOnly={projectView} class:visible={ projectView || (!projectView && $mediaVisible)}>
 			{#each item.media.split(',') as m (m)}
 				{#if m.includes('.gif') || m.includes('.jpg')}
 					<a href="{base}/assets/img/{m}" target="_blank"
@@ -24,12 +24,13 @@
 				{/if}
 			{/each}
 		</div>
-	{/if}
+	<!-- {/if} -->
 {/if}
 
 <style>
 	.projectMedia {
 		padding: 0.4rem 0;
+		display: none;
 	}
 
 	.projectMedia * {
@@ -51,5 +52,9 @@
 		.projectViewOnly {
 			margin: 0;
 		}
+	}
+
+	.visible {
+		display: block;
 	}
 </style>

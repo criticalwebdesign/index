@@ -19,21 +19,14 @@
 	import TagsMultiSelect from '$lib/components/TagsMultiSelect.svelte';
 
 	// buttons to enable media and/or descriptions inside list
-	function toggleMedia() {
-		// toggle class on wrapper
-		// document.querySelector('.listOfLinks').classList.toggle('showMedia');
-		// let items = document.querySelector('.project.showMedia');
-		// console.log(items)
-		// if (items) items.classList.toggle('showMedia');
+	function toggleMedia(e) {
 		mediaVisible.set(!$mediaVisible);
+		e.preventDefault();
 	}
-	function toggleDescriptions() {
-		// document.querySelector('.listOfLinks').classList.toggle('showDescriptions');
-		// let items = document.querySelector('.project.showDescriptions');
-		// if (items) items.classList.toggle('showDescriptions');
-		// descriptionsVisible = !descriptionsVisible;
-		console.log($descriptionsVisible);
+	function toggleDescriptions(e) {
+		// console.log($descriptionsVisible);
 		descriptionsVisible.set(!$descriptionsVisible);
+		e.preventDefault();
 	}
 </script>
 

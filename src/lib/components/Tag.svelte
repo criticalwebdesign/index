@@ -24,6 +24,7 @@
 		hashStore.updateHash(`#${$tag}`);
 		// remove project
 		projectToShow.set({});
+		e.preventDefault();
 	}}>
 	{val.replace('-', ' ')}
 	{#if $tag == val}

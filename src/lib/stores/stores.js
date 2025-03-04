@@ -108,11 +108,13 @@ function createHashStore() {
 			_hash = _hash.replace('##', '#');
 			console.log('hashStore.updateHash()', _hash);
 			if (window.location.hash != _hash) {
-				pushState(_hash, { hash: _hash });
+				// https://github.com/sveltejs/kit/issues/11956#issuecomment-2083469945
+				pushState(_hash, { hash: _hash }, { hydrate: true });
 				hashStore.set(_hash);
 			} else {
-				pushState(``, {});
+				pushState(``, {}, { hydrate: true });
 				hashStore.set('');
+				projectToShow.set({});
 			}
 			return _hash;
 		}
