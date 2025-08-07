@@ -36,8 +36,8 @@
 
 <!-- <code style="display: inline-block;">{JSON.stringify(selected)}</code> -->
 
-<style>
-	/* .options * {
+<!-- <style>
+	.options * {
 background-color: red !important;
-} */
-</style>
+}
+</style> -->

@@ -3,7 +3,7 @@
 	import { base } from '$app/paths';
 
 	// update <title>
-	import { page } from '$app/stores';
+	import { page } from '$app/state';
 	import {
 		about,
 		hashStore,
@@ -14,7 +14,7 @@
 	} from '$lib/stores/stores.js';
 	import { unSlug } from '$lib/functions';
 	const appName = 'Critical Web Design Index';
-	$: title = [unSlug(...$page.url.pathname.split('/').slice(1)), appName].filter(Boolean).join(' | ');
+	$: title = [unSlug(...page.url.pathname.split('/').slice(1)), appName].filter(Boolean).join(' | ');
 
 	import TagsMultiSelect from '$lib/components/TagsMultiSelect.svelte';
 

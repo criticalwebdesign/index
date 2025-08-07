@@ -6,20 +6,21 @@
 	// reactive
 	$: projects = $projectStore;
 
-	$: projects, console.log('projects has changed');
+	$: projects, console.log('projects has changed || page refreshed');
 
 	/// "shallow routing" for project views
 	// https://kit.svelte.dev/docs/shallow-routing
-	import { page } from '$app/stores';
+	import { page } from '$app/state';
 	import { hashStore, projectToShow, pByKey } from '$lib/stores/stores.js';
 	import { onMount } from 'svelte';
 	// executes after the component renders to the DOM
 	onMount(() => {
 		console.log('onMount', document);
-		if ($page.url.hash) {
+
+		if (page.url.hash) {
 			setTimeout(function () {
 				// get current hash in URL
-				hashStore.updateHash(`#${$page.url.hash}`);
+				hashStore.updateHash(`#${page.url.hash}`);
 				// if hash is a project
 				if ($pByKey[$hashStore]) projectToShow.set($pByKey[$hashStore]);
 				// otherwise assume a tag
@@ -32,9 +33,10 @@
 	import ProjectMedia from '$lib/components/Project-Media.svelte';
 </script>
 
-<!-- <p>hash loaded: {$page.url.hash}</p> -->
-<!-- <p>hash in store: {$hashStore}</p> -->
-<!-- <div>$projectToShow: {JSON.stringify($projectToShow)}</div> -->
+<p>page.url.hash: {page.url.hash}</p>
+<p>$currentHash: {$currentHash}</p>
+<p>$hashStore: {$hashStore}</p>
+<div>$projectToShow: {JSON.stringify($projectToShow)}</div>
 {#if !isEmpty($projectToShow)}
 	<section class="displayProject">
 		<ProjectText item={$projectToShow} projectView={true} />

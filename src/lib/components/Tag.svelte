@@ -2,7 +2,6 @@
 	// @ts-nocheck
 	export let val, note;
 	// console.log(tag, note);
-	import { page } from '$app/stores';
 	import { tag, sortField, sortOrder, projectStore, projectToShow, hashStore } from '$lib/stores/stores.js';
 	// show button active https://learn.svelte.dev/tutorial/classes
 	let active = false;

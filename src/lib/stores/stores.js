@@ -109,6 +109,7 @@ function createHashStore() {
 			console.log('hashStore.updateHash()', _hash);
 			if (window.location.hash != _hash) {
 				// https://github.com/sveltejs/kit/issues/11956#issuecomment-2083469945
+        // push hash to url bar
 				pushState(_hash, { hash: _hash }, { hydrate: true });
 				hashStore.set(_hash);
 			} else {
