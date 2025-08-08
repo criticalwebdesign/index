@@ -44,7 +44,7 @@
 	</h1>
 
 	<div class="tags">
-		<TagsMultiSelect />
+		<!-- <TagsMultiSelect /> -->
 	</div>
 	<div class="menu vcenter">
 		<label for="showMediaBtn">

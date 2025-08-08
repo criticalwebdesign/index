@@ -16,11 +16,10 @@
 	tagsArray.unshift(tagsArray.splice(tagsArray.indexOf('all'), 1)[0]);
 
 	// console.log('tagsArray', tagsArray);
-	let selected = ['all'];
+
 </script>
 
 <MultiSelect
-	bind:selected
 	options={tagsArray}
 	minSelect={1}
 	maxSelect={1}

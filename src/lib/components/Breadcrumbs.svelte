@@ -15,10 +15,10 @@
 			<span class="parent">
 				{#if c.url}
 					<a href={c.url}>
-						{c.title}
+						{@html c.title}
 					</a>
 				{:else}
-					{c.title}
+					{@html c.title}
 				{/if}
 			</span>
 		{/each}
@@ -34,5 +34,10 @@
 	}
 	.breadcrumbs .parent {
 		color: var(--gray-5);
+	}
+	.breadcrumbs :global {
+		span.count {
+			color: var(--violet-8);
+		}
 	}
 </style>

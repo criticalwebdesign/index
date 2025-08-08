@@ -2,7 +2,7 @@
 	// @ts-nocheck
 
 	import { isLegitTagName } from '$lib/functions';
-	import { notesStore, tag } from '$lib/stores/stores.js';
+	import { notesStore, tag, p2Sorted } from '$lib/stores/stores.js';
 	import { get } from 'svelte/store';
 	$: notes = $notesStore;
 	import Tag from '$lib/components/Tag.svelte';
@@ -11,7 +11,7 @@
 	$: crumbs = [
 		{
 			url: '',
-			title: $tag
+			title: `${$tag} <span class="count">[${$p2Sorted.length}]</span>`
 		},
 		{
 			url: '',
