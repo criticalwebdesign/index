@@ -3,7 +3,7 @@
 	export let item;
 	export let projectView;
 	import { base } from '$app/paths';
-	import { tag, hashStore, projectStore, projectToShow, mediaVisible } from '$lib/stores/stores.js';
+	import { tag, hashStore, projectList, mediaVisible } from '$lib/stores/stores.js';
 	// console.log('item', item);
 </script>
 

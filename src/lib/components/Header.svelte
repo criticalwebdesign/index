@@ -5,16 +5,14 @@
 	// update <title>
 	import { page } from '$app/state';
 	import {
-		about,
-		hashStore,
-		projectStore,
-		projectToShow,
+        pageControl,
+		projectList,
 		mediaVisible,
 		descriptionsVisible
 	} from '$lib/stores/stores.js';
-	import { unSlug } from '$lib/functions';
+	import { unSlug, cleanHash } from '$lib/functions';
 	const appName = 'Critical Web Design Index';
-	$: title = [unSlug(...page.url.pathname.split('/').slice(1)), appName].filter(Boolean).join(' | ');
+	$: title = cleanHash(page.url.href) + [unSlug(...page.url.pathname.split('/').slice(1)), appName].filter(Boolean).join(' | ');
 
 	import TagsMultiSelect from '$lib/components/TagsMultiSelect.svelte';
 
@@ -38,13 +36,11 @@
 	<h1 class="brand vcenter">
 		<a
 			on:click={() => {
-				hashStore.updateHash();
-				projectToShow.set({});
-				projectStore.updateFilters('all');
+                // pageControl.clickHome();
 			}}
 			href="{base}/">Critical Web Design Index</a>
 		<!-- <small>v.1</small> -->
-		<!-- <button class="count">{$projectStore.length}</button> -->
+		<!-- <button class="count">{$projectList.length}</button> -->
 	</h1>
 
 	<div class="tags">
@@ -65,16 +61,7 @@
 
 		<a
 			on:click={(e) => {
-				if (!$about) {
-					hashStore.updateHash('#about');
-					about.set(true);
-				} else {
-					hashStore.updateHash('');
-					about.set(false);
-				}
-				projectToShow.set({});
-				projectStore.updateFilters('all');
-				e.preventDefault();
+                // pageControl.clickAbout();
 			}}
 			href="{base}/"><img src="{base}/assets/icons/icon-info.svg" alt="about" /></a>
 	</div>

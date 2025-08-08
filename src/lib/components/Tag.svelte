@@ -2,7 +2,7 @@
 	// @ts-nocheck
 	export let val, note;
 	// console.log(tag, note);
-	import { tag, sortField, sortOrder, projectStore, projectToShow, hashStore } from '$lib/stores/stores.js';
+	import { tag, sortField, sortOrder, projectList, tagControl, hashStore } from '$lib/stores/stores.js';
 	// show button active https://learn.svelte.dev/tutorial/classes
 	let active = false;
 </script>
@@ -18,11 +18,10 @@
 		// change order
 		if ($tag == val) $sortOrder *= -1;
 		// display tag
-		projectStore.updateFilters(val, $sortField, $sortOrder);
+		projectList.updateFilters(val, $sortField, $sortOrder);
 		// update hash in url
-		hashStore.updateHash(`#${$tag}`);
-		// remove project
-		projectToShow.set({});
+		tagControl.clickTag(`#${$tag}`);
+
 		e.preventDefault();
 	}}>
 	{val.replace('-', ' ')}

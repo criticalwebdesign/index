@@ -67,6 +67,10 @@ export function unSlug(str) {
 	if (str.split(' ').length > 1) str = convertToTitle(str);
 	return str;
 }
+export function cleanHash (str) { 
+    return str.trim().replace(/#+/g, '');
+}
+
 export function convertToTitle(str) {
 	return str.replace(/\w\S*/g, (text) => text.charAt(0).toUpperCase() + text.substring(1).toLowerCase());
 }

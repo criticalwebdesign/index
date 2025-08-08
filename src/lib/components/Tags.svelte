@@ -2,7 +2,7 @@
 	// @ts-nocheck
 
 	import { isLegitTagName } from '$lib/functions';
-	import { notesStore, tag, projectStore } from '$lib/stores/stores.js';
+	import { notesStore, tag, projectList } from '$lib/stores/stores.js';
 	import { get } from 'svelte/store';
 	$: notes = $notesStore;
 	import Tag from '$lib/components/Tag.svelte';

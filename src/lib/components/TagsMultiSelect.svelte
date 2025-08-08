@@ -1,7 +1,7 @@
 <script>
 	// @ts-nocheck
 
-	import { tag, sortField, sortOrder, projectStore, notesStore } from '$lib/stores/stores.js';
+	import { tag, sortField, sortOrder, projectList, notesStore } from '$lib/stores/stores.js';
 	import { isLegitTagName } from '$lib/functions';
 
 	import MultiSelect from 'svelte-multiselect';
@@ -31,7 +31,7 @@
 	on:change={(event) => {
 		console.log(`${event.detail.type}: '${event.detail.option}'`);
 		if ($tag == event.detail.option) $sortOrder *= -1;
-		projectStore.updateFilters(event.detail.option, $sortField, $sortOrder);
+		projectList.updateFilters(event.detail.option, $sortField, $sortOrder);
 	}} />
 
 <!-- <code style="display: inline-block;">{JSON.stringify(selected)}</code> -->

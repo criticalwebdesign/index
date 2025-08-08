@@ -10,6 +10,8 @@
  * - https://developer.mozilla.org/en-US/docs/Learn/Tools_and_testing/Client-side_JavaScript_frameworks/Svelte_stores
  */
 
+import { cleanHash } from '$lib/functions';
+
 import { writable, get, derived } from 'svelte/store';
 import json from '$lib/stores/data.json';
 let projects = json.projects;
@@ -20,8 +22,9 @@ let projects = json.projects;
 export const mediaVisible = writable(false);
 export const descriptionsVisible = writable(false);
 
-// store the project to show
-export const projectToShow = writable({});
+// an object containing the current project that should be displayed on the page
+
+export const currentProject = writable({});
 // store the tag to show
 export const tag = writable('all');
 // about page visible
@@ -33,63 +36,64 @@ export const sortOrder = writable(1);
 export const notesStore = writable(json.notes);
 // derived stores
 export const p2 = writable(json.projects);
-export const p2Sorted = derived(p2, ($p2) => $p2.sort(dynamicSort('title', get(sortOrder))));
+export const p2Sorted = derived(p2, ($p2) => $p2.sort(sortProjects('title', get(sortOrder))));
 
 let projectsByKey = {};
 json.projects.forEach((item, i) => {
-	projectsByKey[item.slug] = item;
+    projectsByKey[item.slug] = item;
 });
 export const pByKey = writable(projectsByKey);
-// console.log(projectsByKey)
+console.log(projectsByKey)
 
-// custom store
-function createProjectsStore() {
-	const { subscribe, set, update } = writable(projects);
-	return {
-		subscribe,
-		set,
-		update,
-		updateFilters: (_tag, _sortField = 'title', _sortOrder = 1) => {
-			// set params
-			tag.set(_tag);
-			sortField.set(_sortField);
-			sortOrder.set(_sortOrder);
-			// filter by tag
-			projects = filterProjects(_tag);
-			p2.set(filterProjects(_tag));
-			// sort
-			projects = projects.sort(dynamicSort(_sortField));
-			// console.log(
-			// 	'✅ t:',
-			// 	get(tag),
-			// 	'sortField:',
-			// 	get(sortField),
-			// 	'sortOrder:',
-			// 	get(sortOrder),
-			// 	'length',
-			// 	projects.length
-			// );
-			return projects;
-		}
-		// filter: filterProjects
-	};
+
+// custom store for the project list
+function createProjectList() {
+    const { subscribe, set, update } = writable(projects);
+    return {
+        subscribe,
+        set,
+        update,
+        updateFilters: (_tag, _sortField = 'title', _sortOrder = 1) => {
+            // set params
+            tag.set(_tag);
+            sortField.set(_sortField);
+            sortOrder.set(_sortOrder);
+            // filter by tag
+            projects = filterProjects(_tag);
+            p2.set(filterProjects(_tag));
+            // sort
+            projects = projects.sort(sortProjects(_sortField));
+            // console.log(
+            // 	'✅ t:',
+            // 	get(tag),
+            // 	'sortField:',
+            // 	get(sortField),
+            // 	'sortOrder:',
+            // 	get(sortOrder),
+            // 	'length',
+            // 	projects.length
+            // );
+            return projects;
+        }
+        // filter: filterProjects
+    };
 }
-// export let p = writable(json.projects);
-export const projectStore = createProjectsStore();
-function dynamicSort(sortField, sortOrder = 1) {
-	// console.log('sortField:', sortField);
-	return function (a, b) {
-		// var result = a[sortField] < b[sortField] ? -1 : a[sortField] > b[sortField] ? 1 : 0;
-		var result = a[sortField].toLowerCase().localeCompare(b[sortField].toLowerCase());
-		// var result =  a[sortField].localeCompare(b[sortField])
-		return result * sortOrder;
-	};
+export const projectList = createProjectList();
+// sorting function for projects
+function sortProjects(sortField, sortOrder = 1) {
+    // console.log('sortField:', sortField);
+    return function (a, b) {
+        // var result = a[sortField] < b[sortField] ? -1 : a[sortField] > b[sortField] ? 1 : 0;
+        var result = a[sortField].toLowerCase().localeCompare(b[sortField].toLowerCase());
+        // var result =  a[sortField].localeCompare(b[sortField])
+        return result * sortOrder;
+    };
 }
 function filterProjects(tag = '') {
-	// console.log('filterProjects()', tag);
-	return json.projects.filter((item) => {
-		return item.tags.includes(tag);
-	});
+    // console.log('filterProjects()', tag);
+    return json.projects.filter((item) => {
+        return item.tags.includes(tag);
+    });
 }
 
 /////////////////////////////////////////////////
@@ -97,31 +101,151 @@ function filterProjects(tag = '') {
 /////////////////////////////////////////////////
 
 import { pushState } from '$app/navigation';
+
+
+
+
+function createTagControl() {
+    const { subscribe, set, update } = writable('#all');
+    return {
+        set,
+        update,
+        subscribe,
+        clickTag(_hash = '') {
+            _hash = cleanHash(_hash);
+            console.log('tagControl.clickTag()', _hash);
+
+            projectList.set({});
+            projectControl.removeProject();
+            hashStore.pushHash(_hash);
+        },
+        removeTag() {
+            set('')
+        }
+    };
+}
+export const tagControl = createTagControl();
+
+
+function createProjectControl() {
+    const { subscribe, set, update } = writable('#all');
+    return {
+        set,
+        update,
+        subscribe,
+        // user clicks project
+        clickProject(_hash = '') {
+            _hash = cleanHash(_hash);
+            console.log('projectControl.clickProject()', _hash);
+
+            projectList.set(projectsByKey[_hash]); //?
+
+            // set current
+            this.setCurrent(_hash);
+            // push hash to url 
+            hashStore.pushHash(_hash);
+        },
+        setCurrent(_hash) {
+            if (projectsByKey[_hash])
+                currentProject.set(projectsByKey[_hash]);
+        },
+        removeProject() {
+            currentProject.set({});
+            hashStore.removeHash();
+        }
+    };
+}
+export const projectControl = createProjectControl();
+
+let about2 = false;
+// since about isn't technically a project
+function createPageControl() {
+    return {
+        clickHome() {
+            hashStore.saveHash('');
+            projectControl.removeProject();
+            projectList.updateFilters('all');
+
+        },
+        clickAbout() {
+
+
+
+            // if (!about2) {
+            //     pageControl.set('#about');
+            //     about2 = true;
+            // } else {
+            //     pageControl.set('');
+            //     about2 = false;
+            // }
+            // console.log("about2 =",about2)
+        },
+        set(_hash = '') {
+            _hash = cleanHash(_hash);
+            console.log('pageControl.set()', _hash);
+
+
+            projectControl.removeProject();
+            hashStore.pushHash(_hash);
+
+        },
+        removePage() {
+            pageControl.set('');
+        }
+    };
+}
+export const pageControl = createPageControl();
+
+
+
+
+
+
+
 function createHashStore() {
-	const { subscribe, set, update } = writable('#all');
-	return {
-		set,
-		update,
-		subscribe,
-		// Store and update the hash in the URL
-		updateHash(_hash = '#all') {
-			_hash = _hash.replace('##', '#');
-			console.log('hashStore.updateHash()', _hash);
-			if (window.location.hash != _hash) {
-				// https://github.com/sveltejs/kit/issues/11956#issuecomment-2083469945
-        // push hash to url bar
-				pushState(_hash, { hash: _hash }, { hydrate: true });
-				hashStore.set(_hash);
-			} else {
-				pushState(``, {}, { hydrate: true });
-				hashStore.set('');
-				projectToShow.set({});
-			}
-			return _hash;
-		}
-	};
+    const { subscribe, set, update } = writable('#all');
+    return {
+        set,
+        update,
+        subscribe,
+
+
+
+        saveHash(_hash = '') {
+            _hash = cleanHash(_hash);
+            console.log('hashStore.saveHash()', _hash);
+            hashStore.set(_hash);
+            return _hash;
+        },
+        pushHash(_hash = '') {
+            _hash = cleanHash(_hash);
+            console.log('hashStore.pushHash() [1] _hash =', _hash, ", window.location.hash =", window.location.hash);
+
+            if (_hash && cleanHash(window.location.hash) != _hash) {
+                // https://github.com/sveltejs/kit/issues/11956#issuecomment-2083469945
+                // push hash to url bar
+                pushState("#" + _hash, { hash: _hash }, { hydrate: true });
+                hashStore.set(_hash);
+            } else {
+                pushState(``, {}, { hydrate: true });
+                hashStore.set('');
+            }
+
+
+            console.log("hashStore.pushHash() [2] window.location.hash =", window.location.hash);
+
+            return _hash;
+        },
+        removeHash() {
+            pushState(``, {}, { hydrate: true });
+            hashStore.set('');
+        }
+
+
+    };
 }
 export const hashStore = createHashStore();
+
 
 ////////////////////////////////////////////////////
 ///////////////////// EXAMPLES /////////////////////

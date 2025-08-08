@@ -4,7 +4,7 @@
 	export let projectView;
 	import { getLink, getStrikeStatus, getDate, getUrlStatus, getEmoji } from '$lib/functions';
 	import { base } from '$app/paths';
-	import { tag, hashStore, projectStore, projectToShow, descriptionsVisible } from '$lib/stores/stores.js';
+	import { tag, hashStore, projectList, projectControl, descriptionsVisible } from '$lib/stores/stores.js';
 	// console.log('item', item);
 </script>
 
@@ -62,13 +62,18 @@
 			<button
 				on:click={(e) => {
 					if ($hashStore != `#${item.slug}`) {
-						hashStore.updateHash(`#${item.slug}`);
-						projectToShow.set(item);
-						projectStore.updateFilters($tag);
+                        projectControl.clickProject(item.slug);
+
+						// hashStore.pushHash(`#${item.slug}`);
+                        // projectControl.setCurrent(item.slug);
+						// projectList.updateFilters($tag);
 					} else {
-						hashStore.updateHash('');
-						projectToShow.set({});
-						projectStore.updateFilters($tag);
+                        projectControl.removeProject();
+
+
+						// hashStore.pushHash('');
+						// projectControl.set({});
+						// projectList.updateFilters($tag);
 					}
 					e.preventDefault();
 					window.scrollTo({ top: 0, behavior: 'smooth' });
