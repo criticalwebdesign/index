@@ -2,22 +2,26 @@
 	// @ts-nocheck
 
 	import { isLegitTagName } from '$lib/functions';
-	import { notesStore, tag, projectStore, count } from '$lib/stores/stores.js';
+	import { notesStore, tag, p2Sorted } from '$lib/stores/stores.js';
 	import { get } from 'svelte/store';
 	$: notes = $notesStore;
 	import Tag from '$lib/components/Tag.svelte';
 
-	function toggleMedia() {
-		console.log('toggleMedia()');
-		document.querySelector('.content').classList.toggle('showMedia');
-	}
-	function toggleDescriptions() {
-		console.log('toggleDescriptions()');
-		document.querySelector('.content').classList.toggle('showDescriptions');
-	}
+	import Breadcrumbs from '$lib/components/Breadcrumbs.svelte';
+	$: crumbs = [
+		{
+			url: '',
+			title: `${$tag} <span class="count">[${$p2Sorted.length}]</span>`
+		},
+		{
+			url: '',
+			title: $notesStore[$tag]
+		}
+	];
 </script>
 
 <section>
+	<!-- Prints all the tags - now using MultiSelect search field -->
 	<span class="tags">
 		{#each Object.entries(notes) as [val, note]}
 			{#if isLegitTagName(val)}
@@ -25,25 +29,17 @@
 			{/if}
 		{/each}
 	</span>
-	<!-- <span class="sortMethods">
-		Sort by:
-		<button class="sort" id="byName">name</button>
-		<button class="sort" id="byStartDate">date</button>
-	</span> -->
-	<span class="show">
-		<!-- Show: -->
-		<label for="showDescriptionsBtn">📄</label>
-		<input type="checkbox" id="showDescriptionsBtn" on:click={toggleDescriptions} />
-		<label for="showMediaBtn">🖼️</label>
-		<input type="checkbox" id="showMediaBtn" on:click={toggleMedia} />
-	</span>
-	<div class="notes">
-		<!-- {$tag}
-		{$sortOrder} -->
 
-		→ <span>{$tag.replace('-', ' ')}</span>
-		{#if $tag}
-			→ {notes[$tag]}
-		{/if}
-	</div>
+	<Breadcrumbs {crumbs}></Breadcrumbs>
 </section>
+
+<style>
+	.tags {
+		display: none;
+	}
+	@media screen and (min-width: 798px) {
+		.tags {
+			display: block;
+		}
+	}
+</style>

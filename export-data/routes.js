@@ -23,6 +23,7 @@ const routes = async (server, options) => {
 export default routes;
 
 import { functions } from './functions.js';
+import { isLegitTagName } from '../src/lib/functions.js';
 import fetch from 'node-fetch';
 import * as d3 from 'd3';
 let headerUrl =
@@ -33,7 +34,7 @@ let dataUrl =
 async function saveData() {
 	let data = await getCleanData();
 	await saveFile(data, '../src/lib/stores/' + FILENAME);
-	await saveFile(data, './assets/' + FILENAME);
+	// await saveFile(data, './assets/' + FILENAME);
 	return data.projects[2];
 }
 // saveData();
@@ -70,17 +71,25 @@ async function getCleanData() {
 	// console.log(d3.csvParseRows(rows));
 
 	let dataRowsParsed = d3.csvParse(dataRows);
-	// console.log('dataRowsParsed', dataRowsParsed[1]);
+	// console.log('dataRowsParsed', dataRowsParsed);
+	// console.log('dataRowsParsed', JSON.stringify(dataRowsParsed[186]));
 	let data = await cleanData(dataRowsParsed);
-	console.log('data', JSON.stringify(data[2]));
+	// console.log('data', JSON.stringify(data[2]));
+	// console.log('dataRowsParsed', JSON.stringify(dataRowsParsed[186]));
+	console.log('dataRowsParsed', JSON.stringify(dataRowsParsed[186]));
+	// console.log('dataRowsParsed', JSON.stringify(dataRowsParsed[187]));
+
+	headerRowsParsed[0]['all'] = 'all tags';
+	console.log('headerRowsParsed', headerRowsParsed[0]);
 	return { notes: headerRowsParsed[0], projects: data };
 }
 async function cleanData(data) {
 	let arr = [];
+	let slugs = [];
 	for (let i = 0; i < data.length; i++) {
 		// console.log(data[i]);
-		if (data[i].name == '') continue;
-		if (data[i].name == 'To evaluate') break;
+		if (data[i].title == '') continue;
+		if (data[i].title == 'To evaluate') break;
 		if (data[i].status == '✅') data[i].status = '';
 		if (!data[i].start || data[i].start == '') data[i].start = 0;
 		if (data[i].url == '#REF!') data[i].url = '';
@@ -95,20 +104,35 @@ async function cleanData(data) {
 		data[i].end = Number(data[i].end);
 		data[i].total = Number(data[i].total);
 
-		data[i]['slug'] = data[i].name
-			.toLowerCase()
-			.replace(/(?!.)[^\w ]+/g, '') // (?!.) leaves period in domain names
-			.replace(/\?/g,"")
-			.replace(/\//g,"")
-			.replace(/#/g,"")
-			.replace(/ +/g, '-');
+		let slug = getSlug(data[i].title);
 
-		// for (const prop in data[i]) {
-		// 	if (Object.hasOwn(data[i], prop)) {
-		// 		//   console.log(`data[i].${prop} = ${data[i][prop]}`);
-		// 		if (!data[i][prop]) delete data[i][prop];
-		// 	}
-		// }
+		// make sure slug is unique
+		if (slugs.includes(slug)) {
+			if (data[i].start) slug += '-' + data[i].start;
+			else if (data[i].author1) slug += '-' + data[i].author1.split(' ')[0];
+		}
+		data[i]['slug'] = slug;
+		slugs.push(slug);
+		// console.log('slug', data[i].slug);
+
+		// move tags into object
+		data[i]['tags'] = ['all'];
+		for (const prop in data[i]) {
+			if (Object.hasOwn(data[i], prop)) {
+				// console.log(`data[i].${prop} = ${data[i][prop]}`);
+				if (isLegitTagName(prop)) {
+					if (data[i][prop] == 'x') {
+						// console.log(prop, data[i][prop]);
+						data[i].tags.push('' + prop);
+					}
+					// always delete tags
+					if (prop != 'tags') delete data[i][prop];
+				}
+			}
+			// delete empty
+			if (!prop) delete data[i][prop];
+		}
+		// console.log(data[i].tags);
 
 		// console.log(data[i]);
 		arr.push(data[i]);
@@ -126,4 +150,17 @@ async function saveFile(data, filename) {
 	// console.log(`saveFile(${data}, ${filename})`);
 	await writeFile(path.resolve(__dirname, filename), JSON.stringify(data));
 	return { message: 'success' };
+}
+function getSlug(str) {
+	return str
+		.toLowerCase()
+		.trim()
+		.replace(/(?!.)[^\w ]+/g, '') // (?!.) leaves period in domain names
+		.replace(/\?/g, '')
+		.replace(/\//g, '')
+		.replace(/#/g, '')
+		.replace(/,+/g, '-')
+		.replace(/ +/g, '-')
+		.replace(/[^a-z0-9.]+/g, '-')
+		.replace(/--+/g, '-'); // any doubles created above
 }

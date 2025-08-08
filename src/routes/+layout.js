@@ -8,11 +8,11 @@ export const prerender = true;
 // Set false to generate an SPA
 // Otherwise set true (or comment the line)
 // Documentation: https://kit.svelte.dev/docs/page-options#ssr
-export const ssr = true;
+// export const ssr = true;
 
 // How to manage the trailing slashes in the URLs
-// the URL for about page witll be /about with 'ignore' (default)
-// the URL for about page witll be /about/ with 'always'
+// the URL for about page will be /about with 'ignore' (default)
+// the URL for about page will be /about/ with 'always'
 // https://kit.svelte.dev/docs/page-options#trailingslash
 export const trailingSlash = 'ignore';
 

@@ -10,41 +10,52 @@
 // console.log("process.env.SERVER", process.env.SERVER);
 
 // import fastify
-import Fastify from "fastify";
+import Fastify from 'fastify';
 // create fastify server
 const server = Fastify({
 	logger: false, // set true to see all requests
 	ignoreTrailingSlash: true, // clean urls
-	ignoreDuplicateSlashes: true,
+	ignoreDuplicateSlashes: true
 });
 
 // enable CORS for fastify, will only accept requests from glitch.com
-import cors from "@fastify/cors";
-server.register(cors, { origin: ["https://glitch.com", "*"] });
+import cors from '@fastify/cors';
+server.register(cors, { origin: ['https://glitch.com', '*'] });
 
 // make all files inside /public available using static
-import fastifyStatic from "@fastify/static";
-import path from "path";
-import { URL } from "url";
-const __filename = new URL("", import.meta.url).pathname;
-const __dirname = new URL(".", import.meta.url).pathname;
+import fastifyStatic from '@fastify/static';
+import path from 'path';
+import { URL } from 'url';
+const __filename = new URL('', import.meta.url).pathname;
+const __dirname = new URL('.', import.meta.url).pathname;
 server.register(fastifyStatic, {
-	root: path.join(__dirname, "assets"),
-	prefix: "/assets/",
+	root: path.join(__dirname, 'assets'),
+	prefix: '/assets/'
 });
 
 // add a separate file for routes
-import routes from "./routes.js";
+import routes from './routes.js';
 server.register(routes);
 
-// run the server and report out to the logs
-server.listen(
-	{ port: process.env.PORT ?? 3000, host: "0.0.0.0" },
-	function (err, address) {
-		if (err) {
-			console.error(err);
-			process.exit(1);
+// TESTING A ROUTE ONLY!!!
+setTimeout(async () => {
+	const response = await server.inject(
+		{
+			method: 'GET',
+			url: '/api/save'
+		},
+		(error, response) => {
+			// your tests
+			// console.log(error, response);
 		}
-		console.log(`Your app is listening on ${address}`);
+	);
+}, 300);
+
+// run the server and report out to the logs
+server.listen({ port: process.env.PORT ?? 3000, host: '0.0.0.0' }, function (err, address) {
+	if (err) {
+		console.error(err);
+		process.exit(1);
 	}
-);
+	console.log(`Your app is listening on ${address}`);
+});

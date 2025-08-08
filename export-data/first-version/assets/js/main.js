@@ -95,6 +95,7 @@ import { json, tags, getData, isLegitTagName, sortBy, convertToSlug } from "./da
 		if (project.media) {
 			let media = project.media.split(",");
 			media.forEach((ele) => {
+				// thumb stored in img_t is created with sample-node-tools
 				d.media += `<a href="assets/img/${ele}.png" target="_blank"><img src="assets/img_t/${ele}.png"></a> `;
 			});
 		}
