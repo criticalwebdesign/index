@@ -158,7 +158,6 @@ export const currentProject = createCurrentProject();
 
 
 
-let about2 = false;
 // since about isn't technically a project
 function createPageControl() {
     return {
@@ -166,29 +165,23 @@ function createPageControl() {
             hashStore.saveHash('');
             currentProject.remove();
             projectList.updateFilters('all');
-
         },
         clickAbout() {
-
-
-
-            // if (!about2) {
-            //     pageControl.set('#about');
-            //     about2 = true;
-            // } else {
-            //     pageControl.set('');
-            //     about2 = false;
-            // }
-            // console.log("about2 =",about2)
+            if (!get(about)) {
+                pageControl.set('#about');
+                about.set(true);
+            } else {
+                pageControl.set('');
+                about.set(false);
+            }
+            console.log("about =",about)
         },
         set(_hash = '') {
             _hash = cleanHash(_hash);
             console.log('pageControl.set()', _hash);
 
-
             currentProject.remove();
             hashStore.pushHash(_hash);
-
         },
         removePage() {
             pageControl.set('');

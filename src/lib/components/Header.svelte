@@ -36,7 +36,7 @@
 	<h1 class="brand vcenter">
 		<a
 			on:click={() => {
-                // pageControl.clickHome();
+                pageControl.clickHome();
 			}}
 			href="{base}/">Critical Web Design Index</a>
 		<!-- <small>v.1</small> -->
@@ -61,7 +61,7 @@
 
 		<a
 			on:click={(e) => {
-                // pageControl.clickAbout();
+                pageControl.clickAbout();
 			}}
 			href="{base}/"><img src="{base}/assets/icons/icon-info.svg" alt="about" /></a>
 	</div>
