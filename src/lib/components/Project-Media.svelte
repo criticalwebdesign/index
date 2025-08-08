@@ -1,35 +1,36 @@
 <script>
 	// @ts-nocheck
 	export let item;
-	export let projectView;
+	export let projectView; // only appears in project view
 	import { base } from '$app/paths';
-	import { tag, hashStore, projectList, mediaVisible } from '$lib/stores/stores.js';
+	import { tag, mediaVisible } from '$lib/stores/stores.js';
 	// console.log('item', item);
 </script>
 
 {#if item && item.media}
-	<!-- hide by default in list only -->
-	<!-- {#if projectView || (!projectView && $mediaVisible)} -->
-		<div class="projectMedia" class:projectViewOnly={projectView} class:visible={ projectView || (!projectView && $mediaVisible)}>
-			{#each item.media.split(',') as m (m)}
-				{#if m.includes('.gif') || m.includes('.jpg')}
-					<a href="{base}/assets/img/{m}" target="_blank"
-						><img src="{base}/assets/img_t/{m}" alt="{item.title} media" /></a>
-				{:else if m.includes('.mp4')}
-					<!-- svelte-ignore a11y-media-has-caption -->
-					<video src="{base}/assets/img_t/{m}" alt="{item.title} media" controls></video>
-				{:else}
-					<a href="{base}/assets/img/{m}.png" target="_blank"
-						><img src="{base}/assets/img_t/{m}.png" alt="{item.title} media" /></a>
-				{/if}
-			{/each}
-		</div>
-	<!-- {/if} -->
+	<div
+		class="projectMedia"
+		class:projectViewOnly={projectView}
+		class:visible={projectView || (!projectView && $mediaVisible)}>
+		{#each item.media.split(',') as m (m)}
+			{#if m.includes('.gif') || m.includes('.jpg')}
+				<a href="{base}/assets/img/{m}" target="_blank"
+					><img src="{base}/assets/img_t/{m}" alt="{item.title} media" /></a>
+			{:else if m.includes('.mp4')}
+				<!-- svelte-ignore a11y-media-has-caption -->
+				<video src="{base}/assets/img_t/{m}" alt="{item.title} media" controls></video>
+			{:else}
+				<!-- default to png -->
+				<a href="{base}/assets/img/{m}.png" target="_blank"
+					><img src="{base}/assets/img_t/{m}.png" alt="{item.title} media" /></a>
+			{/if}
+		{/each}
+	</div>
 {/if}
 
 <style>
 	.projectMedia {
-		padding: 0.4rem 0;
+		padding: 0.3rem 0 0.5rem 0;
 		display: none;
 	}
 

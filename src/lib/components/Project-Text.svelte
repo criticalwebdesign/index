@@ -1,10 +1,10 @@
 <script>
 	// @ts-nocheck
 	export let item;
-	export let projectView;
+	export let projectView; // only appears in project view
 	import { getLink, getStrikeStatus, getDate, getUrlStatus, getEmoji } from '$lib/functions';
 	import { base } from '$app/paths';
-	import { tag, hashStore, projectList, projectControl, descriptionsVisible } from '$lib/stores/stores.js';
+	import { tag, hashStore, currentProject, descriptionsVisible } from '$lib/stores/stores.js';
 	// console.log('item', item);
 </script>
 
@@ -45,37 +45,10 @@
 		{/if}
 
 		{#if item.media || item.description}
-			<!-- For [slug]/page.html type routing -->
-			<!-- <span><a href="{base}/{item.slug}" class="link">#</a></span> -->
-
-			<!-- to toggle image in project list -->
-			<!-- <span>
-					<button
-						on:click={() => {
-							toggleProject(item);
-						}}
-						class="link">#</button>
-				</span> -->
-
-			<!-- to add #project-hash to URL and show project details (image+text) at top of the page (e.g. a linkable project )-->
-
+			<!-- # adds hash to URL for (linkable) project details (image+text) -->
 			<button
 				on:click={(e) => {
-					if ($hashStore != `#${item.slug}`) {
-                        projectControl.clickProject(item.slug);
-
-						// hashStore.pushHash(`#${item.slug}`);
-                        // projectControl.setCurrent(item.slug);
-						// projectList.updateFilters($tag);
-					} else {
-                        projectControl.removeProject();
-
-
-						// hashStore.pushHash('');
-						// projectControl.set({});
-						// projectList.updateFilters($tag);
-					}
-					e.preventDefault();
+					currentProject.click(item.slug);
 					window.scrollTo({ top: 0, behavior: 'smooth' });
 				}}
 				class:hide={projectView}

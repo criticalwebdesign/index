@@ -22,9 +22,6 @@ let projects = json.projects;
 export const mediaVisible = writable(false);
 export const descriptionsVisible = writable(false);
 
-// an object containing the current project that should be displayed on the page
-
-export const currentProject = writable({});
 // store the tag to show
 export const tag = writable('all');
 // about page visible
@@ -43,7 +40,7 @@ json.projects.forEach((item, i) => {
     projectsByKey[item.slug] = item;
 });
 export const pByKey = writable(projectsByKey);
-console.log(projectsByKey)
+// console.log(projectsByKey);
 
 
 // custom store for the project list
@@ -115,8 +112,7 @@ function createTagControl() {
             _hash = cleanHash(_hash);
             console.log('tagControl.clickTag()', _hash);
 
-            projectList.set({});
-            projectControl.removeProject();
+            currentProject.remove();
             hashStore.pushHash(_hash);
         },
         removeTag() {
@@ -127,35 +123,40 @@ function createTagControl() {
 export const tagControl = createTagControl();
 
 
-function createProjectControl() {
-    const { subscribe, set, update } = writable('#all');
+export const createCurrentProject = () => {
+    const { subscribe, set, update } = writable({});
     return {
         set,
         update,
         subscribe,
-        // user clicks project
-        clickProject(_hash = '') {
+        click(_hash = '') { // user clicks project
             _hash = cleanHash(_hash);
-            console.log('projectControl.clickProject()', _hash);
+            // console.log(`currentProject.click(${_hash}) $hashStore=${get(hashStore)}`);
 
-            projectList.set(projectsByKey[_hash]); //?
-
-            // set current
-            this.setCurrent(_hash);
-            // push hash to url 
-            hashStore.pushHash(_hash);
+            if (_hash !== get(hashStore)) {
+                // set current
+                this.setCurrent(_hash);
+                // push hash to url 
+                hashStore.pushHash(_hash);
+            } else {
+                this.remove();
+            }
         },
-        setCurrent(_hash) {
+        setCurrent: (_hash) => {
             if (projectsByKey[_hash])
                 currentProject.set(projectsByKey[_hash]);
         },
-        removeProject() {
-            currentProject.set({});
+        remove() {
+            this.set({});
             hashStore.removeHash();
         }
     };
 }
-export const projectControl = createProjectControl();
+// custom store + object containing the current project displayed on the page
+export const currentProject = createCurrentProject();
+
+
+
 
 let about2 = false;
 // since about isn't technically a project
@@ -163,7 +164,7 @@ function createPageControl() {
     return {
         clickHome() {
             hashStore.saveHash('');
-            projectControl.removeProject();
+            currentProject.remove();
             projectList.updateFilters('all');
 
         },
@@ -185,7 +186,7 @@ function createPageControl() {
             console.log('pageControl.set()', _hash);
 
 
-            projectControl.removeProject();
+            currentProject.remove();
             hashStore.pushHash(_hash);
 
         },

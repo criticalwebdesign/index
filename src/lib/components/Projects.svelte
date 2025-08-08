@@ -1,7 +1,7 @@
 <script>
 	// @ts-nocheck
 
-	import { tag, sortField, sortOrder, p2, p2Sorted, projectList, projectControl, tagControl } from '$lib/stores/stores.js';
+	import { tag, sortField, sortOrder, p2, p2Sorted, projectList, tagControl } from '$lib/stores/stores.js';
 	import { isEmpty, cleanHash } from '$lib/functions';
 
 	// reactive
@@ -22,83 +22,60 @@
 		// get current hash in URL
 		hashStore.saveHash(cleanHash(page.url.hash));
 		// if hash is a project
-		if ($pByKey[$hashStore]) projectControl.setCurrent($hashStore);
+		if ($pByKey[$hashStore]) currentProject.setCurrent($hashStore);
 		// otherwise assume a tag
 		else projectList.updateFilters($hashStore, $sortField, $sortOrder);
 	}
 
+	console.log('$currentProject', $currentProject);
 	console.log('$hashStore', $hashStore);
-	console.log('$pByKey[$hashStore]', $pByKey[$hashStore]);
-
+	// console.log('$pByKey[$hashStore]', $pByKey[$hashStore]);
 
 	// // executes after the component renders to the DOM
 	// onMount(() => {
 	// 	console.log('onMount', document);
 	// 	console.log('onMount() > page.url.hash =', page.url.hash);
 	// });
-
-
-
-
-
-
 </script>
 
-
-
-
-
-<pre><code>
+<!-- <pre><code>
 <button
-    on:click={(e) => {
-        projectControl.clickProject("#arttab.xyz");
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-    }}>#arttab.xyz</button> 
+			on:click={(e) => {
+				currentProject.click('#arttab.xyz');
+				window.scrollTo({ top: 0, behavior: 'smooth' });
+			}}>#arttab.xyz</button> 
 <button
-    on:click={(e) => {
-        projectControl.clickProject("#networkeffect.io");
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-    }}>#networkeffect.io</button>
-
+			on:click={(e) => {
+				currentProject.click('#networkeffect.io');
+				window.scrollTo({ top: 0, behavior: 'smooth' });
+			}}>#networkeffect.io</button>
 
 <b><i>Reactive</i></b>
 
-page.state: {JSON.stringify(page.state)}<br>
-$hashStore: {$hashStore}<br>
-$currentProject: {JSON.stringify($currentProject)}<br>
-   
+$tag={$tag} $sortField={$sortField} $sortOrder={$sortOrder}
+page.state: {JSON.stringify(page.state)}
+$hashStore: {$hashStore}
+$currentProject.title: {JSON.stringify($currentProject.title)}
+
 
 <b><i>Static</i></b>
 
-page.url.href: {page.url.href}<br>
-page.url.hash: {page.url.hash}<br>
-$tagControl: {$tagControl}<br>
-$projectList: {JSON.stringify($projectList)}<br>
-
-</code></pre>
-
-
-
-
-
-
+page.url.href: {page.url.href}
+page.url.hash: {page.url.hash}
+$tagControl: {$tagControl}
+$p2 [{$p2.length}]: {JSON.stringify($p2)}
+$p2Sorted [{$p2Sorted.length}]: {JSON.stringify($p2Sorted)}
+$projectList [{$projectList.length}]: {JSON.stringify($projectList)}
+</code></pre> -->
 
 {#if !isEmpty($currentProject)}
-<section class="displayProject">
-	<ProjectText item={$currentProject} projectView={true} />
-	<ProjectMedia item={$currentProject} projectView={true} />
-</section>
+	<section class="displayProject">
+		<ProjectText item={$currentProject} projectView={true} />
+		<ProjectMedia item={$currentProject} projectView={true} />
+	</section>
 {/if}
 
 <section class="listOfLinks oneTwoColumns">
-	<!-- <pre>
-		$tag={$tag} $sortField={$sortField} $sortOrder={$sortOrder}
-	</pre> -->
-
-	<!-- <pre><code>
-		{JSON.stringify($projectList[0])}
-	</code></pre> -->
-
 	{#each $p2Sorted as item}
 		<div class="project">
 			{#if item}
@@ -137,13 +114,17 @@ $projectList: {JSON.stringify($projectList)}<br>
 		}
 	}
 
-    pre {
-        font: 11px/11px monospace;
-        columns: 2;
-        padding: 1rem;
-        background-color: #333;
-        margin: 1rem 0;
-    }
-    pre b { font-size: 1rem; }
-    pre button { display: inline-block;}
+	/* pre {
+		font: 11px/18px monospace;
+		columns: 2;
+		padding: 1rem;
+		background-color: #333;
+		margin: 1rem 0;
+	}
+	pre b {
+		font-size: 1rem;
+	}
+	pre button {
+		display: inline-block;
+	} */
 </style>
