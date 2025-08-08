@@ -28,11 +28,13 @@
 	--sms-text-color="var(--indigo-5)"
 	--sms-max-width="15"
 	let:option
-	on:change={(event) => {
-		console.log(`${event.detail.type}: '${event.detail.option}'`);
-		if ($tag == event.detail.option) $sortOrder *= -1;
-		projectList.updateFilters(event.detail.option, $sortField, $sortOrder);
-	}} />
+	onchange={(event) => {
+		console.log(event.option);
+		if ($tag == event.option) $sortOrder *= -1;
+		projectList.updateFilters(event.option, $sortField, $sortOrder);
+	}} 
+
+    />
 
 <!-- <code style="display: inline-block;">{JSON.stringify(selected)}</code> -->
 

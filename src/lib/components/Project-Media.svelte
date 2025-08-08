@@ -30,7 +30,7 @@
 
 <style>
 	.projectMedia {
-		padding: 0.3rem 0 0.5rem 0;
+		padding: 0.6rem 0 0.1rem 0;
 		display: none;
 	}
 

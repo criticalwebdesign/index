@@ -79,8 +79,8 @@ $projectList [{$projectList.length}]: {JSON.stringify($projectList)}
 	{#each $p2Sorted as item}
 		<div class="project">
 			{#if item}
-				<ProjectText {item} projectView={false} />
 				<ProjectMedia {item} projectView={false} />
+				<ProjectText {item} projectView={false} />
 			{/if}
 		</div>
 	{/each}
