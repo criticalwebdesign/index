@@ -5,6 +5,8 @@
 	import { base } from '$app/paths';
 	import { tag, mediaVisible } from '$lib/stores/stores.js';
 	// console.log('item', item);
+    let imgDir = "img";
+    if (!projectView) imgDir += "_t";
 </script>
 
 {#if item && item.media}
@@ -15,14 +17,14 @@
 		{#each item.media.split(',') as m (m)}
 			{#if m.includes('.gif') || m.includes('.jpg') || m.includes('.svg')}
 				<a href="{base}/assets/img/{m}" target="_blank"
-					><img src="{base}/assets/img_t/{m}" alt="{item.title} media" /></a>
+					><img src="{base}/assets/{imgDir}/{m}" alt="{item.title} media" /></a>
 			{:else if m.includes('.mp4')}
 				<!-- svelte-ignore a11y-media-has-caption -->
-				<video src="{base}/assets/img_t/{m}" alt="{item.title} media" controls></video>
+				<video src="{base}/assets/{imgDir}/{m}" alt="{item.title} media" controls></video>
 			{:else}
 				<!-- default to png -->
 				<a href="{base}/assets/img/{m}.png" target="_blank"
-					><img src="{base}/assets/img_t/{m}.png" alt="{item.title} media" /></a>
+					><img src="{base}/assets/{imgDir}/{m}.png" alt="{item.title} media" /></a>
 			{/if}
 		{/each}
 	</div>

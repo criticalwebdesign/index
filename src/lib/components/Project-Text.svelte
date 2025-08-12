@@ -44,7 +44,7 @@
 			</span>
 		{/if}
 
-		{#if item.media || item.description}
+		<!-- {#if item.media || item.description} -->
 			<!-- # adds hash to URL for (linkable) project details (image+text) -->
 			<button
 				on:click={(e) => {
@@ -53,7 +53,7 @@
 				}}
 				class:hide={projectView}
 				class="link">#</button>
-		{/if}
+		<!-- {/if} -->
 
 		<!-- hide by default in list only -->
 		{#if projectView || (!projectView && $descriptionsVisible)}
