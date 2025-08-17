@@ -173,7 +173,11 @@ section {
 
 
 
-
+blockquote {
+    padding: 0 .75rem;
+    border-left-color: var(--indigo-3);
+    border-left-width: 4px;
+}
 
 
 
