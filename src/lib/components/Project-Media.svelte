@@ -41,7 +41,7 @@
 	}
 
 	.projectViewOnly {
-		background-color: rgb(0, 255, 221);
+		/* background-color: rgb(0, 255, 221); */
 		display: flex;
 		flex-direction: column;
 		flex-basis: 100%;
@@ -49,6 +49,7 @@
 		order: 1;
 		padding: 0;
 		margin: 1rem;
+		padding: 0.6rem 1rem 0.1rem 0;
 	}
 
 	@media (min-width: 798px) {

@@ -33,7 +33,7 @@
 			Contribute:
 			<a href="https://github.com/omundy/critical-web-design-index/issues" target="_blank">Click "new issue"</a> <br /><br />
 
-			Key: ✅ live 😿 broken 🗄 archived ❌ 404/spammed
+			Key: 😿 broken 🗄 archived ❌ 404/spammed
 		</div>
 	</section>
 {/if}
