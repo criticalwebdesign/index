@@ -23,17 +23,7 @@ https://criticalwebdesign.github.io/index/
 
 
 
-## Notes
 
-https://kit.svelte.dev/docs/single-page-apps
-
-
-## TODO
-
-- Fix history state (back button)
-- Loading URL should load tag
-- Fix design of project
-- Move project above list
 
 <!-- 
 # create-svelte
