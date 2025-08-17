@@ -207,7 +207,7 @@ function createHashStore() {
 
         saveHash(_hash = '') {
             _hash = cleanHash(_hash);
-            console.log('hashStore.saveHash()', _hash);
+            // console.log('hashStore.saveHash()', _hash);
             hashStore.set(_hash);
             return _hash;
         },

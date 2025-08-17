@@ -3,7 +3,7 @@
 	$: visible = false;
 	if ($hashStore == 'about' || $tag == 'about') visible = true;
 	else visible = false;
-	console.log("$tag =", $tag, "$hashStore =", $hashStore);
+	// console.log("$tag =", $tag, "$hashStore =", $hashStore);
 </script>
 
 {#if $about}
