@@ -6,6 +6,7 @@
 	import { base } from '$app/paths';
 	import { tag, hashStore, currentProject, descriptionsVisible } from '$lib/stores/stores.js';
 	// console.log('item', item);
+	import ProjectTags from '$lib/components/Project-Tags.svelte';
 </script>
 
 {#if item}
@@ -63,7 +64,12 @@
 				{/if}
 			</div>
 		{/if}
-	</div>
+
+        {#if projectView}
+            <ProjectTags item={$currentProject} projectView={true} />
+		{/if}
+
+    </div>
 {/if}
 
 <style>

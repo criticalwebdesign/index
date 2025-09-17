@@ -2,7 +2,7 @@
 	// @ts-nocheck
 	export let val, note;
 	// console.log(tag, note);
-	import { tag, sortField, sortOrder, projectList, tagControl, hashStore } from '$lib/stores/stores.js';
+	import { tag, projectList, sortField, sortOrder, tagControl, hashStore } from '$lib/stores/stores.js';
 	// show button active https://learn.svelte.dev/tutorial/classes
 	let active = false;
 </script>
@@ -14,7 +14,7 @@
 	data-tag={val}
 	on:click={(e) => {
 		// console.log('current >', $tag, 'clicked > ', val);
-		
+
 		// change order
 		if ($tag == val) $sortOrder *= -1;
 		// display tag

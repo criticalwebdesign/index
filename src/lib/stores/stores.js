@@ -110,7 +110,7 @@ function createTagControl() {
         subscribe,
         clickTag(_hash = '') {
             _hash = cleanHash(_hash);
-            console.log('tagControl.clickTag()', _hash);
+            // console.log('tagControl.clickTag()', _hash);
 
             currentProject.remove();
             hashStore.pushHash(_hash);
@@ -213,7 +213,7 @@ function createHashStore() {
         },
         pushHash(_hash = '') {
             _hash = cleanHash(_hash);
-            console.log('hashStore.pushHash() [1] _hash =', _hash, ", window.location.hash =", window.location.hash);
+            // console.log('hashStore.pushHash() [1] _hash =', _hash, ", window.location.hash =", window.location.hash);
 
             if (_hash && cleanHash(window.location.hash) != _hash) {
                 // https://github.com/sveltejs/kit/issues/11956#issuecomment-2083469945
@@ -226,7 +226,7 @@ function createHashStore() {
             }
 
 
-            console.log("hashStore.pushHash() [2] window.location.hash =", window.location.hash);
+            // console.log("hashStore.pushHash() [2] window.location.hash =", window.location.hash);
 
             return _hash;
         },
