@@ -65,11 +65,19 @@
 			</div>
 		{/if}
 
-        {#if projectView}
-            <ProjectTags item={$currentProject} projectView={true} />
+		{#if projectView}
+			<ProjectTags item={$currentProject} projectView={true} />
 		{/if}
 
-    </div>
+		{#if projectView && item.moreinfo1}
+			<div class="date">
+				Related:
+                [{#if item.moreinfo1}{@html getLink('1', item.moreinfo1)}{/if}]
+                [{#if item.moreinfo2}{@html getLink('2', item.moreinfo2)}{/if}]
+                [{#if item.moreinfo3}{@html getLink('3', item.moreinfo3)}{/if}]
+			</div>
+		{/if}
+	</div>
 {/if}
 
 <style>
