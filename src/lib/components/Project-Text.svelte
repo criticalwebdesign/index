@@ -82,7 +82,7 @@
 	}
 
 	.title {
-		color: var(--gray-5);
+		color: var(--gray-3);
 	}
 
 	.status {
