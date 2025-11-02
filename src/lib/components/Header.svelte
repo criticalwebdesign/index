@@ -16,15 +16,19 @@
 
 	import TagsMultiSelect from '$lib/components/TagsMultiSelect.svelte';
 
+	let promptVisible = true;
+
 	// buttons to enable media and/or descriptions inside list
 	function toggleMedia(e) {
 		mediaVisible.set(!$mediaVisible);
 		e.preventDefault();
+		promptVisible = false;
 	}
 	function toggleDescriptions(e) {
 		// console.log($descriptionsVisible);
 		descriptionsVisible.set(!$descriptionsVisible);
 		e.preventDefault();
+		promptVisible = false;
 	}
 </script>
 
@@ -47,6 +51,11 @@
 		<!-- <TagsMultiSelect /> -->
 	</div>
 	<div class="menu vcenter">
+		
+		{#if promptVisible}
+			<div>View images →</div>
+		{/if}
+
 		<label for="showMediaBtn">
 			<img src="{base}/assets/icons/icon-image{$mediaVisible ? '-on' : ''}.svg" alt="enable media icon" />
 			<input type="checkbox" id="showMediaBtn" on:click={toggleMedia} />
@@ -114,11 +123,18 @@
 		min-width: 120px;
 		display: flex;
 		justify-content: right;
+		font-size: .9rem;
+		color: var(--violet-5);
 	}
-	.menu > * {
+	.menu > label, .menu > a, .menu > div {
 		display: inline-block;
 		margin-left: 0.5rem;
 		max-width: 1.55rem;
+		min-width: 1.2rem;
+	}
+	.menu > div {
+		min-width: 7rem;
+		text-align: right;
 	}
 
 	.grid-outer {
@@ -142,11 +158,11 @@
 	}
 
 	@media screen and (min-width: 798px) {
-		.menu > * {
+		.menu > label, .menu > a {
 			max-width: 1.9rem;
 		}
 		.grid-outer {
-			grid-template-columns: 285px auto 120px;
+			grid-template-columns: 285px auto 320px;
 			grid-template-areas: 'brand tags menu';
 		}
 	}
