@@ -15,7 +15,7 @@
 		class:projectViewOnly={projectView}
 		class:visible={projectView || (!projectView && $mediaVisible)}>
 		{#each item.media.split(',') as m (m)}
-			{#if m.includes('.gif') || m.includes('.jpg') || m.includes('.svg')}
+			{#if m.includes('.png') || m.includes('.gif') || m.includes('.jpg') || m.includes('.svg')}
 				<a href="{base}/assets/img/{m}" target="_blank"
 					><img src="{base}/assets/{imgDir}/{m}" alt="{item.title} media" /></a>
 			{:else if m.includes('.mp4')}
