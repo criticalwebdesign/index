@@ -27,9 +27,9 @@ import { isLegitTagName } from '../src/lib/functions.js';
 import fetch from 'node-fetch';
 import * as d3 from 'd3';
 let headerUrl =
-	'https://docs.google.com/spreadsheets/d/1mQ0doWT6tGXm2W-hB5zuz3I8mijGhLSkAe_XrcfMdok/gviz/tq?tqx=out:csv&sheet=sites&range=A1:CQ2';
+	'https://docs.google.com/spreadsheets/d/1mQ0doWT6tGXm2W-hB5zuz3I8mijGhLSkAe_XrcfMdok/gviz/tq?tqx=out:csv&sheet=sites&range=A1:DG2';
 let dataUrl =
-	'https://docs.google.com/spreadsheets/d/1mQ0doWT6tGXm2W-hB5zuz3I8mijGhLSkAe_XrcfMdok/gviz/tq?tqx=out:csv&sheet=sites&range=A2:CQ500';
+	'https://docs.google.com/spreadsheets/d/1mQ0doWT6tGXm2W-hB5zuz3I8mijGhLSkAe_XrcfMdok/gviz/tq?tqx=out:csv&sheet=sites&range=A2:DG500';
 
 async function saveData() {
 	let data = await getCleanData();
@@ -48,12 +48,18 @@ async function getData(url) {
 async function getCleanData() {
 	let headerRows = await getData(headerUrl);
 	let dataRows = await getData(dataUrl);
+	// console.log("\n dataRows", dataRows);
 
-	// As usual, google sheets export is a mystery, in this case randomly omitting two column headers. The fix...
+	// 🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥
+	// Google Sheets export can be kind of a mystery
+	// if it randomly omits data or column headers, try...
+	// 1. Is the URL correct? Spanning enough columns / rows?
+	// 2. Is the format for the column sheet correct? It should be plain text. 
+
 
 	// 3. get header row separately and split
 	let headerRowsSplit = headerRows.split('\n');
-	// console.log(headerRowsSplit[0])
+	// console.log("\n headerRowsSplit[0]", headerRowsSplit[0]);
 
 	// 2. swap positions between header and header notes
 	let headerRowsSplitArr = [];
@@ -73,23 +79,27 @@ async function getCleanData() {
 	let dataRowsParsed = d3.csvParse(dataRows);
 	// console.log('dataRowsParsed', dataRowsParsed);
 	// console.log('dataRowsParsed', JSON.stringify(dataRowsParsed[186]));
+
+	// console.log("\n dataRowsParsed[10]", JSON.stringify(dataRowsParsed[10]));
 	let data = await cleanData(dataRowsParsed);
 	// console.log('data', JSON.stringify(data[2]));
-	// console.log('dataRowsParsed', JSON.stringify(dataRowsParsed[186]));
-	console.log('dataRowsParsed', JSON.stringify(dataRowsParsed[186]));
+	// console.log("\n dataRowsParsed[10]", JSON.stringify(dataRowsParsed[10]));
+	console.log("\n dataRowsParsed[10]", dataRowsParsed[10]);
 	// console.log('dataRowsParsed', JSON.stringify(dataRowsParsed[187]));
 
 	headerRowsParsed[0]['all'] = 'all tags';
-	console.log('headerRowsParsed', headerRowsParsed[0]);
+	// console.log('headerRowsParsed[0]', headerRowsParsed[0]); // header row
 	return { notes: headerRowsParsed[0], projects: data };
 }
 async function cleanData(data) {
+	console.log("🙌 cleanData() [0]");
+	// console.log("🙌 cleanData() data[10]", data[10]);
 	let arr = [];
 	let slugs = [];
 	for (let i = 0; i < data.length; i++) {
 		// console.log(data[i]);
 		if (data[i].title == '') continue;
-		if (data[i].title == 'To evaluate') break;
+		if (data[i].title == 'TO EVALUATE') break;
 		if (data[i].status == '✅') data[i].status = '';
 		if (!data[i].start || data[i].start == '') data[i].start = 0;
 		if (data[i].url == '#REF!') data[i].url = '';

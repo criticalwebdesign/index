@@ -11,6 +11,7 @@
 		"lint": "prettier --check . && eslint .",
 		"format": "prettier --write .",
 		"predeploy": "npm run build",
+		"update-deploy": "cd export-data && npm run once && cd .. && npm run deploy",
 		"deploy": "gh-pages -d build --branch gh-pages --dotfiles"
 	},
 	"devDependencies": {

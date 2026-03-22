@@ -39,16 +39,40 @@ server.register(routes);
 
 // TESTING A ROUTE ONLY!!!
 setTimeout(async () => {
-	const response = await server.inject(
-		{
+	// const response = await server.inject(
+	// 	{
+	// 		method: 'GET',
+	// 		url: '/api/save'
+	// 	},
+	// 	(error, response) => {
+	// 		// your tests
+	// 		// console.log(error, response);
+	// 	}
+	// );
+
+	server
+		.inject({
 			method: 'GET',
 			url: '/api/save'
-		},
-		(error, response) => {
-			// your tests
-			// console.log(error, response);
-		}
-	);
+		})
+		.then(response => {
+			console.log("🔥 Data saved");
+			process.argv.forEach(async (val, index, array) => {
+				// console.log("args", index + ': ' + val);
+				if (val == "once") {
+					console.log("❌ Param found, exiting...");
+					await server.close();
+					process.exit(0);
+				}
+			});
+		})
+		.catch(err => {
+			console.log(error, response);
+		})
+
+
+
+
 }, 300);
 
 // run the server and report out to the logs
