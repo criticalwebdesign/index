@@ -7,7 +7,7 @@ The Critical Web Design Index presents and contextualizes diverse creative pract
 
 This website presents and contextualizes such works using various themes, categories, and technologies, acknowledging the diverse creative practices that have emerged online, both within and outside the narrow definition of "Art". -->
 
-For more information see: <i>Critical Web Design</i> by xtine burrough and Owen Mundy (MIT Press, 2026)
+For more information see: <a href="https://mitpress.mit.edu/9780262053167/critical-web-design/"><i>Critical Web Design</i></a> by xtine burrough and Owen Mundy, MIT Press, 2026
 
 
 https://criticalwebdesign.github.io/index/

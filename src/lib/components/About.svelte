@@ -21,7 +21,7 @@
 
 			<br /><br />
 
-			For more information see: <i>Critical Web Design</i> by xtine burrough and Owen Mundy (MIT Press, forthcoming)
+			For more information see: <a href="https://mitpress.mit.edu/9780262053167/critical-web-design/"><i>Critical Web Design</i></a> by xtine burrough and Owen Mundy, MIT Press, 2026
 		</div>
 
 		<div>
