@@ -46,14 +46,4 @@
 		background: transparent;
 		color: var(--indigo-3);
 	}
-
-	.tag.active {
-		background: transparent;
-		color: var(--indigo-2);
-	}
-
-	.tag.active:hover {
-		background: transparent;
-		color: var(--indigo-2);
-	}
 </style>
