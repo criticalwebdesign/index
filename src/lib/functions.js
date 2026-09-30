@@ -77,6 +77,7 @@ export function convertToTitle(str) {
 
 export function isLegitTagName(key) {
 	if (!key || key == '') return false;
+	// skip these columns from the sheet
 	let skip = [
 		'title',
 		'url',
@@ -88,12 +89,16 @@ export function isLegitTagName(key) {
 
 		'author1',
 		'author1Url',
+		'author1role',
 		'author2',
 		'author2Url',
+		'author2role',
 		'author3',
 		'author3Url',
+		'author3role',
 		'author4',
 		'author4Url',
+		'author4role',
 		'publisher',
 		'publisherUrl',
 
